@@ -1,0 +1,325 @@
+<odoo>
+  <data>
+    <record model='ir.ui.view' id="xmarts_sinteg">
+        <field name="name">xmarts_sinteg</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='name']" position="attributes"> 
+            <attribute name="required">1</attribute>
+            
+            </xpath> 
+             <xpath expr="//field[@name='email']" position="attributes"> 
+            <attribute name="required">1</attribute>
+            </xpath> 
+             <xpath expr="//field[@name='phone']" position="attributes"> 
+            <attribute name="required">1</attribute>
+            </xpath> 
+            <xpath expr="//field[@name='mobile']" position="attributes"> 
+            <attribute name="required">1</attribute>
+            </xpath>  
+      
+      
+        </field>
+      </record>
+
+    <!--    <record model='ir.ui.view' id="xmarts_claim">
+        <field name="name">xmarts_claim</field>
+        <field name="model">crm.claim.ept</field>
+        <field name="inherit_id" ref="rma_ept.crm_claims_ept_form_view" />
+        <field name="arch" type="xml">
+           
+           <xpath expr="//notebook/page/group/field[@name='claim_line_ids']/tree/field[@name='product_id']" position="after">
+            
+            <field name="marca" />
+            <field name="modelo"/>            
+            <field name="series"/>
+            <field name="observaciones"/>
+          </xpath>  
+
+          <xpath expr="//field[@name='picking_id']" position="replace"> 
+
+            <field name="picking_id"  attrs="{'readonly':[('state','!=','draft')]}"  options="{'no_quick_create':True,'no_create_edit':True,'no_quick_open': True}" required="1"/>
+          </xpath>  
+
+             <xpath expr="//field[@name='partner_id']" position="replace"> 
+              <field name="partner_id" string="Partner" required="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    
+          </xpath>  
+
+
+
+        </field>
+      </record>  
+       -->
+
+
+       <record model='ir.ui.view' id="xmarts_product">
+        <field name="name">xmarts_product</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+           
+           <xpath expr="//field[@name='barcode']" position="after"> 
+            <!-- 
+            <field name="equipo"/> -->
+            <field name="marca"/>
+            <field name="modelo"/>            
+            <!-- <field name="series"/> -->
+            <field name="observaciones"/>
+            
+            </xpath>
+<!-- 
+            <xpath expr="//search/filter[string='Can be Sold']" position= 'replace'>
+                    <filter string="Default filter" name="new_filter" domain=""/>
+                </xpath>   -->
+
+
+        </field>
+      </record>  
+
+      <record model='ir.ui.view' id="xmarts_stock">
+        <field name="name">xmarts_stock</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">  <field name="name"/>
+            </xpath>
+
+              <!--  <field name="name" attrs="{'invisible': [('name','=','/')]}" readonly="1"/>
+                    
+          -->
+           <xpath expr="//notebook/page/field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
+            <!-- <field name="equipo"/> -->
+            <field name="marca"/>
+            <field name="modelo"/>
+            <field name="sub_modelo"/>            
+            <field name="series"/>
+            <field name="observaciones"/>
+          </xpath>  
+
+          <xpath expr="//field[@name='origin']" position="after"> 
+
+         
+            <field name="ticket" attrs="{'invisible':[('v','=',True)]}"/>
+            <field name="ticket_dos" attrs="{'invisible':[('v','=',False)]}" readonly="1"/>
+            <field name="v" invisible="1" readonly="1"/>
+          </xpath>
+
+
+        </field>
+      </record>  
+
+         <record model='ir.ui.view' id="xmarts_helpdesk_support">
+        <field name="name">xmarts_helpdesk_support</field>
+        <field name="model">helpdesk.support</field>
+        <field name="inherit_id" ref="website_helpdesk_support_ticket.helpdesk_support_form_view" />
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='company_id']" position="after"> 
+             <field name="tipo_ticket"/>
+                <field name="garantia" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','SG')
+
+                                                            ]}"/>
+              <field name="tipo" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ]}"/>
+
+           <field name="contrato" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','SG'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ]}"/>
+           <field name="doc_c" attrs="{'invisible':[('contrato','=',False)]}" />
+           <field name="solicitante" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB')
+
+                                                            ]}"/>
+                                                             <field name="series" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                      ('tipo_ticket','=','CALIDAD'),'|',
+                                                      ('tipo_ticket','=','SG')]}"
+                                                      />
+            <field name="falla" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                     ('tipo_ticket','=','CALIDAD'),'|',
+                                                     ('tipo_ticket','=','SG')]}"
+                                                     />
+            <field name="observaciones" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','SG')
+
+                                                            ]}"/>
+            <field name="des_solicitud" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ]}"/>
+            <field name="contacto" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ]}"/>
+            <field name="descripcion" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ]}"/>
+            <field name="cantidad" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ]}"/>
+         
+           </xpath>
+            <xpath expr="//field[@name='priority']" position="after"> 
+           
+           <!-- <field name="name" attrs="{'invisible': [('name','=','/')]}" readonly="1"/> -->
+
+          <!--  <field name="tipo_contrato"  attrs="{'invisible':[('type_ticket_id','=','CARGO')]}"/>
+           <field name="doc_c" attrs="{'invisible':[('tipo_contrato','=',False)]}" /> ,('tipo_ticket','=','VENTA'),('tipo_ticket','=','INTERNO')('tipo_ticket','=','CONTRATO'), -->
+          
+          
+            <field name="picking_type_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                      ('tipo_ticket','=','CALIDAD'),'|',
+                                                      ('tipo_ticket','=','SG')]}"
+                                                      />  
+
+            
+            
+            <field name="location_dest_id" groups="stock.group_stock_multi_locations" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                      ('tipo_ticket','=','CALIDAD'),'|',
+                                                      ('tipo_ticket','=','SG')]}"
+                                                      /> 
+           <field name="location_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                      ('tipo_ticket','=','CALIDAD'),'|',
+                                                      ('tipo_ticket','=','SG')]}"
+                                                      />  
+             <field name="product_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                      ('tipo_ticket','=','CALIDAD'),'|',
+                                                      ('tipo_ticket','=','SG')]}"
+                                                      />                                     
+            <field name="marca" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                     ('tipo_ticket','=','CALIDAD'),'|',
+                                                     ('tipo_ticket','=','SG')]}"
+                                                     />
+            <field name="modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                      ('tipo_ticket','=','CALIDAD'),'|',
+                                                      ('tipo_ticket','=','SG')]}"
+                                                      />  
+            <field name="sub_modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                          ('tipo_ticket','=','CALIDAD'),'|',
+                                                          ('tipo_ticket','=','SG')]}"
+                                                          />          
+           
+
+             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary"/>
+             <button type="action" name="%(purchase.purchase_order_action_generic)d" string="Compras" class="btn-primary oe_read_only"/>
+             </xpath>
+ 
+        </field>
+      </record> 
+
+        <record model='ir.ui.view' id="xmarts_purchase_order">
+        <field name="name">xmarts_purchase_order</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+           
+          <xpath expr="//field[@name='company_id']" position="after"> 
+
+         
+            <field name="ticket" />
+            
+          </xpath>
+
+        </field>
+        </record>  
+
+        <record model='ir.ui.view' id="xmarts_purchase_order">
+        <field name="name">xmarts_purchase_order</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+           
+          <xpath expr="//field[@name='company_id']" position="after"> 
+
+         
+            <field name="ticket" />
+            
+          </xpath>
+
+        </field>
+        </record>  
+
+
+        <record model='ir.ui.view' id="xmarts_product_product">
+        <field name="name">xmarts_product_product</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+           
+          <xpath expr="//field[@name='categ_id']" position="after"> 
+
+         
+            <field name="marca" readonly="0"/>
+            <field name="modelo" readonly="0"/>            
+            <field name="series"/>
+            <field name="observaciones"/>
+          </xpath>
+
+        </field>
+      </record>  
+          
+                                    
+  </data>
+</odoo>

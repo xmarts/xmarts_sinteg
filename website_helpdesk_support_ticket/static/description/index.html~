@@ -1,0 +1,332 @@
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+           <h2 class="oe_slogan" style="color:TEAL;"><b>Website Helpdesk Support Ticket</h2>
+           <p class="oe_mt32"  style="color:navy;">
+This module allow you manage your customer support ticket, ticket portal, billings for support, Timesheets.<br><br><b> Main Features</b><br>
+    * Your Customer can send support ticket/helpdesk request from your website and also attach documents.<br>
+    * Generation of unique ticket on submission and record it as ticket in backend.<br>
+    * Customer can check status of all support tickets submitted by him/her on My Account page.<br>
+    * Print PDF - Helpdesk Support Ticket<br>
+    * Support User / Technician can communitcate with customer using chatter and fill timesheet.<br>
+    * Support Manager can close ticket and send bill to customer.<br>
+    * Customer can give feedback and rating of ticket.<br>
+    * Manage your support tickets using assignment to multiple support teams.<br>
+    * Manage prepaid hours of customer for helpdesk tickets.<br>
+    * Create customer invoices from timesheet lines/activities.<br>
+    * Add Time In and Time Out on timesheet lines/activities.<br>
+    * Print weekly timesheet report by employee.<br>
+        </p>
+          <p style="color:CRIMSON;"><b>Menus Available:</b>
+            <ul><i>
+              <li>Helpdesk</li>
+              <li>Helpdesk/Configuration</li>
+              <li>Helpdesk/Configuration/Helpdesk Teams</li>
+              <li>Helpdesk/Helpdesk</li>
+              <li>Helpdesk/Helpdesk/Helpdesk Tickets</li>
+              <li>Helpdesk/Helpdesk/Analytic Accounts</li>
+              <li>Helpdesk/Reports</li>
+              <li>Helpdesk/Reports/Helpdesk Analysis</li>
+              <li>Helpdesk/Invoice/Timesheets to Invoice</li>
+              <li>Timesheet/Reports/Weekly Timesheet</li>
+              </i>
+             </ul></p>
+        <p style="color:blue;"><b>
+        <b>Helpdesk Users</b>
+            </p><ul><i>
+              <li>Customer ===> William Hills</li>
+              <li>Support Manager ==> Peter Pinaker</li>
+              <li>Support User ==> Martin Luther</li>
+              </i>
+             </ul>
+        <p><b>
+        
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Support Team - List View</b></h3>
+<p> You can create different support team and assign ticket to support team responsible to do that job.
+       <div class="oe_demo oe_screenshot">
+           <img src="support_team_list.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Support Team - Form View</b></h3>
+<p>If you set any team as default team then ticket create from website will be set it as default team but later team can change it.</p>
+       <div class="oe_demo oe_screenshot">
+           <img src="support_team_form1.png">
+       </div>
+   </div>
+</section>
+
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Create Support Ticket Customer - Login with Willimas Hill</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="1first.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Thanks Message</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="4_Thanks_Website_localhost.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Your Tickets on Portal/My Account</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="5_my_account_ticket.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">List of Tickets - Login with Willimas Hill</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="6_tickets.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Send Message and Attachment by Customer - Login with Willimas Hill</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="7_tickie_my_account.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Send Attachments and Message - Thank you</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="8_attchement_msg.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Attachments on Ticket and Chatter with Message sent by Customer</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="ticket_att.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Support Manager Peter Pinaker ==> Create Task (Optional)</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="task.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Support Manager Peter Pinaker ==> Assigning Ticket</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="9_assigned_tick.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Support User Martin Luther ==> Works on Ticket and Communicate with Customer using Open Chatter</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="10_support_user.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Support Manager Add Invoice Lines And Create and Send Invoice/Bill to Customer</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="11_tick_invoice.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Created Customer Invoice/Bill</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="15_Invoice.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Closed Ticked - Email send to Customer and Requesting Ratings and Feedback</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="12_setclose_tem.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Customer Give Rating and Feedback Online</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="13_support_feedback.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Ratting Stored on Tickets and Chatter</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="14_customer_ratting.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Helpdesk Analysis Report</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="16_analysis_report.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Print PDF Support Ticket Report</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="report.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h2 class="oe_slogan"><b style="color:olive;">Prepaid Hours </h2>
+       <h3 class="oe_slogan"><b style="color:olive;">Analytic Account Menu inside Helpdesk</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="menu1.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Prepaid Hours Configuration on Customer Analytic Account</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="2account.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Show Status of Prepaid Hours on Ticket</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="3so.png">
+       </div>
+   </div>
+</section>
+<h2 class="oe_slogan"><b style="color:green;">Section to Show Customer Invoice Creation from Timesheet Lines/Activities</h2>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Configure Rate on Customer Form</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="price_customer.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Fetch Rate from Customer Form on Project - Editable</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="price_project.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Fetch Rate from Project Form on Task - Editable</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="price_task.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Timesheet Lines to Create Customer Invoices</b></h3>
+<p style="color:olive;">In list of timesheet system will display only billable timesheet lines which have not been invoiced yet.</p>
+        <p style="color:olive;">Select timesheet lines for which you want to create customer invoice.</p>
+        <p style="color:olive;">Click on Make Invoice wizard action to create customer invoice</p>
+       <div class="oe_demo oe_screenshot">
+           <img src="mack_invoice.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Click Create Invoice Button on Wizard</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="invoice_wizard.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Created Customer Invoices after Running Wizard</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="invoice_tree_view.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Customer Invoice Form View Sample</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="invoice_form_view.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:CRIMSON;">Billable, Time In and Time Out on Timesheet</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="019.png"/><br/>
+           <img src="020.png"/><br/>
+       </div>
+   </div>
+</section>
+<h2 class="oe_slogan"><b style="color:green;">Weekly Timesheet Report</h2>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:DodgerBlue;">Weekly Timesheet Report Wizard</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="Weekly_Timesheet_Report_wizard.png">
+       </div>
+   </div>
+</section>
+<section class="oe_container">
+   <div class="oe_row oe_spaced">
+       <h3 class="oe_slogan"><b style="color:olive;">Weekly Timesheet Report PDF</b></h3>
+       <div class="oe_demo oe_screenshot">
+           <img src="Weekly_Timesheet_Report.png">
+       </div>
+   </div>
+</section>
+
+<section class="oe_container" >
+   <div class="oe_row oe_spaced">
+       <div class="oe_span6">
+           <div class="oe_picture" style="margin: 25px 10%;">
+               <a href="http://www.probuse.com/">
+                   <img src="logo.png">
+               </a>
+           </div>
+       </div>
+       <div class="oe_span6">
+           <p class="oe_mt32">
+               If you need any help or want more additional features,<br/> you may contact us through:<br/>
+               Email: <a href="contact@probuse.com">contact@probuse.com</a> <br/>
+               Website: <a href="http://www.probuse.com/" target='new'><u>www.probuse.com</u></a> <br/>
+               Skype: mustufa_probuse<br/>
+           </p>
+       </div>
+   </div>
+</section>
+
+

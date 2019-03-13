@@ -205,7 +205,7 @@ class helpdesk_ticket(models.Model):
 	cantidad=fields.Integer(string='Cantidad')
 	garantia=fields.Boolean(string='cuenta con garantía')
 	
-	
+	# or 'SERVICIO' or 'CONTRATO' or 'MAIP' or 'MAGOB'
 	@api.model
 	def create(self, vals):
 		if vals.get('name', False):
@@ -215,71 +215,65 @@ class helpdesk_ticket(models.Model):
 		if vals.get('name', 'New') == 'New':
 			vals['name'] = self.env['ir.sequence'].next_by_code('helpdesk.support') or 'New'
 
+			tipo_ticket = vals.get("tipo_ticket")
 
-			inv_obj = self.env['stock.picking']
-			move_line_obj = self.env['stock.move']
-			#self.ensure_one()		
-			# cr = self.env.cr
-			# sql ="select max(id) from helpdesk_support"
-			# cr.execute(sql)
-			# id_ticket = cr.fetchone()
-			# #tic=id_ticket+1
-			# id_ticket
-			ticket = vals.get("name")
-			partner = vals.get("partner_id")
-			location = vals.get("location_id")
-			picking_type = vals.get("picking_type_id")
-			location_dest = vals.get("location_dest_id")
-			v=1
-			invoice ={
-				
-			    'partner_id': partner,
-				'location_id':location,
-				'picking_type_id':picking_type,
-				'location_dest_id':location_dest,
-				#'ticket':id_ticket,
-				'ticket_dos':ticket,
-				'v':v,
-				'state':'assigned'
+			if (tipo_ticket == 'GARANTIA') or  (tipo_ticket == 'INTERNO') or  (tipo_ticket == 'CARGO') or  (tipo_ticket == 'SERVICIO') or (tipo_ticket == 'CONTRATO') or  (tipo_ticket == 'MAIP') or  (tipo_ticket == 'MAGOB'): 
+				inv_obj = self.env['stock.picking']
+				move_line_obj = self.env['stock.move']
+				ticket = vals.get("name")
+				partner = vals.get("partner_id")
+				location = vals.get("location_id")
+				picking_type = vals.get("picking_type_id")
+				location_dest = vals.get("location_dest_id")
+				v=1
+				invoice ={
+					
+				    'partner_id': partner,
+					'location_id':location,
+					'picking_type_id':picking_type,
+					'location_dest_id':location_dest,
+					'ticket_dos':ticket,
+					'v':v,
+					'state':'assigned'
 
-			}
-			inv_ids = inv_obj.create(invoice)
-			inv_id=inv_ids.id
-
-			name = vals.get("name")
-			product_id = vals.get("product_id")
-			marca = vals.get("marca")
-			modelo = vals.get("modelo")
-			sub_modelo = vals.get("sub_modelo")			
-			series = vals.get("series")
-			observaciones = vals.get("observaciones")
-			product_uom = vals.get("product_id")			
-			location_id = vals.get("location_id")
-
-			location_dest_id = vals.get("location_dest_id")
-
-			if inv_id:
-				move_line={
-				'picking_id':inv_id,
-				'name':name,
-				'product_id':product_id,
-				'marca': marca,
-				'modelo': modelo,
-				'sub_modelo': sub_modelo,
-				'series': series,
-				'observaciones':observaciones,
-				'picking_type_code':'outgoing',
-				'product_uom_qty': '0.00',
-				'reserved_availability': '0.00',
-				'quantity_done':'0.00',
-				'product_uom':product_uom,
-				'product_uom_id':'1',
-				'location_id':location_id,
-				'location_dest_id':location_dest_id,
-				'state':'confirmed'
-				
 				}
-				move_ids_without_package=move_line_obj.create(move_line)
+				inv_ids = inv_obj.create(invoice)
+				inv_id=inv_ids.id
+
+				name = vals.get("name")
+				product_id = vals.get("product_id")
+				marca = vals.get("marca")
+				modelo = vals.get("modelo")
+				sub_modelo = vals.get("sub_modelo")			
+				series = vals.get("series")
+				observaciones = vals.get("observaciones")
+				product_uom = vals.get("product_id")			
+				location_id = vals.get("location_id")
+
+				location_dest_id = vals.get("location_dest_id")
+
+				if inv_id:
+					move_line={
+					'picking_id':inv_id,
+					'name':name,
+					'product_id':product_id,
+					'marca': marca,
+					'modelo': modelo,
+					'sub_modelo': sub_modelo,
+					'series': series,
+					'observaciones':observaciones,
+					'picking_type_code':'outgoing',
+					'product_uom_qty': '0.00',
+					'reserved_availability': '0.00',
+					'quantity_done':'0.00',
+					'product_uom':product_uom,
+					'product_uom_id':'1',
+					'location_id':location_id,
+					'location_dest_id':location_dest_id,
+					'state':'confirmed'
+					
+					}
+					move_ids_without_package=move_line_obj.create(move_line)
 
 	
 		# set up context used to find the lead's sales team which is needed

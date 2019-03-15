@@ -66,7 +66,7 @@
                     </div>
                     </div>
                             <group>
-                                <group>
+                                <group string="Datos de asignación">
                                     <field name="company_id"/>
                                     
                                     <field name="user_id" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
@@ -75,7 +75,7 @@
                                      <field name="priority" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
                                 
                                 </group>
-                                <group>
+                                <group string="Datos del cliente" name="cliente">
                                     <field name="partner_id" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
                                     <field name="phone" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
                                     <field name="email" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
@@ -85,6 +85,7 @@
                             
 
                                 </group>
+
                              </group>
                         
                     <group>

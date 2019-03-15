@@ -204,8 +204,15 @@ class helpdesk_ticket(models.Model):
 	descripcion=fields.Text(string='Descripción')
 	cantidad=fields.Integer(string='Cantidad')
 	garantia=fields.Boolean(string='cuenta con garantía')
-	
+	uom_name=fields.Char(string='uom')
 	# or 'SERVICIO' or 'CONTRATO' or 'MAIP' or 'MAGOB'
+
+	@api.onchange('product_id')
+	def oum_product(self):
+		if self.product_id:
+			self.uom_name=self.product_id.uom_id.id
+		
+
 	@api.model
 	def create(self, vals):
 		if vals.get('name', False):
@@ -220,11 +227,14 @@ class helpdesk_ticket(models.Model):
 			if (tipo_ticket == 'GARANTIA') or  (tipo_ticket == 'INTERNO') or  (tipo_ticket == 'CARGO') or  (tipo_ticket == 'SERVICIO') or (tipo_ticket == 'CONTRATO') or  (tipo_ticket == 'MAIP') or  (tipo_ticket == 'MAGOB'): 
 				inv_obj = self.env['stock.picking']
 				move_line_obj = self.env['stock.move']
+				product_obj=self.env['product.product']
+
 				ticket = vals.get("name")
 				partner = vals.get("partner_id")
 				location = vals.get("location_id")
 				picking_type = vals.get("picking_type_id")
 				location_dest = vals.get("location_dest_id")
+				
 				v=1
 				invoice ={
 					
@@ -234,14 +244,15 @@ class helpdesk_ticket(models.Model):
 					'location_dest_id':location_dest,
 					'ticket_dos':ticket,
 					'v':v,
-					'state':'assigned'
+					'state':'assigned',
+					'p':str(vals.get('uom_name'))
 
 				}
 				inv_ids = inv_obj.create(invoice)
 				inv_id=inv_ids.id
 
 				name = vals.get("name")
-				product_id = vals.get("product_id")
+				product_ids = vals.get("product_id")
 				marca = vals.get("marca")
 				modelo = vals.get("modelo")
 				sub_modelo = vals.get("sub_modelo")			
@@ -256,7 +267,7 @@ class helpdesk_ticket(models.Model):
 					move_line={
 					'picking_id':inv_id,
 					'name':name,
-					'product_id':product_id,
+					'product_id':product_ids,
 					'marca': marca,
 					'modelo': modelo,
 					'sub_modelo': sub_modelo,
@@ -266,8 +277,8 @@ class helpdesk_ticket(models.Model):
 					'product_uom_qty': '0.00',
 					'reserved_availability': '0.00',
 					'quantity_done':'0.00',
-					'product_uom':product_uom,
-					'product_uom_id':'1',
+					'product_uom':str(vals.get('uom_name')),
+					'product_uom_id':str(vals.get('uom_name')),
 					'location_id':location_id,
 					'location_dest_id':location_dest_id,
 					'state':'confirmed'
@@ -363,6 +374,7 @@ class stockpicking(models.Model):
 	ticket=fields.Many2one('helpdesk.support',string='Ticket')
 	ticket_dos=fields.Char(string='Ticket')
 	v=fields.Boolean(string='valor')
+
 
 
 

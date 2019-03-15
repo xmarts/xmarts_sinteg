@@ -104,6 +104,7 @@
             <field name="ticket" attrs="{'invisible':[('v','=',True)]}"/>
             <field name="ticket_dos" attrs="{'invisible':[('v','=',False)]}" readonly="1"/>
             <field name="v" invisible="1" readonly="1"/>
+           
           </xpath>
 
 
@@ -117,7 +118,17 @@
         <field name="arch" type="xml">
            <xpath expr="//field[@name='company_id']" position="after"> 
              <field name="tipo_ticket"/>
-                <field name="garantia" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                
+         
+           </xpath>
+           
+            <xpath expr="//group[@name='cliente']" position="after"> 
+           
+           <group string="Datos del Ticket" name="ticket">
+                                    
+                                
+                                
+           <field name="garantia" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
                                                             ('tipo_ticket','=','INTERNO'),'|',
                                                             ('tipo_ticket','=','VENTA'),'|',
@@ -159,10 +170,31 @@
                                                             ('tipo_ticket','=','MAGOB')
 
                                                             ]}"/>
-                                                             <field name="series" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                            
+     
+          
+          <field name="uom_name" invisible="1"/>
+            
+             <field name="product_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
                                                       ('tipo_ticket','=','SG')]}"
-                                                      />
+                                                      />                                     
+            <field name="marca" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                     ('tipo_ticket','=','CALIDAD'),'|',
+                                                     ('tipo_ticket','=','SG')]}"
+                                                     />
+            <field name="modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                      ('tipo_ticket','=','CALIDAD'),'|',
+                                                      ('tipo_ticket','=','SG')]}"
+                                                      />  
+            <field name="sub_modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                          ('tipo_ticket','=','CALIDAD'),'|',
+                                                          ('tipo_ticket','=','SG')]}"
+                                                          />
+            <field name="series" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+                                                      ('tipo_ticket','=','CALIDAD'),'|',
+                                                      ('tipo_ticket','=','SG')]}"
+                                                      />          
             <field name="falla" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                      ('tipo_ticket','=','CALIDAD'),'|',
                                                      ('tipo_ticket','=','SG')]}"
@@ -219,20 +251,18 @@
                                                             ('tipo_ticket','=','GARANTIA')
 
                                                             ]}"/>
-         
-           </xpath>
-            <xpath expr="//field[@name='priority']" position="after"> 
-           
-           <!-- <field name="name" attrs="{'invisible': [('name','=','/')]}" readonly="1"/> -->
 
-          <!--  <field name="tipo_contrato"  attrs="{'invisible':[('type_ticket_id','=','CARGO')]}"/>
-           <field name="doc_c" attrs="{'invisible':[('tipo_contrato','=',False)]}" /> ,('tipo_ticket','=','VENTA'),('tipo_ticket','=','INTERNO')('tipo_ticket','=','CONTRATO'), -->
-          
-          
-            <field name="picking_type_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary"/>
+             <button type="action" name="%(purchase.purchase_order_action_generic)d" string="Compras" class="btn-primary oe_read_only"/>
+             </group>
+
+             </xpath>
+             <xpath expr="//group[@name='ticket']" position="after"> 
+             <group>
+                  <field name="picking_type_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
                                                       ('tipo_ticket','=','SG')]}"
-                                                      />  
+                                                     />  
 
             
             
@@ -243,28 +273,9 @@
            <field name="location_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
                                                       ('tipo_ticket','=','SG')]}"
-                                                      />  
-             <field name="product_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
-                                                      ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')]}"
-                                                      />                                     
-            <field name="marca" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
-                                                     ('tipo_ticket','=','CALIDAD'),'|',
-                                                     ('tipo_ticket','=','SG')]}"
-                                                     />
-            <field name="modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
-                                                      ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')]}"
-                                                      />  
-            <field name="sub_modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
-                                                          ('tipo_ticket','=','CALIDAD'),'|',
-                                                          ('tipo_ticket','=','SG')]}"
-                                                          />          
-           
-
-             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary"/>
-             <button type="action" name="%(purchase.purchase_order_action_generic)d" string="Compras" class="btn-primary oe_read_only"/>
-             </xpath>
+                                                      />
+            </group>
+           </xpath>
  
         </field>
       </record> 

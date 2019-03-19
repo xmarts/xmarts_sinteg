@@ -118,17 +118,7 @@
         <field name="arch" type="xml">
            <xpath expr="//field[@name='company_id']" position="after"> 
              <field name="tipo_ticket"/>
-                
-         
-           </xpath>
-           
-            <xpath expr="//group[@name='cliente']" position="after"> 
-           
-           <group string="Datos del Ticket" name="ticket">
-                                    
-                                
-                                
-           <field name="garantia" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+             <field name="garantia" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
                                                             ('tipo_ticket','=','INTERNO'),'|',
                                                             ('tipo_ticket','=','VENTA'),'|',
@@ -139,6 +129,16 @@
                                                             ('tipo_ticket','=','SG')
 
                                                             ]}"/>
+         
+           </xpath>
+           
+            <xpath expr="//group[@name='cliente']" position="after"> 
+           
+           <group string="Datos del Ticket" name="ticket">
+                                    
+                                
+                                
+        
               <field name="tipo" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
                                                             ('tipo_ticket','=','INTERNO'),'|',
@@ -158,9 +158,7 @@
                                                             ('tipo_ticket','=','CALIDAD'),'|',
                                                             ('tipo_ticket','=','MAIP'),'|',
                                                             ('tipo_ticket','=','MAGOB'),'|',
-                                                            ('tipo_ticket','=','CARGO'),'|',
-                                                            ('tipo_ticket','=','GARANTIA')
-
+                                                            ('tipo_ticket','=','CARGO')
                                                             ]}"/>
            <field name="doc_c" attrs="{'invisible':[('contrato','=',False)]}" />
            <field name="solicitante" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
@@ -253,7 +251,7 @@
                                                             ]}"/>
 
              <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary"/>
-             <button type="action" name="%(purchase.purchase_order_action_generic)d" string="Compras" class="btn-primary oe_read_only"/>
+             <button type="action" name="%(xmarts_order_request.purchase_order_request_view_form)d" string="Compras" class="btn-primary oe_read_only"/>
              </group>
 
              </xpath>

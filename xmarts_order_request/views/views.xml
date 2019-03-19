@@ -1,0 +1,145 @@
+<odoo>
+  <data>
+
+    <record id="purchase_order_request_view_form" model="ir.ui.view">
+      <field name="name">purchase_order_request_view_form</field>
+      <field name="model">purchase.order.request</field>
+      <field name="arch" type="xml">
+        <form string="Purchase Request">
+          <header>
+            <button string='Solicitar' name="state_request" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','draft')]}" />
+            <button string='Generar Pedido' name="state_done" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','request')]}" />
+            <button string='Cancelar' name="state_cancel" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','request')]}" confirm="¿Esta seguro de cancelar la solicitud?"/>
+            <button string='Cambiar a borrador' name="state_draft" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','cancel')]}" />
+            <field name="state" widget="statusbar" readonly="1"/>
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name" readonly="1"/>
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field name="create_date" string="Fecha de creación" readonly="1" />
+                <field name="create_uid" string="Creado por" readonly="1" />
+                <field name="company_id" string="Compañia" readonly="1" invisible="1"/>
+                <field name="currency_id" string="Moneda" readonly="1" invisible="1" />
+              </group>
+              <group>
+                <field name="request_date" readonly="1" />
+                <field name="done_date" readonly="1" />
+              </group>
+            </group>
+            <notebook>
+              <page string="Productos">
+                <field name="request_lines" attrs="{'readonly':[('state','=','done')]}">
+                  <tree string="Porductos Solicitados" editable="bottom">
+                    <field name="product_id" options="{'no_create': True, 'no_create_edit':True}" />
+                    <field name="product_template_id" options="{'no_create': True, 'no_create_edit':True}" invisible="1" />
+                    <field name="name"/>
+                    <field name="product_qty"/>
+                    <field name="provider_id" domain="[('product_tmpl_id','=', product_template_id)]" options="{'no_create': True, 'no_create_edit':True}" />
+                    <field name="product_price"/>
+                    <field name="product_taxes" widget="many2many_tags"/>
+                    <field name="subtotal"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <div class="oe_chatter">
+             <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+             <field name="activity_ids" widget="mail_activity"/>
+             <field name="message_ids" widget="mail_thread"/>
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="purchase_order_request_view_tree">
+      <field name="name">purchase_order_request_view_tree</field>
+      <field name="model">purchase.order.request</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="purchase_order_request_action" model="ir.actions.act_window">
+        <field name="name">Purchase Request</field>
+        <field name="res_model">purchase.order.request</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context"></field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No request records found
+            </p><p>
+                The purchase request records will be displayed here.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_purchase_order_request" name="Solicitud de compra" parent="purchase.menu_procurement_management" sequence="66" action="purchase_order_request_action"/>
+
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="xmarts_order_request.list">
+      <field name="name">xmarts_order_request list</field>
+      <field name="model">xmarts_order_request.xmarts_order_request</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="xmarts_order_request.action_window">
+      <field name="name">xmarts_order_request window</field>
+      <field name="res_model">xmarts_order_request.xmarts_order_request</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="xmarts_order_request.action_server">
+      <field name="name">xmarts_order_request server</field>
+      <field name="model_id" ref="model_xmarts_order_request_xmarts_order_request"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="xmarts_order_request" id="xmarts_order_request.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="xmarts_order_request.menu_1" parent="xmarts_order_request.menu_root"/>
+    <menuitem name="Menu 2" id="xmarts_order_request.menu_2" parent="xmarts_order_request.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="xmarts_order_request.menu_1_list" parent="xmarts_order_request.menu_1"
+              action="xmarts_order_request.action_window"/>
+    <menuitem name="Server to list" id="xmarts_order_request" parent="xmarts_order_request.menu_2"
+              action="xmarts_order_request.action_server"/>
+    -->
+  </data>
+</odoo>

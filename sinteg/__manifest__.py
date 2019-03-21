@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','contacts','rma_ept','purchase','website_helpdesk_support_ticket'],
+    'depends': ['base','contacts','rma_ept','purchase','website_helpdesk_support_ticket','xmarts_order_request'],
 
     # always loaded
     'data': [

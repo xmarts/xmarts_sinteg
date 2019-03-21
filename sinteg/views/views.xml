@@ -251,7 +251,7 @@
                                                             ]}"/>
 
              <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary"/>
-             <button type="action" name="%(xmarts_order_request.purchase_order_request_view_form)d" string="Compras" class="btn-primary oe_read_only"/>
+             <button type="action" name="%(xmarts_order_request.purchase_order_request_action)d" string="Compras" class="btn-primary "/>
              </group>
 
              </xpath>
@@ -280,11 +280,11 @@
 
         <record model='ir.ui.view' id="xmarts_purchase_order">
         <field name="name">xmarts_purchase_order</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="model">purchase.order.request</field>
+        <field name="inherit_id" ref="xmarts_order_request.purchase_order_request_view_form" />
         <field name="arch" type="xml">
            
-          <xpath expr="//field[@name='company_id']" position="after"> 
+          <xpath expr="//field[@name='done_date']" position="after"> 
 
          
             <field name="ticket" />
@@ -294,22 +294,7 @@
         </field>
         </record>  
 
-        <record model='ir.ui.view' id="xmarts_purchase_order">
-        <field name="name">xmarts_purchase_order</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_form" />
-        <field name="arch" type="xml">
-           
-          <xpath expr="//field[@name='company_id']" position="after"> 
-
-         
-            <field name="ticket" />
-            
-          </xpath>
-
-        </field>
-        </record>  
-
+     
 
         <record model='ir.ui.view' id="xmarts_product_product">
         <field name="name">xmarts_product_product</field>

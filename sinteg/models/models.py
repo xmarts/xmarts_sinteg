@@ -362,7 +362,7 @@ class helpdesk_ticket(models.Model):
 
 
 class PurchaseOrder(models.Model):
-	_inherit = 'purchase.order'
+	_inherit = 'purchase.order.request'
 
 
 	ticket=fields.Many2one('helpdesk.support',string='Ticket')

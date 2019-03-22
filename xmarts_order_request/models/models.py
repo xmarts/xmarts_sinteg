@@ -26,8 +26,8 @@ class PurchaseOrderRequestLines(models.Model):
     name = fields.Char(string="Descripcion", required=True)
     product_qty = fields.Float(string="Cantidad", default=1.0)
     provider_id = fields.Many2one("product.supplierinfo", string="Proveedor")
-    product_price = fields.Float(string="Precio Unitario", related="provider_id.price", readonly=True)
-    product_taxes = fields.Many2many("account.tax", string="Impuestos", related="product_id.supplier_taxes_id", readonly=True)
+    product_price = fields.Float(string="Precio Unitario")
+    product_taxes = fields.Many2many("account.tax", string="Impuestos")
     subtotal = fields.Float(string="Subtotal", compute="_calc_subtotal")
     purr_id = fields.Many2one("purchase.order.request")
 
@@ -38,6 +38,7 @@ class PurchaseOrderRequestLines(models.Model):
         self.provider_id = None
 
     @api.one
+    @api.depends('product_qty', 'product_price')
     def _calc_subtotal(self):
         self.subtotal = self.product_qty * self.product_price
 

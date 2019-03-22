@@ -358,14 +358,28 @@ class helpdesk_ticket(models.Model):
 
 	def create_apple_dos(self):
 		self._create_apple_dos()
+
+	@api.model
+	def _compras(self):
+		inv_obj_compras = self.env['purchase.order.request']
+		
+		
+		invoice_c ={
+				
+			'ticket': self.name,
+			'state':'request'
+		}
+		inv_ids = inv_obj_compras.create(invoice_c)
 	
+	def compras(self):
+		self._compras()
 
 
 class PurchaseOrder(models.Model):
 	_inherit = 'purchase.order.request'
 
 
-	ticket=fields.Many2one('helpdesk.support',string='Ticket')
+	ticket=fields.Char(string='Ticket', readonly=True)
 
 class stockpicking(models.Model):
 	_inherit = 'stock.picking'

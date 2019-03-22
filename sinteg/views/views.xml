@@ -251,7 +251,8 @@
                                                             ]}"/>
 
              <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary"/>
-             <button type="action" name="%(xmarts_order_request.purchase_order_request_action)d" string="Compras" class="btn-primary "/>
+             <button type="object" name="compras" string="Compras" class="btn-primary"/>
+             <!-- name="%(xmarts_order_request.purchase_order_request_action)d" -->
              </group>
 
              </xpath>

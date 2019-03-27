@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            string="Orden de entrega"
+            id="action_report_ticket_orden"
+            model="helpdesk.support"
+            report_type="qweb-pdf"
+            name="sinteg.report_recibo_ticket"
+            file="sinteg.report_recibo_ticket"
+            paperformat="sinteg.paperformat_reportesinteg"
+           
+        />
+       
+    </data>
+</odoo>

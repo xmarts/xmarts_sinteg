@@ -27,7 +27,7 @@ class PurchaseOrderRequestLines(models.Model):
     product_qty = fields.Float(string="Cantidad", default=1.0)
     provider_id = fields.Many2one("product.supplierinfo", string="Proveedor")
     product_price = fields.Float(string="Precio Unitario")
-    product_taxes = fields.Many2many("account.tax", string="Impuestos")
+    product_taxes = fields.Many2many("account.tax", string="Impuestos",related="product_id.taxes_id")
     subtotal = fields.Float(string="Subtotal", compute="_calc_subtotal")
     purr_id = fields.Many2one("purchase.order.request")
 
@@ -133,6 +133,7 @@ class PurchaseOrderRequest(models.Model):
                 'date_order': datetime.now(),
                 'partner_id': p,
                 'origin': self.name,
+                'ticket': self.ticket,
                 'state': 'purchase'
             }
 

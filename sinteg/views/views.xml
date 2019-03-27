@@ -100,10 +100,8 @@
 
           <xpath expr="//field[@name='origin']" position="after"> 
 
-         
-            <field name="ticket" attrs="{'invisible':[('v','=',True)]}"/>
-            <field name="ticket_dos" attrs="{'invisible':[('v','=',False)]}" readonly="1"/>
-            <field name="v" invisible="1" readonly="1"/>
+          <field name="ticket" />
+            
            
           </xpath>
 
@@ -129,6 +127,17 @@
                                                             ('tipo_ticket','=','SG')
 
                                                             ]}"/>
+               <field name="contrato" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','SG'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+                                                            ]}"/>
+           <field name="doc_c" attrs="{'invisible':[('contrato','=',False),('garantia','=',False)]}" />
          
            </xpath>
            
@@ -149,25 +158,19 @@
                                                             ('tipo_ticket','=','CARGO'),'|',
                                                             ('tipo_ticket','=','GARANTIA')
 
-                                                            ]}"/>
+                                                            ],'required': [('tipo_ticket','=','SG')
+                                                             ]}"/>
 
-           <field name="contrato" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
-                                                            ('tipo_ticket','=','SG'),'|',
-                                                            ('tipo_ticket','=','INTERNO'),'|',
-                                                            ('tipo_ticket','=','VENTA'),'|',
-                                                            ('tipo_ticket','=','CALIDAD'),'|',
-                                                            ('tipo_ticket','=','MAIP'),'|',
-                                                            ('tipo_ticket','=','MAGOB'),'|',
-                                                            ('tipo_ticket','=','CARGO')
-                                                            ]}"/>
-           <field name="doc_c" attrs="{'invisible':[('contrato','=',False)]}" />
+          
            <field name="solicitante" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CARGO'),'|',
                                                             ('tipo_ticket','=','GARANTIA'),'|',
                                                             ('tipo_ticket','=','MAIP'),'|',
                                                             ('tipo_ticket','=','MAGOB')
 
-                                                            ]}"/>
+                                                            ],'required': ['|',('tipo_ticket','=','SG'),'|',
+                                                            ('tipo_ticket','=','CALIDAD')
+                                                             ]}"/>
                                                             
      
           
@@ -175,27 +178,51 @@
             
              <field name="product_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')]}"
+                                                      ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"
                                                       />                                     
             <field name="marca" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                      ('tipo_ticket','=','CALIDAD'),'|',
-                                                     ('tipo_ticket','=','SG')]}"
+                                                     ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"
                                                      />
             <field name="modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')]}"
+                                                      ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"
                                                       />  
             <field name="sub_modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                           ('tipo_ticket','=','CALIDAD'),'|',
-                                                          ('tipo_ticket','=','SG')]}"
+                                                          ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"
                                                           />
             <field name="series" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')]}"
+                                                      ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"
                                                       />          
             <field name="falla" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                      ('tipo_ticket','=','CALIDAD'),'|',
-                                                     ('tipo_ticket','=','SG')]}"
+                                                     ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"
                                                      />
             <field name="observaciones" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
@@ -206,7 +233,11 @@
                                                             ('tipo_ticket','=','MAGOB'),'|',
                                                             ('tipo_ticket','=','SG')
 
-                                                            ]}"/>
+                                                            ],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"/>
             <field name="des_solicitud" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
                                                             ('tipo_ticket','=','INTERNO'),'|',
@@ -215,7 +246,9 @@
                                                             ('tipo_ticket','=','CARGO'),'|',
                                                             ('tipo_ticket','=','GARANTIA')
 
-                                                            ]}"/>
+                                                            ],'required': ['|',('tipo_ticket','=','SG'),'|',
+                                                            ('tipo_ticket','=','CALIDAD')
+                                                             ]}"/>
             <field name="contacto" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
                                                             ('tipo_ticket','=','INTERNO'),'|',
@@ -226,7 +259,8 @@
                                                             ('tipo_ticket','=','CARGO'),'|',
                                                             ('tipo_ticket','=','GARANTIA')
 
-                                                            ]}"/>
+                                                            ],'required': [('tipo_ticket', '=', 'SG')
+                                                             ]}"/>
             <field name="descripcion" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
                                                             ('tipo_ticket','=','INTERNO'),'|',
@@ -235,7 +269,8 @@
                                                             ('tipo_ticket','=','MAIP'),'|',
                                                             ('tipo_ticket','=','MAGOB'),'|',
                                                             ('tipo_ticket','=','CARGO'),'|',
-                                                            ('tipo_ticket','=','GARANTIA')
+                                                            ('tipo_ticket','=','GARANTIA'),'|',
+                                                            ('tipo_ticket','=','SG')
 
                                                             ]}"/>
             <field name="cantidad" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
@@ -248,7 +283,8 @@
                                                             ('tipo_ticket','=','CARGO'),'|',
                                                             ('tipo_ticket','=','GARANTIA')
 
-                                                            ]}"/>
+                                                            ],'required': [('tipo_ticket', '=', 'SG')
+                                                             ]}"/>
 
              <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary"/>
              <button type="object" name="compras" string="Compras" class="btn-primary"/>
@@ -260,19 +296,32 @@
              <group>
                   <field name="picking_type_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')]}"
+                                                      ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"
                                                      />  
 
             
             
             <field name="location_dest_id" groups="stock.group_stock_multi_locations" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')]}"
+                                                      ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"
                                                       /> 
            <field name="location_id" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')]}"
+                                                      ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'MAIP'),'|',
+                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ]}"
                                                       />
+            <field name="current_user_id"/>
             </group>
            </xpath>
  
@@ -295,8 +344,43 @@
         </field>
         </record>  
 
+        <record model='ir.ui.view' id="xmarts_purchase_orders">
+        <field name="name">xmarts_purchase_orders</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+           
+          <xpath expr="//field[@name='origin']" position="after"> 
+
+         
+            <field name="ticket" />
+            
+          </xpath>
+
+        </field>
+        </record>  
+
      
 
+        <record model='ir.ui.view' id="xmarts_res_partner">
+        <field name="name">xmarts_res_partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+           
+          <xpath expr="//field[@name='vat']" position="after"> 
+
+         
+            <field name="rfc"/>
+            <field name="colonia" />            
+            <field name="municipio"/>
+            <field name="estado"/>
+             <field name="referencia"/>
+          </xpath>
+
+        </field>
+      </record>  
+          
         <record model='ir.ui.view' id="xmarts_product_product">
         <field name="name">xmarts_product_product</field>
         <field name="model">product.product</field>
@@ -314,7 +398,6 @@
 
         </field>
       </record>  
-          
                                     
   </data>
 </odoo>

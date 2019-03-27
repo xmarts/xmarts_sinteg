@@ -59,7 +59,7 @@
                         <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/><br/>
-                            <field name="subject" readonly="0"  attrs="{'readonly': [('stage_type', '=', 'closed')]}"  placeholder="Helpdesk Support Subject"/>
+                            <field name="subject" readonly="0"  attrs="{'readonly': [('stage_type', '=', 'closed')]}"  placeholder="Helpdesk Support Subject" invisible="1"/>
                             <field name="is_invoice_created" invisible="1"/>
                             <field name="is_task_created" invisible="1"/>
                         </h1>
@@ -69,7 +69,7 @@
                                 <group string="Datos de asignación">
                                     <field name="company_id"/>
                                     
-                                    <field name="user_id" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
+                                    <field name="user_id"  invisible="1"/>
                                    <field name="team_id" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
                                      <field name="team_leader_id" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
                                      <field name="priority" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>

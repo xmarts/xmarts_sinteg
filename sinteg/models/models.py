@@ -136,7 +136,7 @@ class claim(models.Model):
 class claim_product(models.Model):
 	_inherit ='stock.move'
 #	equipo = fields.Char(string='Equipo')
-	marca = fields.Many2one('claim.marca', string='Marca')
+	marca = fields.Many2one('claim.marca', string='Marca' )
 	modelo = fields.Many2one('claim.modelo', string='Modelo')
 	sub_modelo=fields.Many2one('helpdesk.sub_modelo',string='Sub Modelo')
 	series = fields.Char(string='Series')
@@ -174,7 +174,7 @@ class helpdesk_ticket(models.Model):
 											 ('INTERNO', 'interno'),('VENTA', 'venta'),
 											 ('CALIDAD', 'calidad'),('MAIP', 'ma ip'),
 											 ('MAGOB', 'ma gob'),
-											 ('SG', 'sg')],string='Tipo de Ticket',default='CARGO')
+											 ('SG', 'sg')],string='Tipo de Ticket',default='CARGO', required=True)
 
 	tipo= fields.Selection(selection=[('entregar_cli', 'Entregar Cliente'),
 									  ('recoleccion_cli', 'Recoleccion Cliente'),
@@ -206,6 +206,15 @@ class helpdesk_ticket(models.Model):
 	garantia=fields.Boolean(string='cuenta con garantía')
 	uom_name=fields.Char(string='uom')
 	# or 'SERVICIO' or 'CONTRATO' or 'MAIP' or 'MAGOB'
+	current_user_id = fields.Many2one(
+	comodel_name='res.users',
+	string='Usuario Actual',
+	default=lambda self: self.env.uid
+	)
+	
+	@api.model
+	def _default_current_user_id(self):
+		return self.env.uid
 
 	@api.onchange('product_id')
 	def oum_product(self):
@@ -242,8 +251,8 @@ class helpdesk_ticket(models.Model):
 					'location_id':location,
 					'picking_type_id':picking_type,
 					'location_dest_id':location_dest,
-					'ticket_dos':ticket,
-					'v':v,
+					'ticket':ticket,
+					
 					'state':'assigned',
 					'p':str(vals.get('uom_name'))
 
@@ -367,7 +376,7 @@ class helpdesk_ticket(models.Model):
 		invoice_c ={
 				
 			'ticket': self.name,
-			'state':'request'
+			'state':'draft'
 		}
 		inv_ids = inv_obj_compras.create(invoice_c)
 	
@@ -381,14 +390,47 @@ class PurchaseOrder(models.Model):
 
 	ticket=fields.Char(string='Ticket', readonly=True)
 
+class PurchaseOrder(models.Model):
+	_inherit = 'purchase.order'
+
+
+	ticket=fields.Char(string='Ticket', readonly=True)
+
+	@api.model
+	def _prepare_picking(self):
+		if not self.group_id:
+			self.group_id = self.group_id.create({
+				'name': self.name,
+				'partner_id': self.partner_id.id
+			})
+		if not self.partner_id.property_stock_supplier.id:
+			raise UserError(_("You must set a Vendor Location for this partner %s") % self.partner_id.name)
+		return {
+			'picking_type_id': self.picking_type_id.id,
+			'partner_id': self.partner_id.id,
+			'date': self.date_order,
+			'origin': self.name,
+			'location_dest_id': self._get_destination_location(),
+			'location_id': self.partner_id.property_stock_supplier.id,
+			'ticket': self.ticket,
+			'company_id': self.company_id.id,
+		}
+
 class stockpicking(models.Model):
 	_inherit = 'stock.picking'
 
 
-	ticket=fields.Many2one('helpdesk.support',string='Ticket')
-	ticket_dos=fields.Char(string='Ticket')
-	v=fields.Boolean(string='valor')
+	ticket=fields.Char(string='Ticket', readonly=True)
 
 
+class stockpicking(models.Model):
+	_inherit = 'res.partner'
+
+
+	rfc=fields.Char(string='RFC')
+	colonia=fields.Char(string='Colonia')
+	municipio=fields.Char(string='Municipio')
+	estado=fields.Char(string='Estado')
+	referencia=fields.Char(string='Referencia')
 
 

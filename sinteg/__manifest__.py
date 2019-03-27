@@ -24,6 +24,8 @@
 
     # always loaded
     'data': [
+        'reports/report_recibo_ticket.xml',
+        'reports/reports_menu.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',

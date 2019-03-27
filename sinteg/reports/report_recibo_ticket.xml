@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="report_recibo_ticket">
+            <t t-call="web.basic_layout">
+             <t t-foreach="docs" t-as="doc">
+              <!-- <t t-call="report.external_layout"> 
+                 - <span t-field="doc.subject"/> [<span t-field="doc.stage_type"/>]</strong>
+                -->
+              
+                <div class="page">
+                    
+                    <div class = 'text-center'>
+                       
+                       <div class="text-center" style="font-size:9pt;">
+                        <strong>Sinteg en México S.A de C.V</strong><br/>
+                        <span>RFC: SME -900227-7T7</span> <br/>
+                        <span>Doctor Martinez del Rio No. 161, Col. Doctores</span><br/>
+                        <span>Del/Mun. Cuautemoc C.P. 06720</span><br/>
+                        <span>Tels: 5550902700 Y 16 </span><br/>
+                        <span>E-mail: atencion_clientes3@sinteg.com.mx Sitio WEB: http://www.sinteg.net/</span><br/>
+                        <span>Lunes a Viernes de 9 am a 6:30pm, Sabados de 9am a 11:30am</span>
+                       </div>   
+                           
+                        
+                    </div>
+                      <div class = 'col-xs-2 text-center' style="font-size:12pt;"> 
+                       
+                          <strong>Orden Servicio:</strong> <br/> <span>NUMERO:</span><strong><span t-field="doc.name"/></strong>
+                        
+                    </div>
+                   
+                    <div>
+                        <div class="pull-left"  style="font-size:9pt;">
+                             <strong>ORDEN DE ENTRADA</strong>
+                        </div>
+                        <div class="pull-right" style="font-size:9pt;">
+                             <span>FECHA DE ENTRADA:<span t-field="doc.request_date"/></span>
+                        </div>
+                    </div>
+                      
+            
+                   
+                    <table border="0" style=" font-size:9pt; width:100%;" name="ticket_details">
+                        <tr >
+                           <td  style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>Cliente:</span></td>
+                            <td style="border-top: 1px solid #000000;" colspan="2"><strong t-field="doc.partner_id"/></td>
+                           <td style="border-top: 1px solid #000000; padding-left: 10px;" ><span>RFC:</span> <span t-field="doc.partner_id.rfc"/></td>
+                           <td colspan="2" style="border-right: 1px solid #000000;  border-top: 1px solid #000000;" ></td>
+                          
+                        </tr>
+                         <tr>
+                              <td  style="border-left: 1px solid #000000; padding-left: 10px;" ><span>Dirección:</span></td>
+                           <td  style="border-right: 1px solid #000000; text-align: left;" colspan="5" ><strong t-field="doc.partner_id.street"/> </td>
+                        </tr>
+                        <tr>                    
+                          <td  style="border-left: 1px solid #000000; padding-left: 10px;" ><span>Colonia:</span></td>
+                           <td  ><strong t-field="doc.partner_id.colonia"/></td>
+                           <td ><span>DEL/MUN:</span></td>
+                           <td ><strong t-field="doc.partner_id.municipio"/></td>       
+                           <td ><span>EDO:</span><span> </span><strong t-field="doc.partner_id.estado"/></td>
+                           <td style="border-right: 1px solid" ></td>
+                           </tr>  
+                       
+                         <tr>
+                               <td style="border-left: 1px solid #000000;  padding-left: 10px;" ><span>CP:</span></td>
+                           <td style="border-right: 1px solid #000000;" colspan="5" ><strong t-field="doc.partner_id.zip"/></td>
+                               
+                           
+                           </tr>
+                           <tr>
+                                <td  style="border-left: 1px solid #000000; padding-left: 10px;"><span>REFERENCIA:</span></td>
+                                 <td style="border-right: 1px solid #000000; text-align:left;" colspan="5" ><strong t-field="doc.partner_id.referencia"/></td>
+                               
+                           
+                           </tr>
+                        <tr>
+                       
+
+                           <td style="border-left: 1px solid #000000; padding-left: 10px;"><span>Telefono:</span></td>
+                           <td ><strong t-field="doc.phone"/></td>
+                           <td ><span>Celular:</span></td>
+                           <td ><strong t-field="doc.partner_id.mobile"/></td>       
+                           <td ><span>Correo:</span><span> </span><strong t-field="doc.email"/></td>
+                           <td style="border-right: 1px solid #000000;"></td>
+                       </tr>
+                       <tr>
+                               <td style="border-left: 1px solid #000000; padding-left: 10px;"><span>Contacto</span></td>
+                           <td style="border-right: 1px solid #000000;" colspan="5"><strong t-field="doc.partner_id"/></td>
+                               
+                           
+                           </tr>
+                         <tr>
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>TIPO DE EQUIPO</span></td>
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>MARCA</span></td>                    
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>MODELO</span></td>
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>SUBMODELO:</span></td>
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>SERIE:</span></td>
+                           <td style="border-left: 1px solid #000000; border-right: 1px solid #000000; padding-left: 10px; border-top: 1px solid #000000;"><span>TIPO:</span></td>
+                       </tr>
+                       <tr>
+                          <td style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000;"><strong t-field="doc.product_id.name"/></td>
+                           <td style="padding-left: 10px; border-left: 1px solid #000000;"><strong t-field="doc.marca.name"/></td>                    
+                           <td style="padding-left: 10px; border-left: 1px solid #000000;"><strong t-field="doc.modelo.name"/></td>
+                           <td style="padding-left: 10px; border-left: 1px solid #000000;"><strong t-field="doc.sub_modelo.name"/></td>
+                           <td style="padding-left: 10px; border-left: 1px solid #000000;"><strong t-field="doc.series"/></td>
+                           <td style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000;"><strong t-field="doc.tipo_ticket"/></td>
+                       </tr>
+                        <tr>
+                             <td colspan="6"  style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>RECEPCIONISTA</span></td>
+                        </tr>
+                        <tr >
+                            <td colspan="6" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-bottom: 1px solid #000000;"><strong t-field="doc.current_user_id"/></td>
+                        </tr>
+                        <tr>
+<!--                       <tr style="border: 2px solid black;">-->
+                           <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>FALLA REPORTADA</span></td>
+                           
+                           <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>DIAGNOSTICO</span></td>
+                           
+                       </tr>
+                       <tr>
+                       <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; "><strong t-field="doc.falla"/></td>
+                       <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; "><strong t-field="doc.description"/></td>
+                       </tr>
+                        
+                       <tr>
+                             <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>OBSERVACIONES GENERALES</span></td>
+                           
+                            <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>ACCESORIOS</span></td>
+                       </tr>
+                       <tr>
+                             <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; "><strong t-field="doc.observaciones"/></td>
+                           <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; "><strong t-field="doc.description"/></td>
+                       </tr>
+                        
+                       <tr>
+                         
+                           <td colspan="6" style="padding-left: 10px; border: 1px solid #000000; "><span>AUTORIZO ENTREGA DE EQUIPO A:,</span><strong> CON IDENTIFICACION OFICIAL</strong></td>
+                           
+                          
+                       </tr>
+                       <tr>
+                        <td colspan="3" style="font-size:7pt; padding-left: 10px; padding-right: 10px;border: 1px solid #000000; " class="text-justify">
+                            <span>
+                                1. En equipo de garantía, es indispensable presentar la factura de compra, que contenga el numero de serie y/ a la marca de que se trate.
+                            </span><br/>
+                            <span>
+                                2. Todos los equipos que ingresen a Sinteg en México S.A de C.V., en la modalidad de cargo cliente, por políticas internas serán ingresados a revisión y diagnostico, indistintamente de la falta reportada por el cliente
+                            </span><br/>
+                            <span>
+                                3. El costo de revisión y diagnostico deberá ser cubierto al momento del ingreso, de acuerdo al tipo de equipo del que se trate, y los costos serán de acuerdo a nuestra tabla vigente de precios ; a todos nuestros precios se les deberá agregar el IVA correspondiente y están expresados en moneda nacional.
+                         </span><br/>
+                            <span>
+                                4. El tiempo de diagnóstico es de 72 horas hábiles a partir del día de ingreso del equipo, al término de estas se le dará al cliente la cotización correspondiente por la reparación del equipo, la cual tiene una vigencia de 5 días hábiles a partir de la notificación.
+                            </span><br/>
+                            <span> 
+                                5.  En caso de no autorizar la reparación del equipo en 5 días naturales posteriores a la notificación de su presupuesto, se dará como listo no reparado y se cobrará la revisión
+                            </span><br/>
+                            <span>
+                                6. El tiempo de entrega de las refacciones en garantía y/o con costo es responsabilidad del fabricante
+                           </span><br/>
+                            <span>
+                                7. Sinteg no se hace responsable por accesorios no descritos en la orden de servicio 
+                            </span>
+                        </td>
+                        <td colspan="3" style="font-size:7pt; padding-left: 10px; padding-right: 10px; border: 1px solid #000000; " class="text-justify">
+                            <span>
+                                8. Sinteg no se hace responsable de respaldar la información almacenada en el disco duro del equipo en cuestión.
+                            </span><br/>
+                            <span>
+                                9. El cliente deberá de recoger el equipo en un máximo de 30 días naturales, a partir de la notificación de que su equipo se encuentra listo. Después de 30 días naturales se hará un cargo del 1% diario sobre el valor del servicio de reparación por concepto de almacenaje.
+                            </span><br/>
+                            <span>
+                                10. El pago se puede realizar de la siguiente manera: efectivo, cheque salvo buen cobro, deposito a la cuenta no. 92000619154 de Santander México, clave interbancaria 18 dígitos: 014180920006191543 o con tarjeta de crédito.
+                            </span><br/>
+                            <span>
+                                11.  Una vez que el cliente haya autorizado la reparación del equipo, deberá pagar el 100% anticipado en cualquiera de las formas de pago mencionadas en el punto anterior.
+                            </span><br/>
+                            <span>
+                                12. El horario de recepción y entrega de equipos es de lunes a viernes de 9:00 am a 6:00 pm en horario corrido.
+                            </span><br/>
+                            <span>
+                                13. Para recoger el equipo deberá entregar su orden de servicio y comprobante original de pago. En caso de extravió de la orden de servicio, deberá presentar original de identificación oficial vigente de la persona a la que se encuentra la orden antes mencionada, en caso de ser persona moral deberá presentar original de poder notarial que lo acredite como tal e identificación oficial vigente en original.
+                            </span><br/>
+                            <span>
+                                14. La garantía por parte de Sinteg es de 60 días naturales a partir de la fecha de entrega del equipo. 
+
+                            </span>
+
+                        </td>
+                       </tr>
+                       <tr>
+                        <td colspan="6" style="font-size:7pt; padding-left: 10px; padding-right: 10px; border: 1px solid #000000; " class="text-justify">
+
+                            <span>AVISO DE PRIVACIDAD</span><br/>
+                            <span>
+                                                            
+                            SINTEG EN MEXICO. S.A. DE C.V. con domicilio en Dr. Martínez del Rio # 161 Col. Doctores, C.P. 06720, Ciudad de México. utilizará sus datos personales recabados para el único efecto de realizar la atención del equipo. facturación y confirmación de calidad del servicio por parte del fabricante. Para mayor información acerca del tratamiento y de los derechos que puede hacer valer, usted puede acceder al aviso de privacidad integral a través de nuestra pagina http://www.sinteg.com.mx o solicitarlo a los correos electrónicos atencionacliente@sinteg.com.mx o calidad@sinteg.com.mx. 
+
+                            </span>
+
+                        </td>
+                       </tr>
+
+                    </table>
+                     
+                     <table style=" border:0px solid white; width:100%;" >
+                        <tr>
+                        <td style="width:35%; height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;">
+
+                        </td>
+                        <td style="width:30%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center; ">
+                        </td>
+                        <td style="width:35%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;">
+
+                        </td>
+                      </tr>
+                       <tr>
+                          <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-top:1px solid black;">
+                               FIRMA DEL CONSUMIDOR
+                            </td>
+                            <td style="width:30%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center; ">
+                        </td>
+                        
+                        <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-top:1px solid black;">
+                               FIRMA DEL PRESTADOR DE SERVICIOS
+                            </td>
+                      </tr>
+                      
+                      <tr>
+                        <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:left; ">
+                            <strong>ANTES DE FIRMAR VERIFIQUE QUE HA RECIBIDO TODOS SUS ACCESORIOS ANOTADOS EN ESTA ORDEN DE SERVICIO</strong>
+                        </td>
+
+                      </tr>
+
+                    </table>
+                 
+                 
+                  
+                </div>
+           
+            </t>
+          </t>
+        </template>
+       <record id="paperformat_reportesinteg" model="report.paperformat"> 
+            <field name="name">No header</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">3</field>
+            <field name="dpi">90</field>
+    </record>
+</data>
+</odoo>

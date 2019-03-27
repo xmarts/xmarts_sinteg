@@ -159,10 +159,11 @@ class HelpdeskSupport(models.Model):
 #     )
     email = fields.Char(
         string="Email",
-        required=False
+         required=True
     )
     phone = fields.Char(
-        string="Phone"
+        string="Phone",
+         required=True
     )
     category = fields.Selection(
         [('technical', 'Technical'),
@@ -186,15 +187,18 @@ class HelpdeskSupport(models.Model):
         ('1', 'Middle'),
         ('2', 'High')],
         string='Priority',
+         required=True,
     )
     partner_id = fields.Many2one(
         'res.partner',
         string='Customer',
+         required=True,
     )
     request_date = fields.Datetime(
         string='Create Date',
         default=fields.Datetime.now,
         copy=False,
+         required=True,
     )
     close_date = fields.Datetime(
         string='Close Date',
@@ -237,14 +241,16 @@ class HelpdeskSupport(models.Model):
         'support.team',
         string='Helpdesk Team',
         default=lambda self: self.env['support.team'].sudo()._get_default_team_id(user_id=self.env.uid),
-        track_visibility='onchange',
-
+        track_visibility='onchange'
+        , required=True,
     )
     team_leader_id = fields.Many2one(
         'res.users',
         string='Team Leader',
+         required=True,
 #         related ='team_id.leader_id',
 #         store=True,
+
     )
     invoice_line_ids = fields.One2many(
         'support.invoice.line',
@@ -300,7 +306,8 @@ class HelpdeskSupport(models.Model):
     )
     allow_user_ids = fields.Many2many(
         'res.users',
-        string='Allow Users'
+        string='Allow Users',
+         required=True
     )
 
     @api.model

@@ -22,36 +22,24 @@
       
         </field>
       </record>
-
-    <!--    <record model='ir.ui.view' id="xmarts_claim">
-        <field name="name">xmarts_claim</field>
-        <field name="model">crm.claim.ept</field>
-        <field name="inherit_id" ref="rma_ept.crm_claims_ept_form_view" />
+  
+        <record model='ir.ui.view' id="xmarts_sinteg">
+        <field name="name">xmarts_sinteg</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
-           
-           <xpath expr="//notebook/page/group/field[@name='claim_line_ids']/tree/field[@name='product_id']" position="after">
+           <xpath expr="//field[@name='origin']" position="attributes"> 
+            <attribute name="readonly">True</attribute>
             
-            <field name="marca" />
-            <field name="modelo"/>            
-            <field name="series"/>
-            <field name="observaciones"/>
-          </xpath>  
-
-          <xpath expr="//field[@name='picking_id']" position="replace"> 
-
-            <field name="picking_id"  attrs="{'readonly':[('state','!=','draft')]}"  options="{'no_quick_create':True,'no_create_edit':True,'no_quick_open': True}" required="1"/>
-          </xpath>  
-
-             <xpath expr="//field[@name='partner_id']" position="replace"> 
-              <field name="partner_id" string="Partner" required="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
-                                    
-          </xpath>  
-
-
-
+            </xpath> 
+           
+      
+      
         </field>
-      </record>  
-       -->
+      </record>
+
+
+
 
 
        <record model='ir.ui.view' id="xmarts_product">
@@ -76,7 +64,9 @@
 
 
         </field>
-      </record>  
+      </record> 
+
+     
 
       <record model='ir.ui.view' id="xmarts_stock">
         <field name="name">xmarts_stock</field>
@@ -96,12 +86,13 @@
             <field name="sub_modelo"/>            
             <field name="series"/>
             <field name="observaciones"/>
+            <field name="tickets" invisible="1"/>
           </xpath>  
 
           <xpath expr="//field[@name='origin']" position="after"> 
 
-          <field name="ticket" />
-            
+          <field name="ticket" invisible="1"/>
+            <field name="tickets" />
            
           </xpath>
 
@@ -169,7 +160,7 @@
                                                             ('tipo_ticket','=','MAGOB')
 
                                                             ],'required': ['|',('tipo_ticket','=','SG'),'|',
-                                                            ('tipo_ticket','=','CALIDAD')
+                                                            ('tipo_ticket','=','CALIDAD'),'|',('tipo_ticket','=','CONTRATO')
                                                              ]}"/>
                                                             
      
@@ -234,7 +225,7 @@
                                                             ('tipo_ticket','=','SG')
 
                                                             ],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
-                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
                                                        ('tipo_ticket', '=', 'MAIP'),'|',
                                                        ('tipo_ticket', '=', 'MAGOB')
                                                        ]}"/>
@@ -321,9 +312,24 @@
                                                        ('tipo_ticket', '=', 'MAGOB')
                                                        ]}"
                                                       />
-            <field name="current_user_id"/>
+            <field name="current_user_id" invisible="1"/>
+          
             </group>
            </xpath>
+
+            <xpath expr="//page[@name='description']" position="after"> 
+              <page name="accesorios" string="Accesorios">
+                        <group string="Informacion">
+                          <field name="ticket_ids"/>
+                        </group>
+                        <group string="Accesorios">
+                          <field name="acce"/>
+                        </group>
+              </page>
+           </xpath>
+
+
+
  
         </field>
       </record> 
@@ -336,13 +342,27 @@
            
           <xpath expr="//field[@name='done_date']" position="after"> 
 
-         
-            <field name="ticket" />
+            <field name="tickets" />
+            
             
           </xpath>
-
+       
         </field>
         </record>  
+
+        <!-- <record model='ir.ui.view' id="xmarts_purchase_order_ticket">
+        <field name="name">xmarts_purchase_order_ticket</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="xmarts_order_request.purchase_order_request_view_form" />
+        <field name="arch" type="xml">
+           
+           <xpath expr="//sheet/notebook/page/field[@name='request_lines']/tree/field[@name='product_id']" position="after">
+            
+            <field name="tickets" />
+          </xpath>  
+
+        </field>
+        </record> -->
 
         <record model='ir.ui.view' id="xmarts_purchase_orders">
         <field name="name">xmarts_purchase_orders</field>
@@ -350,10 +370,16 @@
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
            
+           <xpath expr="//field[@name='origin']" position="attributes"> 
+            <attribute name="readonly">True</attribute>
+            
+            </xpath> 
+           
+
           <xpath expr="//field[@name='origin']" position="after"> 
 
-         
-            <field name="ticket" />
+            <field name="tickets" />
+            
             
           </xpath>
 

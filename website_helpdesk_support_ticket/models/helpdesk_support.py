@@ -306,8 +306,7 @@ class HelpdeskSupport(models.Model):
     )
     allow_user_ids = fields.Many2many(
         'res.users',
-        string='Allow Users',
-         required=True
+        string='Allow Users'
     )
 
     @api.model

@@ -93,7 +93,7 @@
                         
                     </group>  
                         <notebook>
-                        <page name="description" string="Description">
+                        <page name="description" string="Diagnóstico">
                             <field name="description" placeholder="Add an internal note..." attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
                         </page>
                         <page name="timesheets" string="Timesheets" groups="base.group_user">

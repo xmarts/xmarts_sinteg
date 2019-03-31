@@ -131,7 +131,14 @@
                        </tr>
                        <tr>
                              <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; "><strong t-field="doc.observaciones"/></td>
-                           <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; "><strong t-field="doc.description"/></td>
+                           <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; ">
+                            <strong>
+                              <t t-foreach='doc.acce' t-as='value'>
+                            <t t-esc="value.product_id.name"/>,
+                          
+                            </t>
+                          </strong>
+                           </td>
                        </tr>
                         
                        <tr>
@@ -237,7 +244,79 @@
 
                     </table>
                  
-                 
+                   <table border="0" style=" font-size:6pt; width:100%;" name="ticket_details">
+                    <tr>
+                      <td  style="width:50%; padding-left: 10px; padding-right: 10px;  " class="text-justify">
+                        <span>
+                          CONTRATO DE PRESTACIÓN DE SERVICIOS DE REPARACION Y/O MANTENIMIENTO DE EQUIPO DE
+                                         CÓMPUTO Y PERIFERICOS
+                        </span><br/>
+                        <span>
+                        CONTRATO DE PRESTACIÓN DE SERVICIO DE MANTENIMIENTO PREVENTIVO Y CORRECTIVO DE EQUIPOS DE CÓMPUTO Y PERIFERICOS QUE SUSCRIBEN SINTEG EN MEXICO S.A. DE C.V. Y QUE EN ADELANTE SE DENOMINARA "EL PRESTADOR DEL SERVICIO" Y POR LA OTRA PARTE LA PERSONA FISICA 0 MORAL QUE SE IDENTIFICA EN LA ORDEN DE SERVICIO CORRESPONDIENTE LA CUAL SE ENCUENTRA EN EL ANVERSO DE ESTE CONTRATO Y QUE EN ADELANTE SE DENOMINARA "EL CONSUMIDOR" BAJO EL MARCO DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS.
+                        </span><br/><span>
+                        DECLARACIONES.
+                      </span><br/><span>
+                        I. Declara el prestador del servicio a través de su representante legal que es una persona
+                        moral con Registro Federal de Contribuyentes SME 9002277T7 legalmente constituida mediante escritura pública número 17,362 de fecha 22 de febrero de 1990, pasada ante la fe del Licenciado FRANCISCO CARBIA PIZARRO SUAREZ, titular de la Notaría Publica número 148 de México, D.F. debidamente inscrita en el Registro Público de la Propiedad y del Comercio, bajo el folio mercantil número 129530 de fecha 05 de Junio de 1990.
+                      </span><br/><span>
+                        II. Declara también el prestador del servicio, por conducto de su representante legal que parte de su objeto social consiste en la prestación de servicios de mantenimiento preventivo y/o correctivo, reparación de equipo: de cómputo, eléctrico, electrónico, displays y/o pantallas, telecomunicaciones, telefonía, audio y video.
+                        </span><br/><span>
+                        III. Declara el prestador de servicio, por conducto de su representante legal que tiene su
+                        Domicilio fiscal en Dr. Martínez del Río #161 Col. Doctores, Deleg. Cuauhtémoc C.P. 06720, Ciudad de México, CDMX, con número Telefónico 50902700.
+                        </span><br/><span>
+                        V. Declara el consumidor que tiene la capacidad para obligarse y que tiene su domicilio en:______________________________________________________________________________________
+                        </span><br/><span>
+                         CLAUSULAS.
+                         </span><br/><span>
+                        PRIMERA: El objeto del presente contrato es la prestación de servicios de diagnóstico y reparación de equipo de cómputo y periféricos que se describen en el anverso de este contrato.
+                        </span><br/><span>
+                        SEGUNDA: El precio total de los servicios contratados se establece en el presupuesto que forma parte del presente y se describe en el anverso del presente contrato, el cual será pagado por EL CONSUMIDOR, de la siguiente manera: 100 por ciento de anticipo dentro de los 5 días naturales siguientes de haber sido notificado el total de la reparación.
+                        </span><br/><span>
+                        TERCERA: EL CONSUMIDOR deberá I.- Revisar y verificar cuidadosamente los datos asentados en el anverso de este contrato. Solo dejara los accesorios del equipo si es necesario, en cuyo caso deberá asegurarse que EL PRESTADORDEL SERVICIO haga constar este hecho en el anverso del presente contrato; II - Asegurarse de que la descripción de la falla reportada se encuentre descrita tal cual lo solicito; III - Hacer del conocimientos de EL PRESTADOR DEL SERVICIO los daños que presente su equipo; IV.- Realizar la autorización o la no autorización de la reparación del equipo dentro del plazo de 5 días naturales a partir de la notificación de la cotización por la reparación; V.- Recoger el equipo en la fecha convenida. Pagar por concepto de almacenaje después de transcurridos treinta dias naturales de la fecha pactada para su entrega, el cual será del 1% sobre el valor del servicio por cada dia que transcurra sin que recoja su equipo. El almacenaje no excederá de 90 días. En caso de que transcurran los 90 días de almacenaje sin que EL CONSUMIDOR recoja el equipo, EL PRESTADOR DEL SERVICIO se constituirá como acreedor prendario respecto de la misma pudiendo ejecutar la prenda de manera inmediata, en términos de las disposiciones legales aplicables; VI.- Verificar que es el mismo que entrego; VIL- Verificar que el servicio fue satisfactorio; VIII.- Pagar en el establecimiento de EL PRESTADOR DEL SERVICIO el precio convenido de contado y en moneda nacional, salvo que EL PRESTADOR DEL SERVICIO acepte otros tipos de pago o de moneda; IX.- En caso de pérdida de la orden de servicio exhibir en original una identificación oficial vigente y hacer una descripción del equipo y exhibir factura original correspondiente donde se aprecie número de serie del equipo.</span><br/><span>
+                        CUARTA: EL PRESTADOR DEL SERVICIO se obliga a; I.- Realizar adecuadamente las composturas establecidas en el anverso de este contrato conforme a los términos y condiciones contratados los cuales deben corresponder a la información o publicidad proporcionada o difundida; II.- Entregar a EL CONSUMIDOR un presupuesto por escrito después de concluidas las 72 horas hábiles con las cuales el PRESTADOR DE SERVICIO cuenta para realizar la revisión y diagnóstico del equipo, en caso de no ser aceptado deberá devolver el equipo en las mismas condiciones que le fue entregado para su revisión y diagnóstico, salvo que técnicamente no sea posible; III - Revisar el estado general de los equipos, haciendo notar a EL CONSUMIDOR cualquier daño o desperfecto que presente; IV.- Responder por las descomposturas, daños, perdidas parciales o totales, imputables a él o a sus empleados, que sufra el equipo y sus accesorios que EL CONSUMIDOR haya entregado al momento de su recepción, mientras se encuentran bajo su responsabilidad para llevar a cabo la reparación y/o mantenimiento solicitado así como hacer efectiva la garantía otorgada. V.- Utilizar en el servicio solicitado partes y refacciones nuevas y apropiadas al modelo y marca del equipo, salvo que EL CONSUMIDOR lo autorice por escrito a utilizar otras, lo cual se hará constaren el anverso del presente contrato. En todos los casos las partes y refacciones deben cumplir con las normas aplicables; VI.- Entregar los equipos el día pactado, salvo causas de fuerza mayor; VII - Recibir reclamaciones de EL CONSUMIDOR en su establecimiento; VIII.- Notificar de forma estipulada en este contrato la variación del presupuesto aprobado; IX.- Expedir el comprobante de pago por los trabajos efectuados especificando los precios de mano de obra, refacciones, materiales, accesorios empleados; X.- No condicionar la prestación se los servicios de reparación y/o mantenimiento de equipos o renta de otros productos o servicios en el establecimiento o en otro taller predeterminado; XI.- Responsabilizarse ante EL CONSUMIDOR por el incumplimiento de los servicios contratados, aun cuando subcontrate con terceros dicha prestación; XII.- En caso de servicio a domicilio EL PRESTADOR DEL SERVICIO o sus empleados deberán identificarse plenamente ante EL CONSUMIDOR, mediante la presentación del documento que lo acredite para este propósito. </span><br/><span>
+                        QUINTA: Los incrementos que resulten durante la prestación del servicio por costos no previsibles en rubros específicos que su cotización este fuera del control del PRESTADOR DEL SERVICIO, deberán ser autorizados por EL CONSUMIDOR en forma escrita, siempre y cuando estos excedan del 10% del presupuesto, si el incremento citado es inferior, lo podrá autorizar telefónicamente. El tiempo que tendrá EL CONSUMIDOR para autorizar la variación del presupuesto será de 5 días hábiles contados a partir de que EL PRESTADOR DEL SERVICIO le de aviso de dicha variación, en caso de haber transcurrido dicho termino sin que EL CONSUMIDOR haya dado respuesta al aviso de variación del presupuesto, este se tendrá por no autorizado y por terminado el presente contrato, debiendo EL CONSUMIDOR recoger su equipo dentro de los cinco días hábiles siguientes, caso contrario pagara el costo por almacenaje que se establece en la cláusula tercera del presente contrato. Si EL CONSUMIDOR autoriza la variación del presupuesto, la fecha de entrega del equipo se modificara en la misma proporción
+                        
+                        </span>
+                      </td>
+                      <td style="width:50%; padding-left: 10px; padding-right: 10px; " class="text-justify">
+                      <span>
+                        SEXTA: Se hace del conocimiento que dependiendo del proceso de reparación puede suscitarse que se tengan que borrartodos los archivos del equipo por lo que EL CONSUMIDOR es responsable de contar con el respaldo de dicha información.
+                        SEPTIMA: En caso de que EL PRESTADOR DEL SERVICIO detecte alguna falla o desperfecto que no se haya contemplado en el presupuesto, deberá hacerlo del conocimiento de EL CONSUMIDOR en los términos que se indican en la cláusula Quinta, con la finalidad de que este autorice la reparación de dicha falla o desperfecto. Para lo cual EL COSUMIDOR tendrá el mismo plazo que se establece en dicha cláusula, para realizar la autorización. Transcurrido dicho término sin que EL CONSUMIDOR de cumplimiento a lo aquí estipulado y la falla encontrada impida a EL PRESTADOR DEL SERVICIO realizar la reparación y/o mantenimiento del equipo conforme a lo pactado con EL CONSUMIDOR, el presente contrato se dará por terminado, debiendo EL CONSUMIDOR recoger su equipo en el mismo plazo que se indica en la cláusula que antecede y pagar al EL PRESTADOR DEL SERVICIO la cantidad que corresponda a las reparaciones ya efectuadas conforme al presupuesto o, en caso de no haberse hecho ninguna, pagara el costo de la revisión que se indica en el anverso. En caso de que EL CONSUMIDOR autorice la nueva reparación, la fecha de entrega del equipo se modificara en la misma proporción. OCTAVA: Las reparaciones y/o mantenimiento objeto del presente contrato, tienen una garantía de 60 días contados a partir de la fecha de entrega del equipo ya reparado por lo que no se computará dentro de dicho plazo el tiempo que dure la reparación del equipo, y se hará efectiva siempre y cuando no se manifieste mal uso, negligencia o descuido en su operación y no ampara</span><br/><span>
+                        fallas distintas a las especificadas en el anverso de este contrato o a las autorizadas por EL CONSUMIDOR en los términos del presente contrato, por lo que quedara sin efecto si el equipo es intervenido por un tercero que no esté autorizado por cualquiera de los fabricantes mencionados en la cláusula primera del presente contrato en caso de ser un equipo cubierto por la garantía del fabricante, y en caso de ser un equipo reparado por EL PRESTADOR DEL SERVICIO con cargo a EL CONSUMIDOR, solamente este estará autorizado para llevar a cabo la garantía mencionada. Para hacer efectiva la garantía EL CONSUMIDOR deberá presentar la factura del equipo en el establecimiento de EL PRESTADOR DEL SERVICIO. Las reparaciones efectuadas en cumplimiento a la misma serán sin cargo alguno para EL CONSUMIDOR y amparan la mano de obra y refacciones que se hayan utilizado en el servicio solicitado, salvo que EL CONSUMIDOR haya autorizado por escrito a EL PRESTADOR DEL SERVICIO a utilizar otras, por lo que en ese caso únicamente se garantizara la mano de obra. EL CONSUMIDOR podrá presentar cualquier queja o reclamación relacionada con el servicioen el domicilio, teléfonos y en el horario que se detalla en el anverso de este contrato.</span><br/><span>
+                        NOVENA: EL PRESTADOR DEL SERVICIO, después de haber revisado el equipo para conocer las fallas que pudiera tener, se obliga a presentar a EL CONSUMIDOR un presupuesto, el cual será enviado vía correo electrónico transcurridas las 72 horas hábiles necesarias para la revisión del equipo, que incluirá el costo dé la reparación del equipo de cómputo, el cual incluirá la mano de obra, y los suplementos necesarios para la reparación del equipo. EL CONSUMIDOR al momento de ser informado del presupuesto para la reparación de su equipo de cómputo, está obligado a manifestar su aceptación por escrito, vía correo electrónico a la siguiente dirección "atencionaclientesi3lsinteg.com.mx". y de la misma realizar lo mencionado en la cláusula segunda del presente contrato.</span><br/><span>
+                        EL PRESTADOR DEL SERVICIO.
+                        DECIMA: ELPRESTADOR DEL SERVICIO al momento de entregar los aparatos deberá en presencia de EL CONSUMIDOR realizar todas aquellas pruebas de funcionamiento necesarias con la finalidad de que EL CONSUMIDOR verifique que los aparatos se le entregan en óptimas condiciones de acuerdo al servicio contratado.
+                        DECIMA PRIMERA: EL PRESTADOR DEL SERVICIO hará entrega de las partes o refacciones que remplace por el servicio de reparación y/o mantenimiento, al momento de la entrega del equipo, salvo que; a) EL CONSUMIDOR exprese lo contrario; b) las partes, refacciones u otros materiales sean cambiados en uso de garantía.
+                        DECIMA SEGUNDA: Son causas de rescisión del contrato: I Que EL PRESTADOR DEL SERVICIO no cumpla con la fecha de entrega por causas imputables a él. II.- Que el servicio prestado no corresponda con lo pactado, En estos casos, EL PRESTADOR DEL SERVICIO deberá devolvere) equipo, reintegrar las contraprestaciones que en su caso hubiere recibido.</span><br/><span> III - El incumplimiento de
+                        EL CONSUMIDOR a lo dispuesto en el presente contrato, causara la rescisión del presente sin responsabilidad para ELPRESTADOR DE SERVICIO.
+                        DECIMO TERCERA: EL CONSUMIDOR al firmar este documento y entregar los equipos de cómputo para su reparación y/o mantenimiento expresa su consentimiento para obligarse en los términos del presente contrato.</span><br/><span>
+                        DECIMO CUARTA: La Procuraduría Federal del Consumidor es competente en la vía administrativa para resolver cualquier controversia que se suscite sobre la interpretación o cumplimiento del presente contrato. Sin perjuicio de lo anterior, las partes se someten a la jurisdicción de los Tribunales competentes en Distrito Federal, renunciando expresamente a cualquier otra jurisdicción que pudiera corresponderles, por razón de sus domicilios presentes o futuros o por cualquier otra razón.</span><br/><span>
+                        En caso de duda o reclamación en cuanto al servicio prestado por SINTEG EN MEXICO S.A. DE C.V. comuniqúese al teléfono, 50 90 27 00 en el D.F. y área Metropolitana y 01800-888-0117 para el interior de la república de lunes a viernes de 10.00 am a 6:00 om o bien contáctenos a través de nuestro servidor de correo electrónico: atencionaclientes(S)sintea.com.mx calidad@sinteg.com.mx LA PERSONA QUE FIRMA EL PRESENTE DOCUMENTO MANIFIESTA QUE TIENE LAS FACULTADESLEGALES NECESARIAS PARA OBLIGARSE EN LOS TERMINOS DEL PRESENTE CONTRATO.</span><br/><span>
+                        Nombre y firma del Consumidor: _____________________________________________________________</span><br/><span>
+                        Nombre y firma del representante del proveedor: ________________________________________________</span><br/><span>
+                        México, D.F. a _________________________________de___________________________________</span><br/><span>
+                        Este contrato fue aprobado y registrado por la Procuraduría Federal del Consumidor bajo el número 2318-2103 de fecha 17 De mayo de 2013. Cualquier variación del presente en peijuicio de EL CONSUMIDOR, frente al contrato de adhesión registrado, se tendrá por no puesta.</span><br/><span>
+                        Autorización para la utilización de información con fines mercadotécnicos o publicitarios El comprador si () no () acepta que el Prestador del Servicio ceda o trasmita a terceros, con fines mercadotécnico o publicitarios, la información proporcionada por el con motivo del presente contrato y si () no () acepta que el Prestador del Servicio le envié publicidad sobre bienes y servicios.</span><br/><span>
+                        ____________________________________________</span><br/><span>
+                        Firma de autorización del consumidor
+                        </span>
+                    
+                      </td>
+                    </tr>
+                    <tr>
+                       <td style="width:50%; padding-right: 10px; " class="text-left">
+                        <span>
+                          
+                        </span>
+                      </td> 
+                      <td style="width:50%; padding-left: 10px; padding-right: 10px; " class="text-center">
+                        <span>
+                          Contrato registrado ante Profeco con Folio 2318-2013 de fecha 17 de Mayo de 2013
+
+                        </span>
+                      </td>
+                    </tr>
+                   </table>
                   
                 </div>
            

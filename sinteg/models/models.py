@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.tools.float_utils import float_compare
 
 class ResPartner(models.Model):
 	_inherit = ['res.partner']
@@ -141,6 +142,7 @@ class claim_product(models.Model):
 	sub_modelo=fields.Many2one('helpdesk.sub_modelo',string='Sub Modelo')
 	series = fields.Char(string='Series')
 	observaciones=fields.Text(string='Observaciones')
+	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)
 
 
 class product_product(models.Model):
@@ -206,11 +208,49 @@ class helpdesk_ticket(models.Model):
 	garantia=fields.Boolean(string='cuenta con garantía')
 	uom_name=fields.Char(string='uom')
 	# or 'SERVICIO' or 'CONTRATO' or 'MAIP' or 'MAGOB'
+	#stock=fields.Many2one('stock.move.tickets')
 	current_user_id = fields.Many2one(
 	comodel_name='res.users',
 	string='Usuario Actual',
 	default=lambda self: self.env.uid
 	)
+
+	ticket_ids = fields.One2many(
+		'stock.picking',
+		'tickets',
+		string='',
+		readonly=True,
+	)
+
+	
+
+
+	@api.multi
+	def show_ticket(self):
+		for rec in self:
+			res = self.env.ref('stock.view_picking_form')
+			res = res.read()[0]
+			res['domain'] = str([('tickets','=',rec.id)])
+		return res
+
+
+	acce = fields.One2many(
+		'stock.move',
+		'tickets',
+		string='',
+		readonly=True,
+	)
+
+
+
+
+	@api.multi
+	def show_ticket(self):
+		for rec in self:
+			res = self.env.ref('stock.view_picking_form')
+			res = res.read()[0]
+			res['domain'] = str([('tickets','=',rec.id)])
+		return res	
 	
 	@api.model
 	def _default_current_user_id(self):
@@ -231,69 +271,69 @@ class helpdesk_ticket(models.Model):
 		if vals.get('name', 'New') == 'New':
 			vals['name'] = self.env['ir.sequence'].next_by_code('helpdesk.support') or 'New'
 
-			tipo_ticket = vals.get("tipo_ticket")
+			# tipo_ticket = vals.get("tipo_ticket")
 
-			if (tipo_ticket == 'GARANTIA') or  (tipo_ticket == 'INTERNO') or  (tipo_ticket == 'CARGO') or  (tipo_ticket == 'SERVICIO') or (tipo_ticket == 'CONTRATO') or  (tipo_ticket == 'MAIP') or  (tipo_ticket == 'MAGOB'): 
-				inv_obj = self.env['stock.picking']
-				move_line_obj = self.env['stock.move']
-				product_obj=self.env['product.product']
+			# if (tipo_ticket == 'GARANTIA') or  (tipo_ticket == 'INTERNO') or  (tipo_ticket == 'CARGO') or  (tipo_ticket == 'SERVICIO') or (tipo_ticket == 'CONTRATO') or  (tipo_ticket == 'MAIP') or  (tipo_ticket == 'MAGOB'): 
+			# 	inv_obj = self.env['stock.picking']
+			# 	move_line_obj = self.env['stock.move']
+			# 	product_obj=self.env['product.product']
 
-				ticket = vals.get("name")
-				partner = vals.get("partner_id")
-				location = vals.get("location_id")
-				picking_type = vals.get("picking_type_id")
-				location_dest = vals.get("location_dest_id")
+			# 	ticket = vals.get("name")
+			# 	partner = vals.get("partner_id")
+			# 	location = vals.get("location_id")
+			# 	picking_type = vals.get("picking_type_id")
+			# 	location_dest = vals.get("location_dest_id")
 				
-				v=1
-				invoice ={
+			# 	v=1
+			# 	invoice ={
 					
-				    'partner_id': partner,
-					'location_id':location,
-					'picking_type_id':picking_type,
-					'location_dest_id':location_dest,
-					'ticket':ticket,
+			# 	    'partner_id': partner,
+			# 		'location_id':location,
+			# 		'picking_type_id':picking_type,
+			# 		'location_dest_id':location_dest,
+			# 		'ticket':ticket,
 					
-					'state':'assigned',
-					'p':str(vals.get('uom_name'))
+			# 		'state':'assigned',
+			# 		'p':str(vals.get('uom_name'))
 
-				}
-				inv_ids = inv_obj.create(invoice)
-				inv_id=inv_ids.id
+			# 	}
+			# 	inv_ids = inv_obj.create(invoice)
+			# 	inv_id=inv_ids.id
 
-				name = vals.get("name")
-				product_ids = vals.get("product_id")
-				marca = vals.get("marca")
-				modelo = vals.get("modelo")
-				sub_modelo = vals.get("sub_modelo")			
-				series = vals.get("series")
-				observaciones = vals.get("observaciones")
-				product_uom = vals.get("product_id")			
-				location_id = vals.get("location_id")
+			# 	name = vals.get("name")
+			# 	product_ids = vals.get("product_id")
+			# 	marca = vals.get("marca")
+			# 	modelo = vals.get("modelo")
+			# 	sub_modelo = vals.get("sub_modelo")			
+			# 	series = vals.get("series")
+			# 	observaciones = vals.get("observaciones")
+			# 	product_uom = vals.get("product_id")			
+			# 	location_id = vals.get("location_id")
 
-				location_dest_id = vals.get("location_dest_id")
+			# 	location_dest_id = vals.get("location_dest_id")
 
-				if inv_id:
-					move_line={
-					'picking_id':inv_id,
-					'name':name,
-					'product_id':product_ids,
-					'marca': marca,
-					'modelo': modelo,
-					'sub_modelo': sub_modelo,
-					'series': series,
-					'observaciones':observaciones,
-					'picking_type_code':'outgoing',
-					'product_uom_qty': '0.00',
-					'reserved_availability': '0.00',
-					'quantity_done':'0.00',
-					'product_uom':str(vals.get('uom_name')),
-					'product_uom_id':str(vals.get('uom_name')),
-					'location_id':location_id,
-					'location_dest_id':location_dest_id,
-					'state':'confirmed'
+			# 	if inv_id:
+			# 		move_line={
+			# 		'picking_id':inv_id,
+			# 		'name':name,
+			# 		'product_id':product_ids,
+			# 		'marca': marca,
+			# 		'modelo': modelo,
+			# 		'sub_modelo': sub_modelo,
+			# 		'series': series,
+			# 		'observaciones':observaciones,
+			# 		'picking_type_code':'outgoing',
+			# 		'product_uom_qty': '0.00',
+			# 		'reserved_availability': '0.00',
+			# 		'quantity_done':'0.00',
+			# 		'product_uom':str(vals.get('uom_name')),
+			# 		'product_uom_id':str(vals.get('uom_name')),
+			# 		'location_id':location_id,
+			# 		'location_dest_id':location_dest_id,
+			# 		'state':'confirmed'
 					
-					}
-					move_ids_without_package=move_line_obj.create(move_line)
+			# 		}
+			# 		move_ids_without_package=move_line_obj.create(move_line)
 
 	
 		# set up context used to find the lead's sales team which is needed
@@ -313,7 +353,78 @@ class helpdesk_ticket(models.Model):
 			vals['team_leader_id'] = self.env['support.team'].browse(vals.get('team_id')).leader_id.id
 
 		# context: no_log, because subtype already handle this
-		return super(helpdesk_ticket, self.with_context(context, mail_create_nolog=True)).create(vals)
+		res = super(helpdesk_ticket, self.with_context(context, mail_create_nolog=True)).create(vals)
+
+		if res:
+
+			tipo_ticket = vals.get("tipo_ticket")
+
+			if (tipo_ticket == 'GARANTIA') or  (tipo_ticket == 'INTERNO') or  (tipo_ticket == 'CARGO') or  (tipo_ticket == 'SERVICIO') or (tipo_ticket == 'CONTRATO') or  (tipo_ticket == 'MAIP') or  (tipo_ticket == 'MAGOB'): 
+			
+				inv_obj = self.env['stock.picking']
+				move_line_obj = self.env['stock.move']
+				product_obj=self.env['product.product']
+
+				ticket = vals.get("name")
+				partner = vals.get("partner_id")
+				location = vals.get("location_id")
+				picking_type = vals.get("picking_type_id")
+				location_dest = vals.get("location_dest_id")
+						
+					
+				invoice ={
+
+						'partner_id': partner,
+						'location_id':location,
+						'picking_type_id':picking_type,
+						'location_dest_id':location_dest,
+						'tickets':res.id,						
+						'state':'assigned',
+						'p':str(vals.get('uom_name'))
+
+						}
+				inv_ids = inv_obj.create(invoice)
+				inv_id=inv_ids.id
+
+				name = vals.get("name")
+				product_ids = vals.get("product_id")
+				marca = vals.get("marca")
+				modelo = vals.get("modelo")
+				sub_modelo = vals.get("sub_modelo")			
+				series = vals.get("series")
+				observaciones = vals.get("observaciones")
+				product_uom = vals.get("product_id")			
+				location_id = vals.get("location_id")
+
+				location_dest_id = vals.get("location_dest_id")
+
+				if inv_id:
+
+					move_line={
+						'picking_id':inv_id,
+						'name':name,
+						'product_id':product_ids,
+						'marca': marca,
+						'modelo': modelo,
+						'sub_modelo': sub_modelo,
+						'series': series,
+						'observaciones':observaciones,
+						'picking_type_code':'outgoing',
+						'product_uom_qty': '0.00',
+						'reserved_availability': '0.00',
+						'quantity_done':'0.00',
+						'product_uom':str(vals.get('uom_name')),
+						'product_uom_id':str(vals.get('uom_name')),
+						'location_id':location_id,
+						'location_dest_id':location_dest_id,
+						'tickets':res.id,
+						'state':'confirmed'
+						
+					}
+					move_ids_without_package=move_line_obj.create(move_line)
+		
+
+		return res
 	
 
 
@@ -321,7 +432,7 @@ class helpdesk_ticket(models.Model):
 	@api.model
 	def _create_apple_dos(self):
 		inv_obj = self.env['stock.picking']
-		move_line_obj = self.env['stock.move']
+		move_line_obj = self.env['account.tax']
 		self.ensure_one()
 		cr = self.env.cr
 		sql ="select id from helpdesk_support where name='"+str(self.name)+"' limit 1"
@@ -368,33 +479,48 @@ class helpdesk_ticket(models.Model):
 	def create_apple_dos(self):
 		self._create_apple_dos()
 
-	@api.model
-	def _compras(self):
+	@api.multi
+	def compras(self, cr,  context=None):
 		inv_obj_compras = self.env['purchase.order.request']
+		#compra_id=self.browse(cr, uid, ids[0], context)['compra_id']
+		#view_ref=self.pool.get('ir.model.data').get_object_reference(cr, uid,'xmarts_order_request','purchase_order_request_view_form')
 		
-		
+		#view_id =view_ref and view_ref[1] or False
+		cr = self.env.cr
+		sql ="select id from helpdesk_support where name='"+str(self.name)+"' limit 1"
+		cr.execute(sql)
+		id_ticket = cr.fetchone()
+		ticket=id_ticket[0]
 		invoice_c ={
 				
-			'ticket': self.name,
+			'tickets': ticket,
 			'state':'draft'
 		}
 		inv_ids = inv_obj_compras.create(invoice_c)
-	
-	def compras(self):
-		self._compras()
+		
+		return {
+			'type': 'ir.actions.act_window',
+			'res_model': 'purchase.order.request',
+			'view_mode': 'form',
+			'res_id': inv_ids.id,
+			'target': 'current',
+			'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
+			}
+		
+
 
 
 class PurchaseOrder(models.Model):
 	_inherit = 'purchase.order.request'
 
-
+	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)
 	ticket=fields.Char(string='Ticket', readonly=True)
 
 class PurchaseOrder(models.Model):
 	_inherit = 'purchase.order'
 
-
-	ticket=fields.Char(string='Ticket', readonly=True)
+	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)
+	
 
 	@api.model
 	def _prepare_picking(self):
@@ -412,15 +538,73 @@ class PurchaseOrder(models.Model):
 			'origin': self.name,
 			'location_dest_id': self._get_destination_location(),
 			'location_id': self.partner_id.property_stock_supplier.id,
-			'ticket': self.ticket,
+			'tickets': self.tickets.id,
 			'company_id': self.company_id.id,
 		}
+
+# class PurchaseOrderLine(models.Model):
+# 	_inherit = 'purchase.order.line'
+
+# 	@api.multi
+# 	def _prepare_stock_moves(self, picking):
+# 		""" Prepare the stock moves data for one order line. This function returns a list of
+# 		dictionary ready to be used in stock.move's create()
+# 		"""
+# 		self.ensure_one()
+# 		res = []
+# 		if self.product_id.type not in ['product', 'consu']:
+# 			return res
+# 		qty = 0.0
+# 		price_unit = self._get_stock_move_price_unit()
+# 		for move in self.move_ids.filtered(lambda x: x.state != 'cancel' and not x.location_dest_id.usage == "supplier"):
+# 			qty += move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom, rounding_method='HALF-UP')
+		
+# 		tickets = vals.get("tickets")
+
+# 		template = {
+# 			'name': self.name or '',
+# 			'product_id': self.product_id.id,
+# 			'product_uom': self.product_uom.id,
+# 			'date': self.order_id.date_order,
+# 			'date_expected': self.date_planned,
+# 			'location_id': self.order_id.partner_id.property_stock_supplier.id,
+# 			'location_dest_id': self.order_id._get_destination_location(),
+# 			'picking_id': picking.id,
+# 			'partner_id': self.order_id.dest_address_id.id,
+# 			'move_dest_ids': [(4, x) for x in self.move_dest_ids.ids],
+# 			'state': 'draft',
+# 			'purchase_line_id': self.id,
+# 			'company_id': self.order_id.company_id.id,
+# 			'price_unit': price_unit,
+# 			'picking_type_id': self.order_id.picking_type_id.id,
+# 			'group_id': self.order_id.group_id.id,
+# 			'origin': self.order_id.name,
+# 			'tickets': tickets,
+# 			'route_ids': self.order_id.picking_type_id.warehouse_id and [(6, 0, [x.id for x in self.order_id.picking_type_id.warehouse_id.route_ids])] or [],
+# 			'warehouse_id': self.order_id.picking_type_id.warehouse_id.id,
+# 		}
+# 		diff_quantity = self.product_qty - qty
+# 		if float_compare(diff_quantity, 0.0,  precision_rounding=self.product_uom.rounding) > 0:
+# 			quant_uom = self.product_id.uom_id
+# 			get_param = self.env['ir.config_parameter'].sudo().get_param
+# 			if self.product_uom.id != quant_uom.id and get_param('stock.propagate_uom') != '1':
+# 				product_qty = self.product_uom._compute_quantity(diff_quantity, quant_uom, rounding_method='HALF-UP')
+# 				template['product_uom'] = quant_uom.id
+# 				template['product_uom_qty'] = product_qty
+# 			else:
+# 				template['product_uom_qty'] = diff_quantity
+# 			res.append(template)
+# 		return res
+
+	
+
 
 class stockpicking(models.Model):
 	_inherit = 'stock.picking'
 
 
 	ticket=fields.Char(string='Ticket', readonly=True)
+	tickets=fields.Many2one('helpdesk.support',string='Ticket',  readonly=True)
 
 
 class stockpicking(models.Model):

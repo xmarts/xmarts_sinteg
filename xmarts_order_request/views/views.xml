@@ -39,10 +39,11 @@
                     <field name="product_template_id" options="{'no_create': True, 'no_create_edit':True}" invisible="1" />
                     <field name="name"/>
                     <field name="product_qty"/>
-                    <field name="provider_id" domain="[('product_tmpl_id','=', product_template_id)]" />
+                    <field name="provider_id" />
                     <field name="product_price"/>
                     <field name="product_taxes" widget="many2many_tags"/>
                     <field name="subtotal"/>
+                   
                   </tree>
                 </field>
               </page>
@@ -67,6 +68,7 @@
         </tree>
       </field>
     </record>
+    
     
 
     <record id="purchase_order_request_action" model="ir.actions.act_window">

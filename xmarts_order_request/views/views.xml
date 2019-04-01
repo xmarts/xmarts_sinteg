@@ -57,7 +57,7 @@
         </form>
       </field>
     </record>
-
+   
     <record model="ir.ui.view" id="purchase_order_request_view_tree">
       <field name="name">purchase_order_request_view_tree</field>
       <field name="model">purchase.order.request</field>

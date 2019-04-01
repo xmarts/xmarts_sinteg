@@ -215,27 +215,10 @@ class helpdesk_ticket(models.Model):
 	default=lambda self: self.env.uid
 	)
 
-	ticket_ids = fields.One2many(
-		'stock.picking',
-		'tickets',
-		string='',
-		readonly=True,
-	)
-
 	
 
-
-	@api.multi
-	def show_ticket(self):
-		for rec in self:
-			res = self.env.ref('stock.view_picking_form')
-			res = res.read()[0]
-			res['domain'] = str([('tickets','=',rec.id)])
-		return res
-
-
 	acce = fields.One2many(
-		'stock.move',
+		'purchase.order.line',
 		'tickets',
 		string='',
 		readonly=True,
@@ -247,7 +230,7 @@ class helpdesk_ticket(models.Model):
 	@api.multi
 	def show_ticket(self):
 		for rec in self:
-			res = self.env.ref('stock.view_picking_form')
+			res = self.env.ref('purchase.purchase_order_form')
 			res = res.read()[0]
 			res['domain'] = str([('tickets','=',rec.id)])
 		return res	
@@ -491,21 +474,35 @@ class helpdesk_ticket(models.Model):
 		cr.execute(sql)
 		id_ticket = cr.fetchone()
 		ticket=id_ticket[0]
-		invoice_c ={
-				
-			'tickets': ticket,
-			'state':'draft'
-		}
-		inv_ids = inv_obj_compras.create(invoice_c)
-		
-		return {
-			'type': 'ir.actions.act_window',
-			'res_model': 'purchase.order.request',
-			'view_mode': 'form',
-			'res_id': inv_ids.id,
-			'target': 'current',
-			'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
+		orden =self.env['purchase.order.request']
+		ordens = orden.search([('tickets', '=', ticket)],limit=1)
+		ids=ordens.id
+		if not ids:
+			invoice_c ={
+					
+				'tickets': ticket,
+				'state':'draft'
 			}
+			inv_ids = inv_obj_compras.create(invoice_c)
+			
+			return {
+				'type': 'ir.actions.act_window',
+				'res_model': 'purchase.order.request',
+				'view_mode': 'form',
+				'res_id': inv_ids.id,
+				'target': 'current',
+				'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
+				}
+		elif ids:
+
+			return {
+				'type': 'ir.actions.act_window',
+				'res_model': 'purchase.order.request',
+				'view_mode': 'form',
+				'res_id': ids,
+				'target': 'current',
+				'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
+				}
 		
 
 
@@ -542,61 +539,105 @@ class PurchaseOrder(models.Model):
 			'company_id': self.company_id.id,
 		}
 
-# class PurchaseOrderLine(models.Model):
-# 	_inherit = 'purchase.order.line'
+class PurchaseOrderLine(models.Model):
+	_inherit = 'purchase.order.line'
 
-# 	@api.multi
-# 	def _prepare_stock_moves(self, picking):
-# 		""" Prepare the stock moves data for one order line. This function returns a list of
-# 		dictionary ready to be used in stock.move's create()
-# 		"""
-# 		self.ensure_one()
-# 		res = []
-# 		if self.product_id.type not in ['product', 'consu']:
-# 			return res
-# 		qty = 0.0
-# 		price_unit = self._get_stock_move_price_unit()
-# 		for move in self.move_ids.filtered(lambda x: x.state != 'cancel' and not x.location_dest_id.usage == "supplier"):
-# 			qty += move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom, rounding_method='HALF-UP')
+	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)
+
+	@api.multi
+	def _prepare_stock_moves(self, picking):
+		""" Prepare the stock moves data for one order line. This function returns a list of
+		dictionary ready to be used in stock.move's create()
+		"""
+		self.ensure_one()
+		res = []
+		if self.product_id.type not in ['product', 'consu']:
+			return res
+		qty = 0.0
+		price_unit = self._get_stock_move_price_unit()
+		for move in self.move_ids.filtered(lambda x: x.state != 'cancel' and not x.location_dest_id.usage == "supplier"):
+			qty += move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom, rounding_method='HALF-UP')
 		
-# 		tickets = vals.get("tickets")
+		ticket =self.env['purchase.order']
+		origin = ticket.search([('origin', '=', self.order_id.name)],limit=1)
+		id_tickets=origin.tickets
 
-# 		template = {
-# 			'name': self.name or '',
-# 			'product_id': self.product_id.id,
-# 			'product_uom': self.product_uom.id,
-# 			'date': self.order_id.date_order,
-# 			'date_expected': self.date_planned,
-# 			'location_id': self.order_id.partner_id.property_stock_supplier.id,
-# 			'location_dest_id': self.order_id._get_destination_location(),
-# 			'picking_id': picking.id,
-# 			'partner_id': self.order_id.dest_address_id.id,
-# 			'move_dest_ids': [(4, x) for x in self.move_dest_ids.ids],
-# 			'state': 'draft',
-# 			'purchase_line_id': self.id,
-# 			'company_id': self.order_id.company_id.id,
-# 			'price_unit': price_unit,
-# 			'picking_type_id': self.order_id.picking_type_id.id,
-# 			'group_id': self.order_id.group_id.id,
-# 			'origin': self.order_id.name,
-# 			'tickets': tickets,
-# 			'route_ids': self.order_id.picking_type_id.warehouse_id and [(6, 0, [x.id for x in self.order_id.picking_type_id.warehouse_id.route_ids])] or [],
-# 			'warehouse_id': self.order_id.picking_type_id.warehouse_id.id,
-# 		}
-# 		diff_quantity = self.product_qty - qty
-# 		if float_compare(diff_quantity, 0.0,  precision_rounding=self.product_uom.rounding) > 0:
-# 			quant_uom = self.product_id.uom_id
-# 			get_param = self.env['ir.config_parameter'].sudo().get_param
-# 			if self.product_uom.id != quant_uom.id and get_param('stock.propagate_uom') != '1':
-# 				product_qty = self.product_uom._compute_quantity(diff_quantity, quant_uom, rounding_method='HALF-UP')
-# 				template['product_uom'] = quant_uom.id
-# 				template['product_uom_qty'] = product_qty
-# 			else:
-# 				template['product_uom_qty'] = diff_quantity
-# 			res.append(template)
-# 		return res
+		template = {
+			'name': self.name or '',
+			'product_id': self.product_id.id,
+			'product_uom': self.product_uom.id,
+			'date': self.order_id.date_order,
+			'date_expected': self.date_planned,
+			'location_id': self.order_id.partner_id.property_stock_supplier.id,
+			'location_dest_id': self.order_id._get_destination_location(),
+			'picking_id': picking.id,
+			'partner_id': self.order_id.dest_address_id.id,
+			'move_dest_ids': [(4, x) for x in self.move_dest_ids.ids],
+			'state': 'draft',
+			'purchase_line_id': self.id,
+			'company_id': self.order_id.company_id.id,
+			'price_unit': price_unit,
+			'picking_type_id': self.order_id.picking_type_id.id,
+			'group_id': self.order_id.group_id.id,
+			'origin': self.order_id.name,
+			'tickets': self.tickets.id,
+			'route_ids': self.order_id.picking_type_id.warehouse_id and [(6, 0, [x.id for x in self.order_id.picking_type_id.warehouse_id.route_ids])] or [],
+			'warehouse_id': self.order_id.picking_type_id.warehouse_id.id,
+		}
+		diff_quantity = self.product_qty - qty
+		if float_compare(diff_quantity, 0.0,  precision_rounding=self.product_uom.rounding) > 0:
+			quant_uom = self.product_id.uom_id
+			get_param = self.env['ir.config_parameter'].sudo().get_param
+			if self.product_uom.id != quant_uom.id and get_param('stock.propagate_uom') != '1':
+				product_qty = self.product_uom._compute_quantity(diff_quantity, quant_uom, rounding_method='HALF-UP')
+				template['product_uom'] = quant_uom.id
+				template['product_uom_qty'] = product_qty
+			else:
+				template['product_uom_qty'] = diff_quantity
+			res.append(template)
+		return res
 
-	
+	# @api.multi
+	# def _create_or_update_picking(self,vals):
+	# 	for line in self:
+	# 		if line.product_id.type in ('product', 'consu'):
+	# 			# Prevent decreasing below received quantity
+	# 			if float_compare(line.product_qty, line.qty_received, line.product_uom.rounding) < 0:
+	# 				raise UserError(_('You cannot decrease the ordered quantity below the received quantity.\n'
+	# 								 'Create a return first.'))
+
+	# 			if float_compare(line.product_qty, line.qty_invoiced, line.product_uom.rounding) == -1:
+	# 				# If the quantity is now below the invoiced quantity, create an activity on the vendor bill
+	# 				# inviting the user to create a refund.
+	# 				activity = self.env['mail.activity'].sudo().create({
+	# 					'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
+	# 					'note': _('The quantities on your purchase order indicate less than billed. You should ask for a refund. '),
+	# 					'res_id': line.invoice_lines[0].invoice_id.id,
+	# 					'res_model_id': self.env.ref('account.model_account_invoice').id,
+	# 				})
+	# 				activity._onchange_activity_type_id()
+
+	# 			# If the user increased quantity of existing line or created a new line
+	# 			pickings = line.order_id.picking_ids.filtered(lambda x: x.state not in ('done', 'cancel') and x.location_dest_id.usage in ('internal', 'transit'))
+	# 			picking = pickings and pickings[0] or False
+	# 			if not picking:
+	# 				res = line.order_id._prepare_picking()
+	# 				picking = self.env['stock.picking'].create(res)
+	# 			move_vals = line._prepare_stock_moves(picking,vals)
+	# 			for move_val in move_vals:
+	# 				self.env['stock.move']\
+	# 					.create(move_val)\
+	# 					._action_confirm()\
+	# 					._action_assign()
+
+	# @api.multi
+	# def _create_stock_moves(self, picking, vals):
+	# 	moves = self.env['stock.move']
+	# 	done = self.env['stock.move'].browse()
+	# 	for line in self:
+	# 		for val in line._prepare_stock_moves(picking,vals):
+	# 			done += moves.create(val)
+	# 	return done
 
 
 class stockpicking(models.Model):
@@ -604,7 +645,7 @@ class stockpicking(models.Model):
 
 
 	ticket=fields.Char(string='Ticket', readonly=True)
-	tickets=fields.Many2one('helpdesk.support',string='Ticket',  readonly=True)
+	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)
 
 
 class stockpicking(models.Model):

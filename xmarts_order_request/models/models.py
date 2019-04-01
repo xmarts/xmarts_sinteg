@@ -29,9 +29,13 @@ class PurchaseOrderRequestLines(models.Model):
     product_price = fields.Float(string="Precio Unitario")
     subtotal = fields.Float(string="Subtotal", compute="_calc_subtotal")
     purr_id = fields.Many2one("purchase.order.request")
-    #product_taxes = fields.Many2many("account.tax" ,string="Impuestos")
-    product_taxes=fields.Many2many('account.tax', 'account_account_tax_default_rel',
-        'account_id', 'tax_id', string='Default Taxes') 
+    product_taxes = fields.Many2many("account.tax", default=lambda self: self.env['account.tax'].search([('name', '=', ['IVA(16%) COMPRAS'])]).ids , string="Impuestos")
+    
+
+    # @api.model
+    # def _tax_default(self):
+    #     return self.env['account.tax'].search([('name', '=', ['IVA(16%) COMPRAS'])]).ids
+
 
 
     @api.onchange('product_id')
@@ -112,7 +116,7 @@ class PurchaseOrderRequest(models.Model):
 
     @api.multi
     @api.model
-    def state_done(self):
+    def state_done(self,vals):
 
 
         lista_part = []
@@ -141,13 +145,14 @@ class PurchaseOrderRequest(models.Model):
 
             ord_ids = purchase_obj.create(curr_order)
             ord_id = ord_ids.id
-
+           
             if ord_ids:
-                for pl in self.request_lines:
+                for pl in self.request_lines:                    
                     if pl.provider_id.name.id == p:
                         taxes = []
                         for t in pl.product_taxes:
                             taxes.append(t.id)
+                     
                         curr_order_line = {
                             'order_id': ord_id,
                             'name': pl.name,
@@ -158,6 +163,7 @@ class PurchaseOrderRequest(models.Model):
                             'order_id': ord_id,
                             'taxes_id': [(6, 0, taxes)],
                             'date_planned': now.strftime('%Y-%m-%d 06:00:00'),
+                            'tickets':self.tickets.id,
                         }
 
                         pur_line_ids = purchase_line_obj.create(curr_order_line)

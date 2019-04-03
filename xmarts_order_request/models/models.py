@@ -32,10 +32,7 @@ class PurchaseOrderRequestLines(models.Model):
     product_taxes = fields.Many2many("account.tax", default=lambda self: self.env['account.tax'].search([('name', '=', ['IVA(16%) COMPRAS'])]).ids , string="Impuestos")
     
 
-    # @api.model
-    # def _tax_default(self):
-    #     return self.env['account.tax'].search([('name', '=', ['IVA(16%) COMPRAS'])]).ids
-
+    
 
 
     @api.onchange('product_id')
@@ -140,7 +137,7 @@ class PurchaseOrderRequest(models.Model):
                 'partner_id': p,
                 'origin': self.name,
                 'tickets': self.tickets.id,
-                'state': 'purchase'
+                'state': 'draft'
             }
 
             ord_ids = purchase_obj.create(curr_order)
@@ -164,6 +161,7 @@ class PurchaseOrderRequest(models.Model):
                             'taxes_id': [(6, 0, taxes)],
                             'date_planned': now.strftime('%Y-%m-%d 06:00:00'),
                             'tickets':self.tickets.id,
+
                         }
 
                         pur_line_ids = purchase_line_obj.create(curr_order_line)

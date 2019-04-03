@@ -1,28 +1,6 @@
 <odoo>
   <data>
-    <record model='ir.ui.view' id="xmarts_sinteg">
-        <field name="name">xmarts_sinteg</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form" />
-        <field name="arch" type="xml">
-           <xpath expr="//field[@name='name']" position="attributes"> 
-            <attribute name="required">1</attribute>
-            
-            </xpath> 
-             <xpath expr="//field[@name='email']" position="attributes"> 
-            <attribute name="required">1</attribute>
-            </xpath> 
-             <xpath expr="//field[@name='phone']" position="attributes"> 
-            <attribute name="required">1</attribute>
-            </xpath> 
-            <xpath expr="//field[@name='mobile']" position="attributes"> 
-            <attribute name="required">1</attribute>
-            </xpath>  
-      
-      
-        </field>
-      </record>
-  
+
         <record model='ir.ui.view' id="xmarts_sinteg">
         <field name="name">xmarts_sinteg</field>
         <field name="model">stock.picking</field>
@@ -216,8 +194,7 @@
                                                        ('tipo_ticket', '=', 'MAGOB')
                                                        ]}"
                                                      />
-            <field name="observaciones" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
-                                                            ('tipo_ticket','=','CONTRATO'),'|',
+            <field name="observaciones" attrs="{'invisible':['|',('tipo_ticket','=','CONTRATO'),'|',
                                                             ('tipo_ticket','=','INTERNO'),'|',
                                                             ('tipo_ticket','=','VENTA'),'|',
                                                             ('tipo_ticket','=','CALIDAD'),'|',
@@ -413,6 +390,20 @@
             <field name="estado"/>
              <field name="referencia"/>
           </xpath>
+           <xpath expr="//field[@name='name']" position="attributes"> 
+            <attribute name="required">1</attribute>
+            
+            </xpath> 
+             <xpath expr="//field[@name='email']" position="attributes"> 
+            <attribute name="required">1</attribute>
+            </xpath> 
+             <xpath expr="//field[@name='phone']" position="attributes"> 
+            <attribute name="required">1</attribute>
+            </xpath> 
+            <xpath expr="//field[@name='mobile']" position="attributes"> 
+            <attribute name="required">1</attribute>
+            </xpath>  
+      
 
         </field>
       </record>  

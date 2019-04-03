@@ -415,18 +415,19 @@ class helpdesk_ticket(models.Model):
 	@api.model
 	def _create_apple_dos(self):
 		inv_obj = self.env['stock.picking']
-		move_line_obj = self.env['account.tax']
+		move_line_obj = self.env['stock.move']
 		self.ensure_one()
 		cr = self.env.cr
 		sql ="select id from helpdesk_support where name='"+str(self.name)+"' limit 1"
 		cr.execute(sql)
 		id_ticket = cr.fetchone()
+		ticket=id_ticket[0]
 		invoice ={
 			'partner_id': self.partner_id.id,
 			'location_id':self.location_id.id,
-			'picking_type_id':self.picking_type_id.id,
+			'picking_type_id':2,
 			'location_dest_id':self.location_dest_id.id,			
-			'ticket':id_ticket,
+			'tickets':ticket,
 			'state':'assigned'
 		}
 		inv_ids = inv_obj.create(invoice)
@@ -441,8 +442,8 @@ class helpdesk_ticket(models.Model):
 			'sub_modelo': self.sub_modelo.id,
 			'series': self.series,
 			'observaciones': self.observaciones,
-			'picking_type_code':'incoming',
-			'picking_type_id':2,
+			'picking_type_code':'outgoing',
+			'picking_type_id':self.picking_type_id.id,
 			'product_uom_qty': '0.00',
 			'reserved_availability': '0.00',
 			'quantity_done':'0.00',

@@ -25,7 +25,7 @@ class PurchaseOrderRequestLines(models.Model):
     product_template_id = fields.Many2one("product.template", related="product_id.product_tmpl_id")    
     name = fields.Char(string="Descripcion", required=True)
     product_qty = fields.Float(string="Cantidad", default=1.0)
-    provider_id = fields.Many2one("product.supplierinfo", string="Proveedor")
+    provider_id = fields.Many2one("res.partner", string="Proveedor", domain=[('supplier', '=', True)])
     product_price = fields.Float(string="Precio Unitario")
     subtotal = fields.Float(string="Subtotal", compute="_calc_subtotal")
     purr_id = fields.Many2one("purchase.order.request")
@@ -120,8 +120,8 @@ class PurchaseOrderRequest(models.Model):
         for l in self.request_lines:
             if not l.provider_id:
                 raise exceptions.ValidationError('Existen lineas sin proveedor asignado')
-            if l.provider_id.name.id not in lista_part:
-                lista_part.append(l.provider_id.name.id)
+            if l.provider_id.id not in lista_part:
+                lista_part.append(l.provider_id.id)
 
         now = datetime.now()
         for p in lista_part:
@@ -145,7 +145,7 @@ class PurchaseOrderRequest(models.Model):
            
             if ord_ids:
                 for pl in self.request_lines:                    
-                    if pl.provider_id.name.id == p:
+                    if pl.provider_id.id == p:
                         taxes = []
                         for t in pl.product_taxes:
                             taxes.append(t.id)

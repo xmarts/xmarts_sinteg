@@ -39,7 +39,7 @@
                     <field name="product_template_id" options="{'no_create': True, 'no_create_edit':True}" invisible="1" />
                     <field name="name"/>
                     <field name="product_qty"/>
-                    <field name="provider_id" />
+                    <field name="provider_id" context="{'default_supplier':True}" />
                     <field name="product_price"/>
                     <field name="product_taxes" widget="many2many_tags"/>
                     <field name="subtotal"/>

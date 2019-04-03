@@ -139,7 +139,7 @@
                                                             ('tipo_ticket','=','MAGOB')
 
                                                             ],'required': ['|',('tipo_ticket','=','SG'),'|',
-                                                            ('tipo_ticket','=','CALIDAD'),'|',('tipo_ticket','=','CONTRATO')
+                                                            ('tipo_ticket','=','CALIDAD'),'|',('tipo_ticket','=','CONTRATO'),'|',('tipo_ticket','=','INTERNO'),'|',('tipo_ticket','=','VENTA')
                                                              ]}"/>
                                                             
      
@@ -203,9 +203,7 @@
                                                             ('tipo_ticket','=','SG')
 
                                                             ],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
-                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
-                                                       ('tipo_ticket', '=', 'MAIP'),'|',
-                                                       ('tipo_ticket', '=', 'MAGOB')
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO')
                                                        ]}"/>
             <field name="des_solicitud" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
@@ -216,7 +214,8 @@
                                                             ('tipo_ticket','=','GARANTIA')
 
                                                             ],'required': ['|',('tipo_ticket','=','SG'),'|',
-                                                            ('tipo_ticket','=','CALIDAD')
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','VENTA')
                                                              ]}"/>
             <field name="contacto" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',

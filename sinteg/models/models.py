@@ -460,7 +460,7 @@ class helpdesk_ticket(models.Model):
 							})
      
 							do.action_assign()
-							sal=True
+							self.sal=True
 
 				else:
 					raise UserError('No se a ingresado equipo al almacen ')

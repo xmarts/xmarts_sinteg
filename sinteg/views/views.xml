@@ -254,7 +254,7 @@
                                                             ],'required': [('tipo_ticket', '=', 'SG')
                                                              ]}"/>
 
-             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary" attrs="{'invisible': [('sal','=',False)]}"/>
+             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary" attrs="{'invisible': [('sal','=',True)]}"/>
              <button type="object" name="compras" string="Compras" class="btn-primary"/>
              <!-- name="%(xmarts_order_request.purchase_order_request_action)d" -->
              </group>

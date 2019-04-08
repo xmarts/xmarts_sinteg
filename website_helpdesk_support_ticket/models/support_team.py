@@ -24,6 +24,7 @@ class SupportTeam(models.Model):
         string='Leader',
         required=True,
     )
+    picking_type_id=fields.Many2one('stock.picking.type',string='Tipo de Operación')
 #    member_ids = fields.One2many('res.users', 'sale_team_id', string='Team Members')
     
     @api.model

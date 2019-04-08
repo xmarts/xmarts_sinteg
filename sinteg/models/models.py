@@ -203,8 +203,9 @@ class helpdesk_ticket(models.Model):
 	location_id = fields.Many2one('stock.location', 'Return Location')
 
 	
-	@api.onchange('picking_type_id')
+	@api.onchange('team_id')
 	def _onchange_location_dest_id(self):
+		self.picking_type_id =self.team_id.picking_type_id.id
 		self.location_dest_id = self.picking_type_id.default_location_dest_id.id
 
 		self.location_id = self.picking_type_id.default_location_src_id.id

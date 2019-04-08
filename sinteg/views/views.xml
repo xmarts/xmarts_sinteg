@@ -1,6 +1,7 @@
 <odoo>
   <data>
 
+     
         <record model='ir.ui.view' id="xmarts_sinteg">
         <field name="name">xmarts_sinteg</field>
         <field name="model">stock.picking</field>

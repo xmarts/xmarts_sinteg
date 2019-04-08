@@ -254,7 +254,7 @@
                                                             ],'required': [('tipo_ticket', '=', 'SG')
                                                              ]}"/>
 
-             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary"/>
+             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary" attrs="{'invisible': [('sal','=',False)]}"/>
              <button type="object" name="compras" string="Compras" class="btn-primary"/>
              <!-- name="%(xmarts_order_request.purchase_order_request_action)d" -->
              </group>
@@ -290,6 +290,7 @@
                                                        ]}"
                                                       />
             <field name="current_user_id" invisible="1"/>
+            <field name="sal" invisible="1"/>
           
             </group>
            </xpath>

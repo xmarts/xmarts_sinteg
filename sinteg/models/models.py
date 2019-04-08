@@ -2,6 +2,8 @@
 
 from odoo import models, fields, api
 from odoo.tools.float_utils import float_compare
+from openerp.exceptions import UserError, RedirectWarning, ValidationError
+
 
 class ResPartner(models.Model):
 	_inherit = ['res.partner']
@@ -199,6 +201,15 @@ class helpdesk_ticket(models.Model):
 	picking_type_id=fields.Many2one('stock.picking.type',string='Tipo de Operación')
 	location_dest_id=fields.Many2one('stock.location',string='Ubicación destino')
 	location_id = fields.Many2one('stock.location', 'Return Location')
+
+	
+	@api.onchange('picking_type_id')
+	def _onchange_location_dest_id(self):
+		self.location_dest_id = self.picking_type_id.default_location_dest_id.id
+
+		self.location_id = self.picking_type_id.default_location_src_id.id
+
+
 	sub_modelo=fields.Many2one('helpdesk.sub_modelo',string='Sub Modelo')
 	falla=fields.Char(string='Falla Reportada')
 	des_solicitud=fields.Text(string='Descripción de la Solicitud')
@@ -207,6 +218,7 @@ class helpdesk_ticket(models.Model):
 	cantidad=fields.Integer(string='Cantidad')
 	garantia=fields.Boolean(string='cuenta con garantía')
 	uom_name=fields.Char(string='uom')
+	sal =fields.Boolean(string='salida')
 	# or 'SERVICIO' or 'CONTRATO' or 'MAIP' or 'MAGOB'
 	#stock=fields.Many2one('stock.move.tickets')
 	current_user_id = fields.Many2one(
@@ -244,7 +256,7 @@ class helpdesk_ticket(models.Model):
 		if self.product_id:
 			self.uom_name=self.product_id.uom_id.id
 		
-
+	
 	@api.model
 	def create(self, vals):
 		if vals.get('name', False):
@@ -344,8 +356,7 @@ class helpdesk_ticket(models.Model):
 
 			if (tipo_ticket == 'GARANTIA') or  (tipo_ticket == 'INTERNO') or  (tipo_ticket == 'CARGO') or  (tipo_ticket == 'SERVICIO') or (tipo_ticket == 'CONTRATO') or  (tipo_ticket == 'MAIP') or  (tipo_ticket == 'MAGOB'): 
 			
-				inv_obj = self.env['stock.picking']
-				move_line_obj = self.env['stock.move']
+				
 				product_obj=self.env['product.product']
 
 				ticket = vals.get("name")
@@ -353,22 +364,6 @@ class helpdesk_ticket(models.Model):
 				location = vals.get("location_id")
 				picking_type = vals.get("picking_type_id")
 				location_dest = vals.get("location_dest_id")
-						
-					
-				invoice ={
-
-						'partner_id': partner,
-						'location_id':location,
-						'picking_type_id':picking_type,
-						'location_dest_id':location_dest,
-						'tickets':res.id,						
-						'state':'assigned',
-						'p':str(vals.get('uom_name'))
-
-						}
-				inv_ids = inv_obj.create(invoice)
-				inv_id=inv_ids.id
-
 				name = vals.get("name")
 				product_ids = vals.get("product_id")
 				marca = vals.get("marca")
@@ -378,33 +373,30 @@ class helpdesk_ticket(models.Model):
 				observaciones = vals.get("observaciones")
 				product_uom = vals.get("product_id")			
 				location_id = vals.get("location_id")
-
 				location_dest_id = vals.get("location_dest_id")
+				company = vals.get("company_id")
 
-				if inv_id:
 
-					move_line={
-						'picking_id':inv_id,
-						'name':name,
-						'product_id':product_ids,
-						'marca': marca,
-						'modelo': modelo,
-						'sub_modelo': sub_modelo,
-						'series': series,
-						'observaciones':observaciones,
-						'picking_type_code':'outgoing',
-						'product_uom_qty': '0.00',
-						'reserved_availability': '0.00',
-						'quantity_done':'0.00',
-						'product_uom':str(vals.get('uom_name')),
-						'product_uom_id':str(vals.get('uom_name')),
-						'location_id':location_id,
-						'location_dest_id':location_dest_id,
-						'tickets':res.id,
-						'state':'confirmed'
-						
-					}
-					move_ids_without_package=move_line_obj.create(move_line)
+				do=self.env['stock.picking'].create({'partner_id':partner,'location_id':location,'location_dest_id':location_dest,'picking_type_id':picking_type,'tickets':res.id,'p':str(vals.get('uom_name'))})
+				
+
+				self.env['stock.move'].create({         
+					'location_id':location,
+					'location_dest_id':location_dest,
+					'product_uom_qty':'1',
+					'name':name,
+					'product_id':product_ids,
+					'state':'draft',
+					'marca': marca,
+					'modelo': modelo,
+					'sub_modelo': sub_modelo,
+					'series': series,
+					'observaciones':observaciones,						
+					'picking_id':do.id,
+					'product_uom':str(vals.get('uom_name')),
+					#'company_id': company
+				})
+				do.action_assign()
 		
 
 		return res
@@ -422,42 +414,58 @@ class helpdesk_ticket(models.Model):
 		cr.execute(sql)
 		id_ticket = cr.fetchone()
 		ticket=id_ticket[0]
-		invoice ={
-			'partner_id': self.partner_id.id,
-			'location_id':self.location_id.id,
-			'picking_type_id':2,
-			'location_dest_id':self.location_dest_id.id,			
-			'tickets':ticket,
-			'state':'assigned'
-		}
-		inv_ids = inv_obj.create(invoice)
-		inv_id=inv_ids.id
-		if inv_id:
-			move_line={
-			'picking_id':inv_id,
-			'name':self.name,
-			'product_id':self.product_id.id,
-			'marca':  self.marca.id,
-			'modelo': self.modelo.id,
-			'sub_modelo': self.sub_modelo.id,
-			'series': self.series,
-			'observaciones': self.observaciones,
-			'picking_type_code':'outgoing',
-			'picking_type_id':self.picking_type_id.id,
-			'product_uom_qty': '0.00',
-			'reserved_availability': '0.00',
-			'quantity_done':'0.00',
-			'product_uom':self.product_id.uom_id.id,
-			'product_uom_id':'1',
-			'location_id':self.location_id.id,
-			'location_dest_id':self.location_dest_id.id,
-			'state':'confirmed'
-
-			
-			}
-			move_ids_without_package=move_line_obj.create(move_line)
+		entrada =self.env['stock.picking']
+		lines = entrada.search([('tickets', '=', ticket)])
 		
-		return invoice
+		if lines:
+			for l in lines:
+
+				if l.state =='done':
+
+					
+					do=self.env['stock.picking'].create({
+						'partner_id':self.partner_id.id,
+						'location_id':l.location_dest_id .id,
+						'location_dest_id':l.location_id.id,	
+						'picking_type_id':2,
+						'origin':l.origin,
+						'tickets':l.tickets.id,										
+						'picking_type_code':'outgoing',
+						'state':'draft',
+						'origin':self.name})
+						
+					if do:
+						for li in l.move_ids_without_package:
+
+							self.env['stock.move'].create({
+
+							'picking_id':do.id,
+							'name':li.name,
+							'product_id':li.product_id.id,
+							'marca':  li.marca.id,
+							'modelo': li.modelo.id,
+							'sub_modelo': li.sub_modelo.id,
+							'series': li.series,
+							'observaciones': li.observaciones,
+							'picking_type_code':'outgoing',
+							'picking_type_id':2,
+							'product_uom_qty': li.product_uom_qty,
+							'reserved_availability': li.reserved_availability,
+							#'quantity_done':li.quantity_done,
+							'product_uom':li.product_id.uom_id.id,
+							'product_uom_id':'1',
+							'location_id':li.location_dest_id.id,
+							'location_dest_id':li.location_id.id,
+							'state':'draft'
+							})
+     
+							do.action_assign()
+							sal=True
+
+				else:
+					raise UserError('No se a ingresado equipo al almacen ')
+				
+					return invoice
 
 
 	def create_apple_dos(self):

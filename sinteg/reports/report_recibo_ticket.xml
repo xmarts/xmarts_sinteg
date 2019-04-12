@@ -45,7 +45,7 @@
                         <tr >
                            <td  style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>Cliente:</span></td>
                             <td style="border-top: 1px solid #000000;" colspan="2"><strong t-field="doc.partner_id"/></td>
-                           <td style="border-top: 1px solid #000000; padding-left: 10px;" ><span>RFC:</span> <span t-field="doc.partner_id.rfc"/></td>
+                           <td style="border-top: 1px solid #000000; padding-left: 10px;" ><span>RFC:</span> <strong t-field="doc.partner_id.rfc"/></td>
                            <td colspan="2" style="border-right: 1px solid #000000;  border-top: 1px solid #000000;" ></td>
                           
                         </tr>
@@ -120,18 +120,18 @@
                            
                        </tr>
                        <tr>
-                       <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; "><strong t-field="doc.falla"/></td>
-                       <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; "><strong t-field="doc.description"/></td>
+                       <td valign="top" colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:80px;"><strong t-field="doc.falla"/></td>
+                       <td valign="top" colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:80px;"><strong t-field="doc.description"/></td>
                        </tr>
                         
                        <tr>
                              <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>OBSERVACIONES GENERALES</span></td>
                            
-                            <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>ACCESORIOS</span></td>
+                            <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>MATERIALES UTILIZADOS</span></td>
                        </tr>
                        <tr>
-                             <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; "><strong t-field="doc.observaciones"/></td>
-                           <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; ">
+                             <td valign="top" colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:80px;"><strong t-field="doc.observaciones"/></td>
+                           <td valign="top" colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:80px;">
                             <strong>
                               <t t-foreach='doc.acce' t-as='value'>
                             <t t-esc="value.product_id.name"/>,
@@ -148,7 +148,7 @@
                           
                        </tr>
                        <tr>
-                        <td colspan="3" style="font-size:7pt; padding-left: 10px; padding-right: 10px;border: 1px solid #000000; " class="text-justify">
+                        <td colspan="3" style="font-size:8pt; padding-left: 10px; padding-right: 10px;border: 1px solid #000000; " class="text-justify">
                             <span>
                                 1. En equipo de garantía, es indispensable presentar la factura de compra, que contenga el numero de serie y/ a la marca de que se trate.
                             </span><br/>
@@ -171,7 +171,7 @@
                                 7. Sinteg no se hace responsable por accesorios no descritos en la orden de servicio 
                             </span>
                         </td>
-                        <td colspan="3" style="font-size:7pt; padding-left: 10px; padding-right: 10px; border: 1px solid #000000; " class="text-justify">
+                        <td valign="top" colspan="3" style="font-size:8pt; padding-left: 10px; padding-right: 10px; border: 1px solid #000000; " class="text-justify">
                             <span>
                                 8. Sinteg no se hace responsable de respaldar la información almacenada en el disco duro del equipo en cuestión.
                             </span><br/>
@@ -198,17 +198,15 @@
                         </td>
                        </tr>
                        <tr>
-                        <td colspan="6" style="font-size:7pt; padding-left: 10px; padding-right: 10px; border: 1px solid #000000; " class="text-justify">
 
-                            <span>AVISO DE PRIVACIDAD</span><br/>
-                            <span>
-                                                            
-                            SINTEG EN MEXICO. S.A. DE C.V. con domicilio en Dr. Martínez del Rio # 161 Col. Doctores, C.P. 06720, Ciudad de México. utilizará sus datos personales recabados para el único efecto de realizar la atención del equipo. facturación y confirmación de calidad del servicio por parte del fabricante. Para mayor información acerca del tratamiento y de los derechos que puede hacer valer, usted puede acceder al aviso de privacidad integral a través de nuestra pagina http://www.sinteg.com.mx o solicitarlo a los correos electrónicos atencionacliente@sinteg.com.mx o calidad@sinteg.com.mx. 
+                             <td colspan="6" style="padding-left: 10px; border: 1px solid #000000;"><span>Tecnico Asignado:</span><span> </span><strong t-field="doc.tecnico.name"/></td>
 
-                            </span>
-
-                        </td>
                        </tr>
+                       <tr>
+                            <td colspan="6" style="padding-left: 10px; border: 1px solid #000000; "><span>Solucion:</span><span></span><strong t-field="doc.ticket_solution"/></td>
+                      
+                       </tr>
+                         
 
                     </table>
                      
@@ -244,9 +242,9 @@
 
                     </table>
                   <p style="page-break-before:always;"> </p>
-                   <table border="0" style=" font-size:6pt; width:100%;" name="ticket_details">
+                   <table border="0" style="line-height:1.6; font-size:7pt;">
                     <tr>
-                      <td  style="width:50%; padding-left: 10px; padding-right: 10px;  " class="text-justify">
+                      <td style="width:50%; padding-left: 10px; " class="text-justify">
                         <span>
                           CONTRATO DE PRESTACIÓN DE SERVICIOS DE REPARACION Y/O MANTENIMIENTO DE EQUIPO DE
                                          CÓMPUTO Y PERIFERICOS
@@ -277,11 +275,13 @@
                         QUINTA: Los incrementos que resulten durante la prestación del servicio por costos no previsibles en rubros específicos que su cotización este fuera del control del PRESTADOR DEL SERVICIO, deberán ser autorizados por EL CONSUMIDOR en forma escrita, siempre y cuando estos excedan del 10% del presupuesto, si el incremento citado es inferior, lo podrá autorizar telefónicamente. El tiempo que tendrá EL CONSUMIDOR para autorizar la variación del presupuesto será de 5 días hábiles contados a partir de que EL PRESTADOR DEL SERVICIO le de aviso de dicha variación, en caso de haber transcurrido dicho termino sin que EL CONSUMIDOR haya dado respuesta al aviso de variación del presupuesto, este se tendrá por no autorizado y por terminado el presente contrato, debiendo EL CONSUMIDOR recoger su equipo dentro de los cinco días hábiles siguientes, caso contrario pagara el costo por almacenaje que se establece en la cláusula tercera del presente contrato. Si EL CONSUMIDOR autoriza la variación del presupuesto, la fecha de entrega del equipo se modificara en la misma proporción
                         
                         </span>
-                      </td>
-                      <td style="width:50%; padding-left: 10px; padding-right: 10px; " class="text-justify">
-                      <span>
+                          <span>
                         SEXTA: Se hace del conocimiento que dependiendo del proceso de reparación puede suscitarse que se tengan que borrartodos los archivos del equipo por lo que EL CONSUMIDOR es responsable de contar con el respaldo de dicha información.
-                        SEPTIMA: En caso de que EL PRESTADOR DEL SERVICIO detecte alguna falla o desperfecto que no se haya contemplado en el presupuesto, deberá hacerlo del conocimiento de EL CONSUMIDOR en los términos que se indican en la cláusula Quinta, con la finalidad de que este autorice la reparación de dicha falla o desperfecto. Para lo cual EL COSUMIDOR tendrá el mismo plazo que se establece en dicha cláusula, para realizar la autorización. Transcurrido dicho término sin que EL CONSUMIDOR de cumplimiento a lo aquí estipulado y la falla encontrada impida a EL PRESTADOR DEL SERVICIO realizar la reparación y/o mantenimiento del equipo conforme a lo pactado con EL CONSUMIDOR, el presente contrato se dará por terminado, debiendo EL CONSUMIDOR recoger su equipo en el mismo plazo que se indica en la cláusula que antecede y pagar al EL PRESTADOR DEL SERVICIO la cantidad que corresponda a las reparaciones ya efectuadas conforme al presupuesto o, en caso de no haberse hecho ninguna, pagara el costo de la revisión que se indica en el anverso. En caso de que EL CONSUMIDOR autorice la nueva reparación, la fecha de entrega del equipo se modificara en la misma proporción. OCTAVA: Las reparaciones y/o mantenimiento objeto del presente contrato, tienen una garantía de 60 días contados a partir de la fecha de entrega del equipo ya reparado por lo que no se computará dentro de dicho plazo el tiempo que dure la reparación del equipo, y se hará efectiva siempre y cuando no se manifieste mal uso, negligencia o descuido en su operación y no ampara</span><br/><span>
+                        SEPTIMA: En caso de que EL PRESTADOR DEL SERVICIO detecte alguna falla o desperfecto que no se haya contemplado en el presupuesto, deberá hacerlo del conocimiento de EL CONSUMIDOR en los términos que se indican en la cláusula Quinta, con la finalidad de que este autorice la reparación de dicha falla o desperfecto. Para lo cual EL COSUMIDOR tendrá el mismo plazo que se establece en dicha cláusula, para realizar la autorización.</span>
+                      </td>
+                          <td valign="top" style="width:50%; padding-left: 10px; padding-right: 10px;  " class="text-justify">
+                            <span> Transcurrido dicho término sin que EL CONSUMIDOR de cumplimiento a lo aquí estipulado y la falla encontrada impida a EL PRESTADOR DEL SERVICIO realizar la reparación y/o mantenimiento del equipo conforme a lo pactado con EL CONSUMIDOR, el presente contrato se dará por terminado, debiendo EL CONSUMIDOR recoger su equipo en el mismo plazo que se indica en la cláusula que antecede y pagar al EL PRESTADOR DEL SERVICIO la cantidad que corresponda a las reparaciones ya efectuadas conforme al presupuesto o, en caso de no haberse hecho ninguna, pagara el costo de la revisión que se indica en el anverso. En caso de que EL CONSUMIDOR autorice la nueva reparación, la fecha de entrega del equipo se modificara en la misma proporción. OCTAVA: Las reparaciones y/o mantenimiento objeto del presente contrato, tienen una garantía de 60 días contados a partir de la fecha de entrega del equipo ya reparado por lo que no se computará dentro de dicho plazo el tiempo que dure la reparación del equipo, y se hará efectiva siempre y cuando no se manifieste mal uso, negligencia o descuido en su operación y no ampara</span>
+                    <span>
                         fallas distintas a las especificadas en el anverso de este contrato o a las autorizadas por EL CONSUMIDOR en los términos del presente contrato, por lo que quedara sin efecto si el equipo es intervenido por un tercero que no esté autorizado por cualquiera de los fabricantes mencionados en la cláusula primera del presente contrato en caso de ser un equipo cubierto por la garantía del fabricante, y en caso de ser un equipo reparado por EL PRESTADOR DEL SERVICIO con cargo a EL CONSUMIDOR, solamente este estará autorizado para llevar a cabo la garantía mencionada. Para hacer efectiva la garantía EL CONSUMIDOR deberá presentar la factura del equipo en el establecimiento de EL PRESTADOR DEL SERVICIO. Las reparaciones efectuadas en cumplimiento a la misma serán sin cargo alguno para EL CONSUMIDOR y amparan la mano de obra y refacciones que se hayan utilizado en el servicio solicitado, salvo que EL CONSUMIDOR haya autorizado por escrito a EL PRESTADOR DEL SERVICIO a utilizar otras, por lo que en ese caso únicamente se garantizara la mano de obra. EL CONSUMIDOR podrá presentar cualquier queja o reclamación relacionada con el servicioen el domicilio, teléfonos y en el horario que se detalla en el anverso de este contrato.</span><br/><span>
                         NOVENA: EL PRESTADOR DEL SERVICIO, después de haber revisado el equipo para conocer las fallas que pudiera tener, se obliga a presentar a EL CONSUMIDOR un presupuesto, el cual será enviado vía correo electrónico transcurridas las 72 horas hábiles necesarias para la revisión del equipo, que incluirá el costo dé la reparación del equipo de cómputo, el cual incluirá la mano de obra, y los suplementos necesarios para la reparación del equipo. EL CONSUMIDOR al momento de ser informado del presupuesto para la reparación de su equipo de cómputo, está obligado a manifestar su aceptación por escrito, vía correo electrónico a la siguiente dirección "atencionaclientesi3lsinteg.com.mx". y de la misma realizar lo mencionado en la cláusula segunda del presente contrato.</span><br/><span>
                         EL PRESTADOR DEL SERVICIO.
@@ -292,30 +292,23 @@
                         DECIMO TERCERA: EL CONSUMIDOR al firmar este documento y entregar los equipos de cómputo para su reparación y/o mantenimiento expresa su consentimiento para obligarse en los términos del presente contrato.</span><br/><span>
                         DECIMO CUARTA: La Procuraduría Federal del Consumidor es competente en la vía administrativa para resolver cualquier controversia que se suscite sobre la interpretación o cumplimiento del presente contrato. Sin perjuicio de lo anterior, las partes se someten a la jurisdicción de los Tribunales competentes en Distrito Federal, renunciando expresamente a cualquier otra jurisdicción que pudiera corresponderles, por razón de sus domicilios presentes o futuros o por cualquier otra razón.</span><br/><span>
                         En caso de duda o reclamación en cuanto al servicio prestado por SINTEG EN MEXICO S.A. DE C.V. comuniqúese al teléfono, 50 90 27 00 en el D.F. y área Metropolitana y 01800-888-0117 para el interior de la república de lunes a viernes de 10.00 am a 6:00 om o bien contáctenos a través de nuestro servidor de correo electrónico: atencionaclientes(S)sintea.com.mx calidad@sinteg.com.mx LA PERSONA QUE FIRMA EL PRESENTE DOCUMENTO MANIFIESTA QUE TIENE LAS FACULTADESLEGALES NECESARIAS PARA OBLIGARSE EN LOS TERMINOS DEL PRESENTE CONTRATO.</span><br/><span>
-                        Nombre y firma del Consumidor: _____________________________________________________________</span><br/><span>
-                        Nombre y firma del representante del proveedor: ________________________________________________</span><br/><span>
-                        México, D.F. a _________________________________de___________________________________</span><br/><span>
+                        Nombre y firma del Consumidor: ___________________________________________________________________________</span><br/><span>
+                        Nombre y firma del representante del proveedor: ____________________________________________________________________________</span><br/><span>
+                        México, D.F. a _____de______________________.</span><br/><span>
                         Este contrato fue aprobado y registrado por la Procuraduría Federal del Consumidor bajo el número 2318-2103 de fecha 17 De mayo de 2013. Cualquier variación del presente en peijuicio de EL CONSUMIDOR, frente al contrato de adhesión registrado, se tendrá por no puesta.</span><br/><span>
                         Autorización para la utilización de información con fines mercadotécnicos o publicitarios El comprador si () no () acepta que el Prestador del Servicio ceda o trasmita a terceros, con fines mercadotécnico o publicitarios, la información proporcionada por el con motivo del presente contrato y si () no () acepta que el Prestador del Servicio le envié publicidad sobre bienes y servicios.</span><br/><span>
                         ____________________________________________</span><br/><span>
                         Firma de autorización del consumidor
                         </span>
-                    
-                      </td>
-                    </tr>
-                    <tr>
-                       <td style="width:50%; padding-right: 10px; " class="text-left">
-                        <span>
-                          
-                        </span>
-                      </td> 
-                      <td style="width:50%; padding-left: 10px; padding-right: 10px; " class="text-center">
-                        <span>
+                        <br/><br/>
+                          <span>
                           Contrato registrado ante Profeco con Folio 2318-2013 de fecha 17 de Mayo de 2013
 
                         </span>
+                    
                       </td>
                     </tr>
+                    
                    </table>
                   
                 </div>

@@ -3,6 +3,7 @@
 from odoo import models, fields, api
 from odoo.tools.float_utils import float_compare
 from openerp.exceptions import UserError, RedirectWarning, ValidationError
+from odoo import api, fields, models, SUPERUSER_ID, _
 
 
 class ResPartner(models.Model):
@@ -41,6 +42,7 @@ class ResPartner(models.Model):
 	supplier=fields.Boolean(track_visibility='onchange')
 	property_supplier_payment_term_id=fields.Many2one(track_visibility='onchange')
 	property_account_position_id=fields.Many2one(track_visibility='onchange')
+
 
 	_sql_constraints = [(
 		'default_code_unique',
@@ -173,6 +175,8 @@ class helpdesk_ticket(models.Model):
 
 	contrato = fields.Boolean(string='Contrato')
 	# equipo_contrato = fields.Many2one('claim.modelo', string='Equipos de Contrato')
+	tecnico= fields.Many2one('hr.employee',string='Tecnico Asignado',required=True)
+
 	tipo_ticket= fields.Selection(selection=[('CARGO', 'cargo'),('GARANTIA', 'garantia'),
 											 ('SERVICIO', 'servicio'),('CONTRATO', 'contrato'),
 											 ('INTERNO', 'interno'),('VENTA', 'venta'),
@@ -266,70 +270,6 @@ class helpdesk_ticket(models.Model):
 				vals['name'] = 'New'
 		if vals.get('name', 'New') == 'New':
 			vals['name'] = self.env['ir.sequence'].next_by_code('helpdesk.support') or 'New'
-
-			# tipo_ticket = vals.get("tipo_ticket")
-
-			# if (tipo_ticket == 'GARANTIA') or  (tipo_ticket == 'INTERNO') or  (tipo_ticket == 'CARGO') or  (tipo_ticket == 'SERVICIO') or (tipo_ticket == 'CONTRATO') or  (tipo_ticket == 'MAIP') or  (tipo_ticket == 'MAGOB'): 
-			# 	inv_obj = self.env['stock.picking']
-			# 	move_line_obj = self.env['stock.move']
-			# 	product_obj=self.env['product.product']
-
-			# 	ticket = vals.get("name")
-			# 	partner = vals.get("partner_id")
-			# 	location = vals.get("location_id")
-			# 	picking_type = vals.get("picking_type_id")
-			# 	location_dest = vals.get("location_dest_id")
-				
-			# 	v=1
-			# 	invoice ={
-					
-			# 	    'partner_id': partner,
-			# 		'location_id':location,
-			# 		'picking_type_id':picking_type,
-			# 		'location_dest_id':location_dest,
-			# 		'ticket':ticket,
-					
-			# 		'state':'assigned',
-			# 		'p':str(vals.get('uom_name'))
-
-			# 	}
-			# 	inv_ids = inv_obj.create(invoice)
-			# 	inv_id=inv_ids.id
-
-			# 	name = vals.get("name")
-			# 	product_ids = vals.get("product_id")
-			# 	marca = vals.get("marca")
-			# 	modelo = vals.get("modelo")
-			# 	sub_modelo = vals.get("sub_modelo")			
-			# 	series = vals.get("series")
-			# 	observaciones = vals.get("observaciones")
-			# 	product_uom = vals.get("product_id")			
-			# 	location_id = vals.get("location_id")
-
-			# 	location_dest_id = vals.get("location_dest_id")
-
-			# 	if inv_id:
-			# 		move_line={
-			# 		'picking_id':inv_id,
-			# 		'name':name,
-			# 		'product_id':product_ids,
-			# 		'marca': marca,
-			# 		'modelo': modelo,
-			# 		'sub_modelo': sub_modelo,
-			# 		'series': series,
-			# 		'observaciones':observaciones,
-			# 		'picking_type_code':'outgoing',
-			# 		'product_uom_qty': '0.00',
-			# 		'reserved_availability': '0.00',
-			# 		'quantity_done':'0.00',
-			# 		'product_uom':str(vals.get('uom_name')),
-			# 		'product_uom_id':str(vals.get('uom_name')),
-			# 		'location_id':location_id,
-			# 		'location_dest_id':location_dest_id,
-			# 		'state':'confirmed'
-					
-			# 		}
-			# 		move_ids_without_package=move_line_obj.create(move_line)
 
 	
 		# set up context used to find the lead's sales team which is needed
@@ -489,7 +429,7 @@ class helpdesk_ticket(models.Model):
 		ids=ordens.id
 		if not ids:
 			invoice_c ={
-					
+				
 				'tickets': ticket,
 				'state':'draft'
 			}
@@ -526,7 +466,67 @@ class PurchaseOrder(models.Model):
 class PurchaseOrder(models.Model):
 	_inherit = 'purchase.order'
 
-	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)
+	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)	
+
+
+	@api.multi
+	def action_rfq_send(self):
+		'''
+		This function opens a window to compose an email, with the edi purchase template message loaded by default
+		'''
+		self.ensure_one()
+		ir_model_data = self.env['ir.model.data']
+		try:
+			if self.env.context.get('send_rfq', False):
+				template_id = ir_model_data.get_object_reference('purchase', 'email_template_edi_purchase')[1]
+			else:
+				template_id = ir_model_data.get_object_reference('purchase', 'email_template_edi_purchase_done')[1]
+		except ValueError:
+			template_id = False
+		try:
+			compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
+		except ValueError:
+			compose_form_id = False
+		ctx = dict(self.env.context or {})
+		self.partner_ids=self.tickets.partner_id.id
+		ctx.update({
+			'default_model': 'purchase.order',
+			'default_res_id': self.ids[0],
+			'default_use_template': bool(template_id),
+			'default_template_id': template_id,
+			'default_composition_mode': 'comment',
+			'custom_layout': "mail.mail_notification_paynow",
+			'force_email': True,
+			'mark_rfq_as_sent': True,
+		})
+
+		# In the case of a RFQ or a PO, we want the "View..." button in line with the state of the
+		# object. Therefore, we pass the model description in the context, in the language in which
+		# the template is rendered.
+		lang = self.env.context.get('lang')
+		if {'default_template_id', 'default_model', 'default_res_id'} <= ctx.keys():
+			template = self.env['mail.template'].browse(ctx['default_template_id'])
+			if template and template.lang:
+				lang = template._render_template(template.lang, ctx['default_model'], ctx['default_res_id'])
+
+		self = self.with_context(lang=lang)
+		if self.state in ['draft', 'sent']:
+			ctx['model_description'] = _('Request for Quotation')
+		else:
+			ctx['model_description'] = _('Purchase Order')
+
+
+		return {
+			'name': _('Compose Email'),
+			'type': 'ir.actions.act_window',
+			'view_type': 'form',
+			'view_mode': 'form',
+			'res_model': 'mail.compose.message',
+			'views': [(compose_form_id, 'form')],
+			'view_id': compose_form_id,
+			'target': 'new',
+			'context': ctx,
+		}
 	
 
 	@api.model

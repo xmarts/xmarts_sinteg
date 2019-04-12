@@ -70,18 +70,75 @@
                                     <field name="company_id"/>
                                     
                                     <field name="user_id"  invisible="1"/>
-                                   <field name="team_id" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
-                                     <field name="team_leader_id" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
-                                     <field name="priority" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
+                                   <field name="team_id" attrs="{'readonly':['|',
+                                                               ('stage_id','=',2),'|',
+                                                               ('stage_id','=',3),'|',
+                                                               ('stage_id','=',4),'|',
+                                                               ('stage_id','=',5),'|',
+                                                               ('stage_id','=',6),'|',
+                                                               ('stage_id','=',7),'|',
+                                                               ('stage_id','=',8)]}"/>
+                                     <field name="team_leader_id" attrs="{'readonly':['|',
+                                                               ('stage_id','=',2),'|',
+                                                               ('stage_id','=',3),'|',
+                                                               ('stage_id','=',4),'|',
+                                                               ('stage_id','=',5),'|',
+                                                               ('stage_id','=',6),'|',
+                                                               ('stage_id','=',7),'|',
+                                                               ('stage_id','=',8)]}"/>
+                                     <field name="priority" attrs="{'readonly':['|',
+                                                               ('stage_id','=',2),'|',
+                                                               ('stage_id','=',3),'|',
+                                                               ('stage_id','=',4),'|',
+                                                               ('stage_id','=',5),'|',
+                                                               ('stage_id','=',6),'|',
+                                                               ('stage_id','=',7),'|',
+                                                               ('stage_id','=',8)]}"/>
                                 
                                 </group>
                                 <group string="Datos del cliente" name="cliente">
-                                    <field name="partner_id" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
-                                    <field name="phone" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
-                                    <field name="email" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
+                                    <field name="partner_id" attrs="{'readonly':['|',
+                                                               ('stage_id','=',2),'|',
+                                                               ('stage_id','=',3),'|',
+                                                               ('stage_id','=',4),'|',
+                                                               ('stage_id','=',5),'|',
+                                                               ('stage_id','=',6),'|',
+                                                               ('stage_id','=',7),'|',
+                                                               ('stage_id','=',8)]}"/>
+                                    <field name="phone"  attrs="{'readonly':['|',
+                                                               ('stage_id','=',2),'|',
+                                                               ('stage_id','=',3),'|',
+                                                               ('stage_id','=',4),'|',
+                                                               ('stage_id','=',5),'|',
+                                                               ('stage_id','=',6),'|',
+                                                               ('stage_id','=',7),'|',
+                                                               ('stage_id','=',8)]}"/>
+                                    <field name="email"  attrs="{'readonly':['|',
+                                                               ('stage_id','=',2),'|',
+                                                               ('stage_id','=',3),'|',
+                                                               ('stage_id','=',4),'|',
+                                                               ('stage_id','=',5),'|',
+                                                               ('stage_id','=',6),'|',
+                                                               ('stage_id','=',7),'|',
+                                                               ('stage_id','=',8)]}"/>
                                     <field name="allow_user_ids" widget="many2many_tags" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
-                                    <field name="request_date" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
-                                    <field name="close_date" attrs="{'readonly': [('stage_type', '=', 'closed')]}"/>
+                                    <field name="request_date"  attrs="{'readonly':['|',
+                                                               ('stage_id','=',2),'|',
+                                                               ('stage_id','=',3),'|',
+                                                               ('stage_id','=',4),'|',
+                                                               ('stage_id','=',5),'|',
+                                                               ('stage_id','=',6),'|',
+                                                               ('stage_id','=',7),'|',
+                                                               ('stage_id','=',8)]}"/>
+                                    <field name="close_date" attrs="{'readonly':['|',
+                                                               ('stage_id','=',1),'|',
+                                                               ('stage_id','=',2),'|',
+                                                               ('stage_id','=',3),'|',
+                                                               ('stage_id','=',4),'|',
+                                                               ('stage_id','=',5),'|',
+                                                               ('stage_id','=',6),'|',
+                                                               ('stage_id','=',7),'|',
+                                                               ('stage_id','=',8)]}"/>
                             
 
                                 </group>

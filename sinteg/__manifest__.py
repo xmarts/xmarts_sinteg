@@ -20,10 +20,12 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','contacts','rma_ept','purchase','website_helpdesk_support_ticket','xmarts_order_request'],
+    'depends': ['base','contacts','rma_ept','purchase','website_helpdesk_support_ticket','xmarts_order_request','account'],
 
     # always loaded
     'data': [
+        #'data/mail_template.xml',
+        'reports/purchase_quotation_templates.xml',
         'reports/report_recibo_ticket.xml',
         'reports/reports_menu.xml',
         'security/ir.model.access.csv',

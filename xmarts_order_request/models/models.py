@@ -30,11 +30,28 @@ class PurchaseOrderRequestLines(models.Model):
     subtotal = fields.Float(string="Subtotal", compute="_calc_subtotal")
     purr_id = fields.Many2one("purchase.order.request")
     product_taxes = fields.Many2many("account.tax", default=lambda self: self.env['account.tax'].search([('name', '=', ['IVA(16%) COMPRAS'])]).ids , string="Impuestos")
+    estatus= fields.Selection(selection=[('ace', 'Aceptado'),('pen', 'Pendiente'),('cot','Cotizado'),('can','Cancelado')],string='Estado',default='ace')
+
+
     
+    @api.onchange('product_price')
+    def onchange_estatus(self):
+        if self.product_price > 8000:
+            self.estatus='pen'
+        if self.product_price <= 8000:
+            self.estatus='ace'
 
+        
+ 
+        
+    @api.multi
+    def est(self):
+        self.estatus='ace'
+
+    @api.multi
+    def estado(self):
+        self.estatus='can'
     
-
-
     @api.onchange('product_id')
     def onchange_product_id(self):
         self.name = self.product_id.name
@@ -90,7 +107,7 @@ class PurchaseOrderRequest(models.Model):
         return result
 
 
-    state = fields.Selection([('draft','Borrador'),('request','Solicitada'),('done','Pedido realizado'),('cancel','Cancelada')], string="Status", default='draft', track_visibility='onchange')
+    state = fields.Selection([('draft','Borrador'),('request','Solicitada'),('env','Envio Parcial'),('done','Pedido realizado'),('cancel','Cancelada')], string="Status", default='draft', track_visibility='onchange')
     name = fields.Char(string="Solicitud", readonly=True, track_visibility='onchange')
     request_lines = fields.One2many("purchase.order.request.line", "purr_id", string="Lineas de solicitud")
     request_date = fields.Datetime(string="Fecha de solicitud", readonly=True, track_visibility='onchange')
@@ -123,51 +140,109 @@ class PurchaseOrderRequest(models.Model):
             if l.provider_id.id not in lista_part:
                 lista_part.append(l.provider_id.id)
 
+        cont=0
+        for l in self.request_lines:
+            if l.estatus=='pen':
+                cont+=1
+
+
         now = datetime.now()
-        for p in lista_part:
+        if cont > 0:
+            for p in lista_part:
 
-            purchase_obj = self.env["purchase.order"]
-            purchase_line_obj = self.env["purchase.order.line"]
+                purchase_obj = self.env["purchase.order"]
+                purchase_line_obj = self.env["purchase.order.line"]
+                
+                curr_order = {
+                    'name':  self.env['ir.sequence'].next_by_code('purchase.order'),
+                    'company_id': self.company_id.id,
+                    'currency_id': self.currency_id.id,
+                    'date_order': datetime.now(),
+                    'partner_id': p,
+                    'origin': self.name,
+                    'tickets': self.tickets.id,
+                    'state': 'draft'
+                }
 
-            curr_order = {
-                'name':  self.env['ir.sequence'].next_by_code('purchase.order'),
-                'company_id': self.company_id.id,
-                'currency_id': self.currency_id.id,
-                'date_order': datetime.now(),
-                'partner_id': p,
-                'origin': self.name,
-                'tickets': self.tickets.id,
-                'state': 'draft'
-            }
+                ord_ids = purchase_obj.create(curr_order)
+                ord_id = ord_ids.id
+               
+                if ord_ids:
+                    for pl in self.request_lines:
+                        if pl.estatus=='ace':                                    
+                            if pl.provider_id.id == p:
+                                taxes = []
+                                for t in pl.product_taxes:
+                                    taxes.append(t.id)
+                             
+                                curr_order_line = {
+                                    'order_id': ord_id,
+                                    'name': pl.name,
+                                    'price_unit': pl.product_price,
+                                    'product_id': pl.product_id.id,
+                                    'product_qty': pl.product_qty,
+                                    'product_uom': pl.product_id.uom_id.id,
+                                    'order_id': ord_id,
+                                    'taxes_id': [(6, 0, taxes)],
+                                    'date_planned': now.strftime('%Y-%m-%d 06:00:00'),
+                                    'tickets':self.tickets.id,
 
-            ord_ids = purchase_obj.create(curr_order)
-            ord_id = ord_ids.id
-           
-            if ord_ids:
-                for pl in self.request_lines:                    
-                    if pl.provider_id.id == p:
-                        taxes = []
-                        for t in pl.product_taxes:
-                            taxes.append(t.id)
-                     
-                        curr_order_line = {
-                            'order_id': ord_id,
-                            'name': pl.name,
-                            'price_unit': pl.product_price,
-                            'product_id': pl.product_id.id,
-                            'product_qty': pl.product_qty,
-                            'product_uom': pl.product_id.uom_id.id,
-                            'order_id': ord_id,
-                            'taxes_id': [(6, 0, taxes)],
-                            'date_planned': now.strftime('%Y-%m-%d 06:00:00'),
-                            'tickets':self.tickets.id,
+                                }
+                                pl.estatus='cot'
 
-                        }
+                            pur_line_ids = purchase_line_obj.create(curr_order_line)
+            self.done_date = datetime.now()
+            self.state = 'env'
 
-                        pur_line_ids = purchase_line_obj.create(curr_order_line)
-        self.done_date = datetime.now()
-        self.state = 'done'
+        if cont ==0:
+            for p in lista_part:
 
+                purchase_objs = self.env["purchase.order"]
+                purchase_line_objs = self.env["purchase.order.line"]
+
+                curr_orders = {
+                    'name':  self.env['ir.sequence'].next_by_code('purchase.order'),
+                    'company_id': self.company_id.id,
+                    'currency_id': self.currency_id.id,
+                    'date_order': datetime.now(),
+                    'partner_id': p,
+                    'origin': self.name,
+                    'tickets': self.tickets.id,
+                    'state': 'draft'
+                }
+
+                ord_ids = purchase_objs.create(curr_orders)
+                ord_id = ord_ids.id
+               
+                if ord_ids:
+                    for pl in self.request_lines:
+                        if pl.estatus=='ace':                                    
+                            if pl.provider_id.id == p:
+                                taxes = []
+                                for t in pl.product_taxes:
+                                    taxes.append(t.id)
+                             
+                                curr_order_lines = {
+                                    'order_id': ord_id,
+                                    'name': pl.name,
+                                    'price_unit': pl.product_price,
+                                    'product_id': pl.product_id.id,
+                                    'product_qty': pl.product_qty,
+                                    'product_uom': pl.product_id.uom_id.id,
+                                    'order_id': ord_id,
+                                    'taxes_id': [(6, 0, taxes)],
+                                    'date_planned': now.strftime('%Y-%m-%d 06:00:00'),
+                                    'tickets':self.tickets.id,
+
+                                }
+                                pl.estatus='cot'
+
+                            pur_line_ids = purchase_line_objs.create(curr_order_lines)
+            self.done_date = datetime.now()
+            self.state = 'done'    
+
+
+        
     @api.multi
     def state_cancel(self):
         self.request_date = ''

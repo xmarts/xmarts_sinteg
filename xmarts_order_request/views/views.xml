@@ -9,7 +9,8 @@
           <header>
             <button string='Solicitar' name="state_request" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','draft')]}" />
             <button string='Generar Pedido' name="state_done" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','request')]}" />
-            <button string='Cancelar' name="state_cancel" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','request')]}" confirm="¿Esta seguro de cancelar la solicitud?"/>
+            <button string='Generar pedido' name="state_done" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','env')]}" />
+            <button string='Cancelar' name="state_cancel" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':['|',('state','=','draft'),'|',('state','=','done'),'|',('state','=','cancel')]}" confirm="¿Esta seguro de cancelar la solicitud?"/>
             <button string='Cambiar a borrador' name="state_draft" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','cancel')]}" />
             <field name="state" widget="statusbar" readonly="1"/>
           </header>
@@ -25,6 +26,7 @@
                 <field name="create_uid" string="Creado por" readonly="1" />
                 <field name="company_id" string="Compañia" readonly="1" invisible="1"/>
                 <field name="currency_id" string="Moneda" readonly="1" invisible="1" />
+                
               </group>
               <group>
                 <field name="request_date" readonly="1" />
@@ -33,17 +35,19 @@
             </group>
             <notebook>
               <page string="Productos">
-                <field name="request_lines" attrs="{'readonly':[('state','=','done')]}">
+                <field name="request_lines" >
                   <tree string="Porductos Solicitados" editable="bottom">
-                    <field name="product_id"  />
+                    <field name="product_id"  attrs="{'readonly':[('estatus','=','cot')]}"/>
                     <field name="product_template_id" options="{'no_create': True, 'no_create_edit':True}" invisible="1" />
-                    <field name="name"/>
-                    <field name="product_qty"/>
-                    <field name="provider_id" context="{'default_supplier':True}" />
-                    <field name="product_price"/>
-                    <field name="product_taxes" widget="many2many_tags"/>
-                    <field name="subtotal"/>
-                   
+                    <field name="name" attrs="{'readonly':[('estatus','=','cot')]}"/>
+                    <field name="product_qty" attrs="{'readonly':[('estatus','=','cot')]}"/>
+                    <field name="provider_id" context="{'default_supplier':True}" attrs="{'readonly':[('estatus','=','cot')]}" />
+                    <field name="product_price" attrs="{'readonly':[('estatus','=','cot')]}"/>
+                    <field name="product_taxes" widget="many2many_tags" attrs="{'readonly':[('estatus','=','cot')]}"/>
+                    <field name="subtotal" attrs="{'readonly':[('estatus','=','cot')]}"/>
+                   <field name="estatus" attrs="{'readonly':[('estatus','=','cot')]}"/>
+                   <button name="est" string="Aceptar" type="object" attrs="{'invisible':['|',('estatus','=','ace'),'|',('estatus','=','cot'),'|',('estatus','=','can')]}" class="btn-primary"/>
+                   <button name="estado" string="Cancelar" type="object" attrs="{'invisible':['|',('estatus','=','ace'),'|',('estatus','=','cot'),'|',('estatus','=','can')]}" class="btn-danger"/>
                   </tree>
                 </field>
               </page>

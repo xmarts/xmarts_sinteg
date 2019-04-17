@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <report
-            string="Orden de entrega"
+            string="Contrato de salida"
             id="action_report_ticket_orden"
             model="helpdesk.support"
             report_type="qweb-pdf"
@@ -11,6 +11,15 @@
             paperformat="sinteg.paperformat_reportesinteg"
            
         />
-       
+       <report
+            string="Contrato de entrada"
+            id="action_report_ticket_orden_dos"
+            model="helpdesk.support"
+            report_type="qweb-pdf"
+            name="sinteg.report_recibo_ticket_dos"
+            file="sinteg.report_recibo_ticket_dos"
+            paperformat="sinteg.paperformat_reportesinteg"
+           
+        />
     </data>
 </odoo>

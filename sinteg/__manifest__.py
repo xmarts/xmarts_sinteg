@@ -27,6 +27,7 @@
         #'data/mail_template.xml',
         'reports/purchase_quotation_templates.xml',
         'reports/report_recibo_ticket.xml',
+        'reports/report_recibo_ticket_dos.xml',
         'reports/reports_menu.xml',
         'security/ir.model.access.csv',
         'views/views.xml',

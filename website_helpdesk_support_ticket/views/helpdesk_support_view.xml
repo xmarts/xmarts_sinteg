@@ -175,7 +175,7 @@
                         
                             <field name="invoice_line_ids" attrs="{'readonly': [('stage_type', '=', 'closed')]}" context = "{'default_analytic_account_id' :analytic_account_id}" nolabel="1" groups="website_helpdesk_support_ticket.group_helpdesk_manager"/>
                                 <tree editable="bottom">
-                                    <field name="product_id"/>
+                                    <field name="product_id" />
                                     <field name="name"/>
                                     <field name="quantity"/>
                                     <field name="price_unit"/>

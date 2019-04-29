@@ -3,7 +3,7 @@
 from odoo import models, fields, api, exceptions,_
 from datetime import datetime, date, time, timedelta
 import calendar 
-
+from openerp.exceptions import UserError, RedirectWarning, ValidationError
 # class xmarts_order_request(models.Model):
 #     _name = 'xmarts_order_request.xmarts_order_request'
 
@@ -30,7 +30,7 @@ class PurchaseOrderRequestLines(models.Model):
     subtotal = fields.Float(string="Subtotal", compute="_calc_subtotal")
     purr_id = fields.Many2one("purchase.order.request")
     product_taxes = fields.Many2many("account.tax", default=lambda self: self.env['account.tax'].search([('name', '=', ['IVA(16%) COMPRAS'])]).ids , string="Impuestos")
-    estatus= fields.Selection(selection=[('ace', 'Aceptado'),('pen', 'Pendiente'),('cot','Cotizado'),('can','Cancelado')],string='Estado',default='ace')
+    estatus= fields.Selection(selection=[('ace', 'Aceptado'),('pen', 'Pendiente'),('cot','Cotizado'),('can','Cancelado')],string='Estado', default="ace")
 
 
     
@@ -149,50 +149,55 @@ class PurchaseOrderRequest(models.Model):
         now = datetime.now()
         if cont > 0:
             for p in lista_part:
+                for l in self.request_lines:
+                    if l.estatus=='ace':
 
-                purchase_obj = self.env["purchase.order"]
-                purchase_line_obj = self.env["purchase.order.line"]
-                
-                curr_order = {
-                    'name':  self.env['ir.sequence'].next_by_code('purchase.order'),
-                    'company_id': self.company_id.id,
-                    'currency_id': self.currency_id.id,
-                    'date_order': datetime.now(),
-                    'partner_id': p,
-                    'origin': self.name,
-                    'tickets': self.tickets.id,
-                    'state': 'draft'
-                }
+                        purchase_obj = self.env["purchase.order"]
+                        purchase_line_obj = self.env["purchase.order.line"]
+                        
+                        
+                        curr_order = {
+                            'name':  self.env['ir.sequence'].next_by_code('purchase.order'),
+                            'company_id': self.company_id.id,
+                            'currency_id': self.currency_id.id,
+                            'date_order': datetime.now(),
+                            'partner_id': p,
+                            'origin': self.name,
+                            'tickets': self.tickets.id,
+                            'state': 'draft'
+                        }
 
-                ord_ids = purchase_obj.create(curr_order)
-                ord_id = ord_ids.id
-               
-                if ord_ids:
-                    for pl in self.request_lines:
-                        if pl.estatus=='ace':                                    
-                            if pl.provider_id.id == p:
-                                taxes = []
-                                for t in pl.product_taxes:
-                                    taxes.append(t.id)
-                             
-                                curr_order_line = {
-                                    'order_id': ord_id,
-                                    'name': pl.name,
-                                    'price_unit': pl.product_price,
-                                    'product_id': pl.product_id.id,
-                                    'product_qty': pl.product_qty,
-                                    'product_uom': pl.product_id.uom_id.id,
-                                    'order_id': ord_id,
-                                    'taxes_id': [(6, 0, taxes)],
-                                    'date_planned': now.strftime('%Y-%m-%d 06:00:00'),
-                                    'tickets':self.tickets.id,
+                        ord_ids = purchase_obj.create(curr_order)
+                        ord_id = ord_ids.id
+                       
+                        if ord_ids:
+                            for pl in self.request_lines:
+                                if pl.estatus=='ace':                                    
+                                    if pl.provider_id.id == p:
+                                        taxes = []
+                                        for t in pl.product_taxes:
+                                            taxes.append(t.id)
+                                     
+                                        curr_order_line = {
+                                            'order_id': ord_id,
+                                            'name': pl.name,
+                                            'price_unit': pl.product_price,
+                                            'product_id': pl.product_id.id,
+                                            'product_qty': pl.product_qty,
+                                            'product_uom': pl.product_id.uom_id.id,
+                                            'order_id': ord_id,
+                                            'taxes_id': [(6, 0, taxes)],
+                                            'date_planned': now.strftime('%Y-%m-%d 06:00:00'),
+                                            'tickets':self.tickets.id,
 
-                                }
-                                pl.estatus='cot'
+                                        }
+                                        pl.estatus='cot'
 
-                            pur_line_ids = purchase_line_obj.create(curr_order_line)
-            self.done_date = datetime.now()
-            self.state = 'env'
+                                        pur_line_ids = purchase_line_obj.create(curr_order_line)
+                     
+
+                    self.done_date = datetime.now()
+                    self.state = 'env'
 
         if cont ==0:
             for p in lista_part:
@@ -239,7 +244,66 @@ class PurchaseOrderRequest(models.Model):
 
                             pur_line_ids = purchase_line_objs.create(curr_order_lines)
             self.done_date = datetime.now()
-            self.state = 'done'    
+            self.state = 'done' 
+
+    @api.multi
+    @api.model
+    def state_par(self):            
+
+        lista_part = []
+        for l in self.request_lines:
+            if l.estatus=='pen':
+                raise exceptions.ValidationError('Existen lineas sin aprobar')
+            if l.provider_id.id not in lista_part:
+                lista_part.append(l.provider_id.id)
+
+        now = datetime.now()
+        for p in lista_part:
+
+            purchase_objs = self.env["purchase.order"]
+            purchase_line_objs = self.env["purchase.order.line"]
+
+            curr_orders = {
+                'name':  self.env['ir.sequence'].next_by_code('purchase.order'),
+                'company_id': self.company_id.id,
+                'currency_id': self.currency_id.id,
+                'date_order': datetime.now(),
+                'partner_id': p,
+                'origin': self.name,
+                'tickets': self.tickets.id,
+                'state': 'draft'
+            }
+
+            ord_ids = purchase_objs.create(curr_orders)
+            ord_id = ord_ids.id
+           
+            if ord_ids:
+                for pl in self.request_lines:
+                    if pl.estatus=='ace':                                    
+                        if pl.provider_id.id == p:
+                            taxes = []
+                            for t in pl.product_taxes:
+                                taxes.append(t.id)
+                         
+                            curr_order_lines = {
+                                'order_id': ord_id,
+                                'name': pl.name,
+                                'price_unit': pl.product_price,
+                                'product_id': pl.product_id.id,
+                                'product_qty': pl.product_qty,
+                                'product_uom': pl.product_id.uom_id.id,
+                                'order_id': ord_id,
+                                'taxes_id': [(6, 0, taxes)],
+                                'date_planned': now.strftime('%Y-%m-%d 06:00:00'),
+                                'tickets':self.tickets.id,
+
+                            }
+                            pl.estatus='cot'
+
+                        pur_line_ids = purchase_line_objs.create(curr_order_lines)
+        self.done_date = datetime.now()
+        self.state = 'done' 
+
 
 
         
@@ -252,3 +316,22 @@ class PurchaseOrderRequest(models.Model):
     @api.multi
     def state_draft(self):
         self.state = 'draft'
+
+
+    @api.one
+    @api.model
+    def notificar_logistica(self):
+        activity_obj = self.env['mail.activity']
+        sale_model = self.env['ir.model'].search([('model','=','purchase.order.request')],limit=1)
+        users_l = self.env['res.users'].search([('name','=','Administrator')])
+        for u in users_l:
+            today = date.today()
+            activity_values = {
+                'res_id': self.id,
+                'res_model_id': sale_model.id,
+                'res_model': 'purchase.order.request',
+                'date_deadline': today,
+                'user_id': u.id,
+                'note': 'Validación de la solicitud de Compra '+str(self.name)+'.'
+            }
+            activity_id = activity_obj.create(activity_values)

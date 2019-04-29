@@ -335,6 +335,7 @@ class helpdesk_ticket(models.Model):
 					'observaciones':observaciones,						
 					'picking_id':do.id,
 					'product_uom':str(vals.get('uom_name')),
+					
 					#'company_id': company
 				})
 				do.action_assign()
@@ -357,7 +358,8 @@ class helpdesk_ticket(models.Model):
 		ticket=id_ticket[0]
 		entrada =self.env['stock.picking']
 		lines = entrada.search([('tickets', '=', ticket)])
-		
+
+		picking=self.team_id.picking_type_ids.id
 		if lines:
 			for l in lines:
 
@@ -366,9 +368,9 @@ class helpdesk_ticket(models.Model):
 					
 					do=self.env['stock.picking'].create({
 						'partner_id':self.partner_id.id,
-						'location_id':l.location_dest_id .id,
+						'location_id':l.location_dest_id.id,
 						'location_dest_id':l.location_id.id,	
-						'picking_type_id':2,
+						'picking_type_id':picking,
 						'origin':l.origin,
 						'tickets':l.tickets.id,										
 						'picking_type_code':'outgoing',
@@ -389,7 +391,7 @@ class helpdesk_ticket(models.Model):
 							'series': li.series,
 							'observaciones': li.observaciones,
 							'picking_type_code':'outgoing',
-							'picking_type_id':2,
+							'picking_type_id':picking,
 							'product_uom_qty': li.product_uom_qty,
 							'reserved_availability': li.reserved_availability,
 							#'quantity_done':li.quantity_done,

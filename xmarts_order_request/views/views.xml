@@ -9,7 +9,8 @@
           <header>
             <button string='Solicitar' name="state_request" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','draft')]}" />
             <button string='Generar Pedido' name="state_done" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','request')]}" />
-            <button string='Generar pedido' name="state_done" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','env')]}" />
+            <button string='Generar pedido' name="state_par" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','env')]}" />
+            <button string='Notificar' name="notificar_logistica" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','env')]}" />
             <button string='Cancelar' name="state_cancel" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':['|',('state','=','draft'),'|',('state','=','done'),'|',('state','=','cancel')]}" confirm="¿Esta seguro de cancelar la solicitud?"/>
             <button string='Cambiar a borrador' name="state_draft" type="object" class="oe_highlight oe_read_only" attrs="{'invisible':[('state','!=','cancel')]}" />
             <field name="state" widget="statusbar" readonly="1"/>
@@ -45,7 +46,7 @@
                     <field name="product_price" attrs="{'readonly':[('estatus','=','cot')]}"/>
                     <field name="product_taxes" widget="many2many_tags" attrs="{'readonly':[('estatus','=','cot')]}"/>
                     <field name="subtotal" attrs="{'readonly':[('estatus','=','cot')]}"/>
-                   <field name="estatus" attrs="{'readonly':[('estatus','=','cot')]}"/>
+                   <field name="estatus"/>
                    <button name="est" string="Aceptar" type="object" attrs="{'invisible':['|',('estatus','=','ace'),'|',('estatus','=','cot'),'|',('estatus','=','can')]}" class="btn-primary"/>
                    <button name="estado" string="Cancelar" type="object" attrs="{'invisible':['|',('estatus','=','ace'),'|',('estatus','=','cot'),'|',('estatus','=','can')]}" class="btn-danger"/>
                   </tree>

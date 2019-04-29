@@ -212,23 +212,23 @@
                      
                      <table style=" border:0px solid white; width:100%;" >
                         <tr>
-                        <td style="width:35%; height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;">
+                        <td style="width:35%; height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;padding-top: 5px;">
 
                         </td>
-                        <td style="width:30%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center; ">
+                        <td style="width:30%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;padding-top: 5px; ">
                         </td>
-                        <td style="width:35%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;">
+                        <td style="width:35%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;padding-top: 5px;">
 
                         </td>
                       </tr>
                        <tr>
-                          <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-top:1px solid black;">
+                          <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-top:1px solid black;padding-top: 10px;">
                                FIRMA DEL CONSUMIDOR
                             </td>
-                            <td style="width:30%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center; ">
+                            <td style="width:30%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;padding-top: 10px; ">
                         </td>
                         
-                        <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-top:1px solid black;">
+                        <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-top:1px solid black;padding-top: 10px;">
                                FIRMA DEL PRESTADOR DE SERVICIOS
                             </td>
                       </tr>

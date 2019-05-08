@@ -3,7 +3,7 @@
     <data>
         <report 
             string="Purchase Order" 
-            id="report_purchaseorder" 
+            id="action_report_purchaseorder" 
             model="purchase.order.request" 
             report_type="qweb-pdf"
             name="xmarts_order_request.report_purchaseorder" 

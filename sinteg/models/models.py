@@ -49,11 +49,12 @@ class ResPartner(models.Model):
 		'unique(email)',
 		'El correo ya existe, favor de modificarlo'
 		)]
-	_sql_constraints = [(
-		'default_name_unique',
-		'unique(name)',
-		'El Nombre ya existe, favor de modificarlo'
-		)]
+	@api.constrains('name')
+	def _check_name(self):
+		partner_rec = self.env['res.partner'].search(
+		[('name', '=', self.name),('id', '!=', self.id)])
+		if partner_rec:
+			raise ValueError(_('Ya existe este nombre.'))
 
 class Marca(models.Model):
 	_name = 'claim.marca'

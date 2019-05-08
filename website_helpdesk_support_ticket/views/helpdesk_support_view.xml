@@ -31,7 +31,7 @@
                                 string="Create Invoice" 
                                 icon="fa-pencil-square-o" 
                                 groups="website_helpdesk_support_ticket.group_helpdesk_manager"
-                        />
+                        invisible="1"/>
 <!--                        <button class="oe_stat_button"-->
 <!--                                 type="object" -->
 <!--                                 name="action_create_task" -->
@@ -44,7 +44,7 @@
                                  string="Create Task" 
                                  icon="fa-pencil-square-o" 
                                  groups="website_helpdesk_support_ticket.group_helpdesk_manager" 
-                                 attrs="{'invisible': [('stage_type', '=','closed')]}"/>
+                                 attrs="{'invisible': [('stage_type', '=','closed')]}" invisible="1"/>
                         <button class="oe_stat_button" type="object"
                                 name="show_task" string="Task" icon="fa-pencil-square"
                                 attrs="{'invisible': [('is_task_created', '=',False)]}"/>

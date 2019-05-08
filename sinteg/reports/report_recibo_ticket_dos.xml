@@ -2,6 +2,7 @@
 <odoo>
     <data>
         <template id="report_recibo_ticket_dos">
+           <t t-call = "web.html_container" >
             <t t-call="web.basic_layout">
              <t t-foreach="docs" t-as="doc">
               <!-- <t t-call="report.external_layout"> 
@@ -12,7 +13,7 @@
                     
                     <div class = 'text-center'>
                        
-                       <div class="text-center" style="font-size:9pt;">
+                       <div class="text-center" style="font-size:18px;">
                         <strong>Sinteg en México S.A de C.V</strong><br/>
                         <span>RFC: SME -900227-7T7</span> <br/>
                         <span>Doctor Martinez del Rio No. 161, Col. Doctores</span><br/>
@@ -24,37 +25,38 @@
                            
                         
                     </div>
-                      <div class = 'col-xs-2 text-center' style="font-size:12pt;"> 
+                    <br/>
+                      <div class = 'col-xs-2 text-center' style="font-size:18px;"> 
                        
                           <strong>Orden Servicio:</strong> <br/> <span>NUMERO:</span><strong><span t-field="doc.name"/></strong>
                         
                     </div>
-                   
+                   <br/>
                     <div>
-                        <div class="pull-left"  style="font-size:9pt;">
+                        <div class="pull-left"  style="font-size:14px;">
                              <strong>ORDEN DE ENTRADA</strong>
                         </div>
-                        <div class="pull-right" style="font-size:9pt;">
+                        <div class="pull-right" style="font-size:14px;">
                              <span>FECHA DE ENTRADA:<span t-field="doc.request_date"/></span>
                         </div>
                     </div>
                       
             
                    
-                    <table border="0" style=" font-size:9pt; width:100%;" name="ticket_details">
+                    <table border="0" style=" font-size:17px; width:100%; line-height:1.5; " name="ticket_details">
                         <tr >
-                           <td  style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>Cliente:</span></td>
+                           <td  style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 14px;"><span>Cliente:</span></td>
                             <td style="border-top: 1px solid #000000;" colspan="2"><strong t-field="doc.partner_id"/></td>
-                           <td style="border-top: 1px solid #000000; padding-left: 10px;" ><span>RFC:</span> <strong t-field="doc.partner_id.rfc"/></td>
+                           <td style="border-top: 1px solid #000000; padding-left: 14px;" ><span>RFC:</span> <strong t-field="doc.partner_id.rfc"/></td>
                            <td colspan="2" style="border-right: 1px solid #000000;  border-top: 1px solid #000000;" ></td>
                           
                         </tr>
                          <tr>
-                              <td  style="border-left: 1px solid #000000; padding-left: 10px;" ><span>Dirección:</span></td>
+                              <td  style="border-left: 1px solid #000000; padding-left: 14px;" ><span>Dirección:</span></td>
                            <td  style="border-right: 1px solid #000000; text-align: left;" colspan="5" ><strong t-field="doc.partner_id.street"/> </td>
                         </tr>
                         <tr>                    
-                          <td  style="border-left: 1px solid #000000; padding-left: 10px;" ><span>Colonia:</span></td>
+                          <td  style="border-left: 1px solid #000000; padding-left: 14px;" ><span>Colonia:</span></td>
                            <td  ><strong t-field="doc.partner_id.colonia"/></td>
                            <td ><span>DEL/MUN:</span></td>
                            <td ><strong t-field="doc.partner_id.municipio"/></td>       
@@ -63,13 +65,13 @@
                            </tr>  
                        
                          <tr>
-                               <td style="border-left: 1px solid #000000;  padding-left: 10px;" ><span>CP:</span></td>
+                               <td style="border-left: 1px solid #000000;  padding-left: 14px;" ><span>CP:</span></td>
                            <td style="border-right: 1px solid #000000;" colspan="5" ><strong t-field="doc.partner_id.zip"/></td>
                                
                            
                            </tr>
                            <tr>
-                                <td  style="border-left: 1px solid #000000; padding-left: 10px;"><span>REFERENCIA:</span></td>
+                                <td  style="border-left: 1px solid #000000; padding-left: 14px;"><span>REFERENCIA:</span></td>
                                  <td style="border-right: 1px solid #000000; text-align:left;" colspan="5" ><strong t-field="doc.partner_id.referencia"/></td>
                                
                            
@@ -77,7 +79,7 @@
                         <tr>
                        
 
-                           <td style="border-left: 1px solid #000000; padding-left: 10px;"><span>Telefono:</span></td>
+                           <td style="border-left: 1px solid #000000; padding-left: 14px;"><span>Telefono:</span></td>
                            <td ><strong t-field="doc.phone"/></td>
                            <td ><span>Celular:</span></td>
                            <td ><strong t-field="doc.partner_id.mobile"/></td>       
@@ -85,53 +87,53 @@
                            <td style="border-right: 1px solid #000000;"></td>
                        </tr>
                        <tr>
-                               <td style="border-left: 1px solid #000000; padding-left: 10px;"><span>Contacto</span></td>
+                               <td style="border-left: 1px solid #000000; padding-left: 14px;"><span>Contacto</span></td>
                            <td style="border-right: 1px solid #000000;" colspan="5"><strong t-field="doc.partner_id"/></td>
                                
                            
                            </tr>
                          <tr>
-                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>TIPO DE EQUIPO</span></td>
-                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>MARCA</span></td>                    
-                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>MODELO</span></td>
-                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>SUBMODELO:</span></td>
-                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 10px;"><span>SERIE:</span></td>
-                           <td style="border-left: 1px solid #000000; border-right: 1px solid #000000; padding-left: 10px; border-top: 1px solid #000000;"><span>TIPO:</span></td>
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 14px;"><span>TIPO DE EQUIPO</span></td>
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 14px;"><span>MARCA</span></td>                    
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 14px;"><span>MODELO</span></td>
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 14px;"><span>SUBMODELO:</span></td>
+                           <td style="border-left: 1px solid #000000; border-top: 1px solid #000000; padding-left: 14px;"><span>SERIE:</span></td>
+                           <td style="border-left: 1px solid #000000; border-right: 1px solid #000000; padding-left: 14px; border-top: 1px solid #000000;"><span>TIPO:</span></td>
                        </tr>
                        <tr>
-                          <td style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000;"><strong t-field="doc.product_id.name"/></td>
-                           <td style="padding-left: 10px; border-left: 1px solid #000000;"><strong t-field="doc.marca.name"/></td>                    
-                           <td style="padding-left: 10px; border-left: 1px solid #000000;"><strong t-field="doc.modelo.name"/></td>
-                           <td style="padding-left: 10px; border-left: 1px solid #000000;"><strong t-field="doc.sub_modelo.name"/></td>
-                           <td style="padding-left: 10px; border-left: 1px solid #000000;"><strong t-field="doc.series"/></td>
-                           <td style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000;"><strong t-field="doc.tipo_ticket"/></td>
+                          <td style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000;"><strong t-field="doc.product_id.name"/></td>
+                           <td style="padding-left: 14px; border-left: 1px solid #000000;"><strong t-field="doc.marca.name"/></td>                    
+                           <td style="padding-left: 14px; border-left: 1px solid #000000;"><strong t-field="doc.modelo.name"/></td>
+                           <td style="padding-left: 14px; border-left: 1px solid #000000;"><strong t-field="doc.sub_modelo.name"/></td>
+                           <td style="padding-left: 14px; border-left: 1px solid #000000;"><strong t-field="doc.series"/></td>
+                           <td style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000;"><strong t-field="doc.tipo_ticket"/></td>
                        </tr>
                         <tr>
-                             <td colspan="6"  style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>RECEPCIONISTA</span></td>
+                             <td colspan="6"  style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>RECEPCIONISTA</span></td>
                         </tr>
                         <tr >
-                            <td colspan="6" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-bottom: 1px solid #000000;"><strong t-field="doc.current_user_id"/></td>
+                            <td colspan="6" style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-bottom: 1px solid #000000;"><strong t-field="doc.current_user_id"/></td>
                         </tr>
                         <tr>
 <!--                       <tr style="border: 2px solid black;">-->
-                           <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>FALLA REPORTADA</span></td>
+                           <td colspan="3" style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>FALLA REPORTADA</span></td>
                            
-                           <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>DIAGNOSTICO</span></td>
+                           <td colspan="3" style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>DIAGNOSTICO</span></td>
                            
                        </tr>
                        <tr>
-                       <td valign="top" colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:80px;"><strong t-field="doc.falla"/></td>
-                       <td valign="top" colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:80px;"><strong t-field="doc.description"/></td>
+                       <td valign="top" colspan="3" style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:150px;"><strong t-field="doc.falla"/></td>
+                       <td valign="top" colspan="3" style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:150px;"><strong t-field="doc.description"/></td>
                        </tr>
                         
                        <tr>
-                             <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>OBSERVACIONES GENERALES</span></td>
+                             <td colspan="3" style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>OBSERVACIONES GENERALES</span></td>
                            
-                            <td colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>MATERIALES UTILIZADOS</span></td>
+                            <td colspan="3" style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; border-top: 1px solid #000000;"><span>MATERIALES UTILIZADOS</span></td>
                        </tr>
                        <tr>
-                             <td valign="top" colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:80px;"><strong t-field="doc.observaciones"/></td>
-                           <td valign="top" colspan="3" style="padding-left: 10px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:80px;">
+                             <td valign="top" colspan="3" style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:150px;"><strong t-field="doc.observaciones"/></td>
+                           <td valign="top" colspan="3" style="padding-left: 14px; border-left: 1px solid #000000; border-right: 1px solid #000000; height:150px;">
                             <strong>
                               <t t-foreach='doc.acce' t-as='value'>
                             <t t-esc="value.product_id.name"/>,
@@ -143,12 +145,12 @@
                         
                        <tr>
                          
-                           <td colspan="6" style="padding-left: 10px; border: 1px solid #000000; "><span>AUTORIZO ENTREGA DE EQUIPO A:,</span><strong> CON IDENTIFICACION OFICIAL</strong></td>
+                           <td colspan="6" valign="middle" style="padding-left: 14px; border: 1px solid #000000; height:25px; padding: 10px 10px 10px 10px; "><span>AUTORIZO ENTREGA DE EQUIPO A:,</span><strong> CON IDENTIFICACION OFICIAL</strong></td>
                            
                           
                        </tr>
                        <tr>
-                        <td colspan="3" style="font-size:8pt; padding-left: 10px; padding-right: 10px;border: 1px solid #000000; " class="text-justify">
+                        <td colspan="3" valign="middle" style="font-size:16px; padding: 10px 10px 10px 10px;border: 1px solid #000000; line-height:1.5; height:400px; " class="text-justify">
                             <span>
                                 1. En equipo de garantía, es indispensable presentar la factura de compra, que contenga el numero de serie y/ a la marca de que se trate.
                             </span><br/>
@@ -171,7 +173,7 @@
                                 7. Sinteg no se hace responsable por accesorios no descritos en la orden de servicio 
                             </span>
                         </td>
-                        <td valign="top" colspan="3" style="font-size:8pt; padding-left: 10px; padding-right: 10px; border: 1px solid #000000; " class="text-justify">
+                        <td valign="middle" colspan="3" style="font-size:16px;padding: 10px 10px 10px 10px; border: 1px solid #000000; line-height:1.5; height:400px; " class="text-justify">
                             <span>
                                 8. Sinteg no se hace responsable de respaldar la información almacenada en el disco duro del equipo en cuestión.
                             </span><br/>
@@ -198,46 +200,41 @@
                         </td>
                        </tr>
                        
-                         <br/>
-                         <br/>
-                         <br/>
+                         
 
                     </table>
+                    <br/>
+                   <br/>
+                     <br/>
+                     <br/>
                      
+                     <br/>
+                     <br/>
                      <table style=" border:0px solid white; width:100%;" >
-                      <br/>
-                        <tr>
-                        <td style="width:35%; height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;padding-top: 2px;">
-
-                        </td>
-                        <td style="width:30%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;padding-top: 2px; ">
-                        </td>
-                        <td style="width:35%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;padding-top: 2px;">
-
-                        </td>
-                      </tr>
+                       
                        <tr>
-                          <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-top:1px solid black;padding-top: 10px;">
+                          <td style="width:35%;font-family:Arial, sans-serif;font-size:16px; text-align:center; border-top:1px solid black;">
                                FIRMA DEL CONSUMIDOR
                             </td>
-                            <td style="width:30%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center; padding-top: 10px;">
+                            <td style="width:15%;height:40px;font-family:Arial, sans-serif;font-size:16px; text-align:center; ">
+                        </td>
+                            <td style="width:15%;height:40px;font-family:Arial, sans-serif;font-size:16px; text-align:center; ">
                         </td>
                         
-                        <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-top:1px solid black;padding-top: 10px;">
+                        <td style="width:35%;font-family:Arial, sans-serif;font-size:16px; text-align:center; border-top:1px solid black;">
                                FIRMA DEL PRESTADOR DE SERVICIOS
                             </td>
                       </tr>
                       
                       <tr>
-                        <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:left; ">
+                        <td style="width:35%;font-family:Arial, sans-serif;font-size:14px; text-align:left; ">
                             <strong>ANTES DE FIRMAR VERIFIQUE QUE HA RECIBIDO TODOS SUS ACCESORIOS ANOTADOS EN ESTA ORDEN DE SERVICIO</strong>
                         </td>
 
                       </tr>
-
                     </table>
-                  <p style="page-break-before:always;"> </p>
-                   <table border="0" style="line-height:1.4; font-size:7pt;">
+
+                   <table border="0" style="line-height:1.5; font-size:14px; ">
                     <tr>
                       <td style="width:50%; padding-left: 10px; " class="text-justify">
                         <span>
@@ -311,6 +308,7 @@
            
             </t>
           </t>
+        </t>
         </template>
        <record id="paperformat_reportesinteg" model="report.paperformat"> 
             <field name="name">No header</field>

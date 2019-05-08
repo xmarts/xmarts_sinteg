@@ -32,7 +32,7 @@
             <field name="equipo"/> -->
             <field name="marca"/>
             <field name="modelo"/>            
-            <!-- <field name="series"/> -->
+            <field name="sub_modelo"/> 
             <field name="observaciones"/>
             
             </xpath>
@@ -155,7 +155,7 @@
           
           <field name="uom_name" invisible="1"/>
             
-             <field name="product_id" context="{'default_type':'product'}" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+             <field name="product_id"  attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
                                                       ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
                                                        ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
@@ -187,14 +187,8 @@
                                                        ('tipo_ticket', '=', 'MAGOB')
                                                        ]}"
                                                           />
-            <field name="series" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
-                                                      ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
-                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
-                                                       ('tipo_ticket', '=', 'MAIP'),'|',
-                                                       ('tipo_ticket', '=', 'MAGOB')
-                                                       ]}"
-                                                      />          
+            <field name="series" invisible="1"/> 
+
             <field name="falla" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                      ('tipo_ticket','=','CALIDAD'),'|',
                                                      ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
@@ -263,8 +257,8 @@
                                                             ],'required': [('tipo_ticket', '=', 'SG')
                                                              ]}"/>
 
-             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary" attrs="{'invisible': ['|',('sal','=',True),'|',('stage_id','=',1)]}"/>
-             <button type="object" name="compras" string="Compras" class="btn-primary" attrs="{'invisible':[('stage_id','=',1)]}"/>
+             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary" attrs="{'invisible':[('estado_tick','!=','Resuelto')]}" />
+             <button type="object" name="compras" string="Solicitud de partes/compra" class="btn-primary" attrs="{'invisible':[('estado_tick','!=','Revisión')]}"/>
              <!-- name="%(xmarts_order_request.purchase_order_request_action)d" -->
              </group>
 
@@ -300,13 +294,14 @@
                                                       />
             <field name="current_user_id" invisible="1"/>
             <field name="sal" invisible="1"/>
+            <field name="estado_tick" invisible="1"/>
           
             </group>
            </xpath>
 
             <xpath expr="//page[@name='description']" position="after"> 
-              <page name="accesorios" string="Accesorios">
-                <separator string="Accesorios" colspan="4"/>
+              <page name="accesorios" string="Partes ocupadas">
+                <separator string="Partes ocupadas" colspan="4"/>
                         
                           <field name="acce">
                             <tree>
@@ -314,11 +309,22 @@
                               <field name="order_id"/>
                               <field name="product_qty"/>
                               <field name="date_planned"/>
+                              <field name="state_mov"/> 
                             </tree>
                           </field>
                         
               </page>
            </xpath>
+
+           <xpath expr="//field[@name='allow_user_ids']" position="attributes"> 
+
+            <attribute name="invisible">1</attribute>
+            
+            </xpath> 
+            <xpath expr="//field[@name='close_date']" position="attributes"> 
+            <attribute name="invisible">1</attribute>
+            
+            </xpath> 
 
 
 

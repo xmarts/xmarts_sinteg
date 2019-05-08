@@ -49,6 +49,11 @@ class ResPartner(models.Model):
 		'unique(email)',
 		'El correo ya existe, favor de modificarlo'
 		)]
+	_sql_constraints = [(
+		'default_name_unique',
+		'unique(name)',
+		'El Nombre ya existe, favor de modificarlo'
+		)]
 
 class Marca(models.Model):
 	_name = 'claim.marca'
@@ -130,6 +135,7 @@ class claim_product(models.Model):
 #	equipo = fields.Char(string='Equipo')
 	marca = fields.Many2one('claim.marca', string='Marca')
 	modelo = fields.Many2one('claim.modelo', string='Modelo')
+	sub_modelo=fields.Many2one('helpdesk.sub_modelo',string='Sub Modelo')
 	series = fields.Char(string='Series')
 	observaciones=fields.Text(string='Observaciones')
 
@@ -173,6 +179,7 @@ class Modelo(models.Model):
 class helpdesk_ticket(models.Model):
 	_inherit ='helpdesk.support'
 
+
 	contrato = fields.Boolean(string='Contrato')
 	# equipo_contrato = fields.Many2one('claim.modelo', string='Equipos de Contrato')
 	tecnico= fields.Many2one('hr.employee',string='Tecnico Asignado',required=True)
@@ -201,11 +208,11 @@ class helpdesk_ticket(models.Model):
 	series = fields.Char(string='Series')
 	observaciones=fields.Text(string='Observaciones Adicionales')
 	doc_c = fields.Binary(string='Documento')
-	product_id=fields.Many2one('product.product',string='Producto')
+	product_id=fields.Many2one('product.template',string=' Serie/Producto')
 	picking_type_id=fields.Many2one('stock.picking.type',string='Tipo de Operación')
 	location_dest_id=fields.Many2one('stock.location',string='Ubicación destino')
 	location_id = fields.Many2one('stock.location', 'Return Location')
-
+	estado_tick=fields.Char(related='stage_id.name',string="Estado")
 	
 	@api.onchange('team_id')
 	def _onchange_location_dest_id(self):
@@ -214,6 +221,11 @@ class helpdesk_ticket(models.Model):
 
 		self.location_id = self.picking_type_id.default_location_src_id.id
 
+	@api.onchange('product_id')
+	def _onchange_produc_id(self):
+		self.marca =self.product_id.marca.id
+		self.modelo = self.product_id.modelo.id
+		self.sub_modelo = self.product_id.sub_modelo.id
 
 	sub_modelo=fields.Many2one('helpdesk.sub_modelo',string='Sub Modelo')
 	falla=fields.Char(string='Falla Reportada')
@@ -237,9 +249,11 @@ class helpdesk_ticket(models.Model):
 	acce = fields.One2many(
 		'purchase.order.line',
 		'tickets',
-		string='',
+		string='Partes ocupadas',
 		readonly=True,
 	)
+
+	#estado_stock=fields.Selection(related='move_line_ids.state',string="Estado")
 
 
 
@@ -468,7 +482,8 @@ class PurchaseOrder(models.Model):
 class PurchaseOrder(models.Model):
 	_inherit = 'purchase.order'
 
-	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)	
+	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)
+	
 
 
 	@api.multi
@@ -555,6 +570,19 @@ class PurchaseOrderLine(models.Model):
 	_inherit = 'purchase.order.line'
 
 	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)
+	state_mov = fields.Selection([
+		('draft', 'New'), ('cancel', 'Cancelled'),
+		('waiting', 'Waiting Another Move'),
+		('confirmed', 'Waiting Availability'),
+		('partially_available', 'Partially Available'),
+		('assigned', 'Available'),
+		('done', 'Done')], string='Status',
+		related="move_ids.state",readonly=True,
+		help="* New: When the stock move is created and not yet confirmed.\n"
+			"* Waiting Another Move: This state can be seen when a move is waiting for another one, for example in a chained flow.\n"
+			"* Waiting Availability: This state is reached when the procurement resolution is not straight forward. It may need the scheduler to run, a component to be manufactured...\n"
+			"* Available: When products are reserved, it is set to \'Available\'.\n"
+			"* Done: When the shipment is processed, the state is \'Done\'.")	
 
 	@api.multi
 	def _prepare_stock_moves(self, picking):

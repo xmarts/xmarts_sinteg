@@ -10,7 +10,7 @@
             <field name="lang">${object.lang}</field>
             <field name="model_id" ref="xmarts_order_request.model_purchase_order_request"/>
             <field name="auto_delete" eval="True"/>
-            <field name="report_template" ref="xmarts_order_request.report_purchaseorder"/>
+            <field name="report_template" ref="xmarts_order_request.action_report_purchaseorder"/>
             <field name="report_name">${object.name}</field>
             <field name="body_html" type="html">
                 <p>Solicitud de Compra</p>

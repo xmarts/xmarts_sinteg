@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <report 
-            string="Purchase Order" 
+            string="Solicitud de compra" 
             id="action_report_purchaseorder" 
             model="purchase.order.request" 
             report_type="qweb-pdf"

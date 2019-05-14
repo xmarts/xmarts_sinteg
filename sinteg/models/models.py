@@ -204,8 +204,8 @@ class helpdesk_ticket(models.Model):
 
 		
 	solicitante=fields.Char(string='Solicitante')
-	marca = fields.Many2one('claim.marca', string='Marca')
-	modelo = fields.Many2one('claim.modelo', string='Modelo')
+	marca = fields.Many2one('claim.marca', string='Marca', readonly=True)
+	modelo = fields.Many2one('claim.modelo', string='Modelo',readonly=True)
 	series = fields.Char(string='Series')
 	observaciones=fields.Text(string='Observaciones Adicionales')
 	doc_c = fields.Binary(string='Documento')
@@ -228,7 +228,7 @@ class helpdesk_ticket(models.Model):
 		self.modelo = self.product_id.modelo.id
 		self.sub_modelo = self.product_id.sub_modelo.id
 
-	sub_modelo=fields.Many2one('helpdesk.sub_modelo',string='Sub Modelo')
+	sub_modelo=fields.Many2one('helpdesk.sub_modelo',string='Sub Modelo',readonly=True)
 	falla=fields.Char(string='Falla Reportada')
 	des_solicitud=fields.Text(string='Descripción de la Solicitud')
 	contacto=fields.Char(string='Contacto')

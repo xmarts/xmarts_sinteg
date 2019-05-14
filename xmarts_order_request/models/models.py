@@ -4,7 +4,9 @@ from odoo import models, fields, api, exceptions,_
 from datetime import datetime, date, time, timedelta
 import calendar 
 from openerp.exceptions import UserError, RedirectWarning, ValidationError
-
+from odoo.addons import decimal_precision as dp
+from odoo.tools.float_utils import float_compare
+from odoo.tools.misc import formatLang
 # class xmarts_order_request(models.Model):
 #     _name = 'xmarts_order_request.xmarts_order_request'
 
@@ -33,9 +35,44 @@ class PurchaseOrderRequestLines(models.Model):
     product_taxes = fields.Many2many("account.tax", default=lambda self: self.env['account.tax'].search([('name', '=', ['IVA(16%) COMPRAS'])]).ids , string="Impuestos")
     estatus= fields.Selection(selection=[('ace', 'Aceptado'),('pen', 'Pendiente'),('cot','Cotizado'),('can','Cancelado')],string='Estado', default="ace")
     
+    #price_subtotal = fields.Monetary(compute='_compute_amount', string='Subtotal', store=True)
+    #price_total = fields.Monetary(compute='_compute_amount', string='Total', store=True)
+    price_tax = fields.Float(compute='_compute_amount', string='Tax', store=True)
 
+    order_id = fields.Many2one('purchase.order.request', string='Order Reference', index=True, required=True, ondelete='cascade')
+   
+    
+    @api.depends('product_qty', 'product_price', 'product_taxes')
+    def _compute_amount(self):
+        for line in self:
+            vals = line._prepare_compute_all_values()
+            taxes = line.product_taxes.compute_all(
+                vals['product_price'],
+                vals['currency_id'],
+                vals['product_qty'],
+                vals['product'],
+                #vals['partner']
+                )
+            line.update({
+                'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
+                #'price_total': taxes['total_included'],
+                #'price_subtotal': taxes['total_excluded'],
+            })
 
-  
+    def _prepare_compute_all_values(self):
+        # Hook method to returns the different argument values for the
+        # compute_all method, due to the fact that discounts mechanism
+        # is not implemented yet on the purchase orders.
+        # This method should disappear as soon as this feature is
+        # also introduced like in the sales module.
+        self.ensure_one()
+        return {
+            'product_price': self.product_price,
+            'currency_id': self.order_id.currency_id,
+            'product_qty': self.product_qty,
+            'product': self.product_id,
+            #'partner': self.order_id.tickets.partner_id.id,
+        }  
     
     @api.onchange('product_price')
     def onchange_estatus(self):
@@ -136,7 +173,7 @@ class PurchaseOrderRequest(models.Model):
             amount_untaxed = amount_tax = 0.0
             for line in order.request_lines:
                 amount_untaxed += line.subtotal
-                amount_tax += line.product_taxes.amount
+                amount_tax += line.price_tax
             order.update({
                 'amount_untaxed': order.currency_id.round(amount_untaxed),
                 'amount_tax': order.currency_id.round(amount_tax),
@@ -275,13 +312,8 @@ class PurchaseOrderRequest(models.Model):
         '''
         self.ensure_one()
         ir_model_data = self.env['ir.model.data']
-        try:
-            if self.env.context.get('send_rfq', False):
-                template_id = ir_model_data.get_object_reference('purchase.order.request', 'email_purchase_solicitud')[1]
-            else:
-                template_id = ir_model_data.get_object_reference('purchase.order.request', 'email_purchase_solicitud')[1]
-        except ValueError:
-            template_id = False
+        template = self.env.ref('xmarts_order_request.email_purchase_solicitud', False)
+        
         try:
             compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
         except ValueError:
@@ -290,8 +322,8 @@ class PurchaseOrderRequest(models.Model):
         ctx.update({
             'default_model': 'purchase.order.request',
             'default_res_id': self.ids[0],
-            'default_use_template': bool(template_id),
-            'default_template_id': template_id,
+            'default_use_template': bool(template),
+            'default_template_id': template and template.id or False,
             'default_composition_mode': 'comment',
             'custom_layout': "mail.mail_notification_paynow",
             'force_email': True,

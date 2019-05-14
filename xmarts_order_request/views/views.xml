@@ -31,7 +31,7 @@
               <group>
                 <field name="request_date" readonly="1" />
                 <field name="done_date" readonly="1" />
-                <field name="estado_solicitud" />
+                <field name="estado_solicitud" invisible="1"/>
                 
               </group>
             </group>
@@ -50,11 +50,21 @@
                    <field name="estatus"/>
                    <button name="est" string="Aceptar" type="object" attrs="{'invisible':['|',('estatus','=','ace'),'|',('estatus','=','cot'),'|',('estatus','=','can')]}" class="btn-primary"/>
                    <button name="estado" string="Cancelar" type="object" attrs="{'invisible':['|',('estatus','=','ace'),'|',('estatus','=','cot'),'|',('estatus','=','can')]}" class="btn-danger"/>
+                   <field name="price_tax" invisible="1"/>
                   </tree>
                 </field>
               </page>
             </notebook>
+            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
+                                <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_total" invisible="1"/>
+                                </div>
+                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
+                            </group>
           </sheet>
+
           <div class="oe_chatter">
              <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
              <field name="activity_ids" widget="mail_activity"/>

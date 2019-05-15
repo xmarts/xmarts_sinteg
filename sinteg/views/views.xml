@@ -163,29 +163,17 @@
                                                        ('tipo_ticket', '=', 'MAGOB')
                                                        ]}"
                                                       />                                     
-            <field name="marca" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+            <field name="marca" readonly="1" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                      ('tipo_ticket','=','CALIDAD'),'|',
-                                                     ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
-                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
-                                                       ('tipo_ticket', '=', 'MAIP'),'|',
-                                                       ('tipo_ticket', '=', 'MAGOB')
-                                                       ]}"
+                                                     ('tipo_ticket','=','SG')]}"
                                                      />
-            <field name="modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+            <field name="modelo" readonly="1" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                       ('tipo_ticket','=','CALIDAD'),'|',
-                                                      ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
-                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
-                                                       ('tipo_ticket', '=', 'MAIP'),'|',
-                                                       ('tipo_ticket', '=', 'MAGOB')
-                                                       ]}"
+                                                      ('tipo_ticket','=','SG')]}"
                                                       />  
-            <field name="sub_modelo" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
+            <field name="sub_modelo" readonly="1" attrs="{'invisible':['|',('tipo_ticket','=','VENTA'),'|',
                                                           ('tipo_ticket','=','CALIDAD'),'|',
-                                                          ('tipo_ticket','=','SG')],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
-                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO'),'|', ('tipo_ticket', '=', 'CONTRATO'),'|', ('tipo_ticket', '=', 'INTERNO'),'|', 
-                                                       ('tipo_ticket', '=', 'MAIP'),'|',
-                                                       ('tipo_ticket', '=', 'MAGOB')
-                                                       ]}"
+                                                          ('tipo_ticket','=','SG')]}"
                                                           />
             <field name="series" invisible="1"/> 
 

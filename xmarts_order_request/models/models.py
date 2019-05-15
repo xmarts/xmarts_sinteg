@@ -373,3 +373,24 @@ class AccountInvoiceConfirm(models.TransientModel):
                     order.write({'state': 'to approve'})
                 
         return {'type': 'ir.actions.act_window_close'}
+
+class AccountInvoiceConfirms(models.TransientModel):
+    """
+    This wizard will confirm the all the selected draft invoices
+    """
+
+    _name = "purchase.order.request.confirm"
+    _description = "Confirm the selected invoices"
+
+    @api.multi
+    def invoice_confirm(self):
+        context = dict(self._context or {})
+        active_ids = context.get('active_ids', []) or []
+
+        for record in self.env['purchase.order.request'].browse(active_ids):
+            if record.state != 'request':
+                raise UserError(_("Las Solicitude seleccionadas no pueden ser confirmadas ya que no están en estado 'Solicitud'."))
+            record.estado_solicitud='ace'
+            for l in record.request_lines:
+                l.estatus='ace'
+        return {'type': 'ir.actions.act_window_close'}

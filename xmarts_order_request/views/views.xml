@@ -110,7 +110,7 @@
 
     <menuitem id="menu_purchase_order_request" name="Solicitud de compra" parent="purchase.menu_procurement_management" sequence="66" action="purchase_order_request_action"/>
 
-    <record id="purchase_order_request_confirm_view" model="ir.ui.view">
+    <record id="purchase_order_confirm_view" model="ir.ui.view">
             <field name="name">purchase.order.confirm.form</field>
             <field name="model">purchase.order.confirm</field>
             <field name="arch" type="xml">
@@ -128,11 +128,36 @@
             </field>
         </record>
 
-        <act_window id="purchase_order_request_confirm"
+        <act_window id="purchase_order_confirm"
             multi="True"
             key2="client_action_multi" name="Confirmar orden"
             res_model="purchase.order.confirm" src_model="purchase.order"
             view_mode="form" target="new" view_type="form" />
+
+
+       <record id="purchase_order_request_confirm_view" model="ir.ui.view">
+            <field name="name">purchase.order.request.confirm.form</field>
+            <field name="model">purchase.order.request.confirm</field>
+            <field name="arch" type="xml">
+                <form string="Confirmar Solicitud" >
+                    <p class="oe_grey">
+                        
+                        Una vez confirmadas las Solicitudes de Compra, no podrá
+                        modificarlos. 
+                    </p>
+                    <footer>
+                        <button string="Confirmar Solicitud" name="invoice_confirm" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="purchase_order_request_confirm"
+            multi="True"
+            key2="client_action_multi" name="Confirmar Solicitud"
+            res_model="purchase.order.request.confirm" src_model="purchase.order.request"
+view_mode="form" target="new" view_type="form" />
 
     <!-- explicit list view definition -->
     <!--

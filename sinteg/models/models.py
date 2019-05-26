@@ -176,6 +176,13 @@ class Modelo(models.Model):
 	_name = 'helpdesk.sub_modelo'
 	name=fields.Char(string='Nombre')
 
+class Contrato(models.Model):
+	_name = 'helpdesk.contrato'
+	name=fields.Char(string='Nombre')
+
+class Contrato(models.Model):
+	_name = 'helpdesk.zona'
+	name=fields.Char(string='Nombre')
 
 class helpdesk_ticket(models.Model):
 	_inherit ='helpdesk.support'
@@ -202,18 +209,24 @@ class helpdesk_ticket(models.Model):
 									  ('entrega_rec', 'Entrega y Recoleccion'),
 									  ('recoleccion_ent', 'Recoleccion y Entrega')],string='Tipo',default='entregar_cli')
 
-		
+	mod_contrato=fields.Many2one('helpdesk.contrato',string='Contrato')
+	zona=fields.Many2one('helpdesk.zona',string='Zona')	
 	solicitante=fields.Char(string='Solicitante')
-	marca = fields.Many2one( string='Marca', related='product_id.marca')
-	modelo = fields.Many2one( string='Modelo', related='product_id.modelo')
+	marca = fields.Many2one( 'claim.marca',string='Marca', related='product_id.marca')
+	modelo = fields.Many2one( 'claim.modelo',string='Modelo', related='product_id.modelo')
 	series = fields.Char(string='Series')
-	observaciones=fields.Text(string='Observaciones Adicionales')
+	observaciones=fields.Text(string='Observaciones')
 	doc_c = fields.Binary(string='Documento')
+	doc_c_sg = fields.Binary(string='Documento')
 	product_id=fields.Many2one('product.template',string=' Serie/Producto')
 	picking_type_id=fields.Many2one('stock.picking.type',string='Tipo de Operación')
 	location_dest_id=fields.Many2one('stock.location',string='Ubicación destino')
 	location_id = fields.Many2one('stock.location', 'Return Location')
 	estado_tick=fields.Char(related='stage_id.name',string="Estado")
+	os=fields.Char(string="Orden de Servicio")
+	entrega=fields.Char(string="Direccion entrega/recolección")
+	telefono=fields.Char(string="Telefono")
+	celular=fields.Char(string="Celular")
 	
 	@api.onchange('team_id')
 	def _onchange_location_dest_id(self):
@@ -223,7 +236,7 @@ class helpdesk_ticket(models.Model):
 		self.location_id = self.picking_type_id.default_location_src_id.id
 
 	
-	sub_modelo=fields.Many2one(related='product_id.sub_modelo',string='Sub Modelo')
+	sub_modelo=fields.Many2one('helpdesk.sub_modelo',related='product_id.sub_modelo',string='Sub Modelo')
 	falla=fields.Char(string='Falla Reportada')
 	des_solicitud=fields.Text(string='Descripción de la Solicitud')
 	contacto=fields.Char(string='Contacto')
@@ -328,7 +341,7 @@ class helpdesk_ticket(models.Model):
 				company = vals.get("company_id")
 
 
-				do=self.env['stock.picking'].create({'partner_id':partner,'location_id':location,'location_dest_id':location_dest,'picking_type_id':picking_type,'tickets':res.id,'p':str(vals.get('uom_name'))})
+				do=self.env['stock.picking'].create({'partner_id':partner,'location_id':location,'location_dest_id':location_dest,'picking_type_id':picking_type,'origin_tickets':True,'tickets':res.id,'p':str(vals.get('uom_name'))})
 				
 
 				self.env['stock.move'].create({         
@@ -338,9 +351,9 @@ class helpdesk_ticket(models.Model):
 					'name':name,
 					'product_id':product_ids,
 					'state':'draft',
-					'marca': marca,
-					'modelo': modelo,
-					'sub_modelo': sub_modelo,
+					'marca': self.marca.id,
+					'modelo': self.modelo.id,
+					'sub_modelo': self.sub_modelo.id,
 					'series': series,
 					'observaciones':observaciones,						
 					'picking_id':do.id,
@@ -367,7 +380,7 @@ class helpdesk_ticket(models.Model):
 		id_ticket = cr.fetchone()
 		ticket=id_ticket[0]
 		entrada =self.env['stock.picking']
-		lines = entrada.search([('tickets', '=', ticket)])
+		lines = entrada.search([('tickets', '=', ticket),('origin_tickets','=',False)])
 
 		picking=self.team_id.picking_type_ids.id
 		if lines:
@@ -424,6 +437,74 @@ class helpdesk_ticket(models.Model):
 	def create_apple_dos(self):
 		self._create_apple_dos()
 
+	@api.model
+	def _create_salida(self):
+		inv_obj = self.env['stock.picking']
+		move_line_obj = self.env['stock.move']
+		self.ensure_one()
+		cr = self.env.cr
+		sql ="select id from helpdesk_support where name='"+str(self.name)+"' limit 1"
+		cr.execute(sql)
+		id_ticket = cr.fetchone()
+		ticket=id_ticket[0]
+		entrada =self.env['stock.picking']
+		lines = entrada.search([('tickets', '=', ticket),('origin_tickets','=',True)])
+
+		picking=self.team_id.picking_type_ids.id
+		if lines:
+			for l in lines:
+
+				if l.state =='done':
+
+					
+					do=self.env['stock.picking'].create({
+						'partner_id':self.partner_id.id,
+						'location_id':l.location_dest_id.id,
+						'location_dest_id':l.location_id.id,	
+						'picking_type_id':picking,
+						'origin':l.origin,
+						'tickets':l.tickets.id,										
+						'picking_type_code':'outgoing',
+						'state':'draft',
+						'origin':self.name})
+						
+					if do:
+						for li in l.move_ids_without_package:
+
+							self.env['stock.move'].create({
+
+							'picking_id':do.id,
+							'name':li.name,
+							'product_id':li.product_id.id,
+							'marca':  li.marca.id,
+							'modelo': li.modelo.id,
+							'sub_modelo': li.sub_modelo.id,
+							'series': li.series,
+							'observaciones': li.observaciones,
+							'picking_type_code':'outgoing',
+							'picking_type_id':picking,
+							'product_uom_qty': li.product_uom_qty,
+							'reserved_availability': li.reserved_availability,
+							#'quantity_done':li.quantity_done,
+							'product_uom':li.product_id.uom_id.id,
+							'product_uom_id':'1',
+							'location_id':li.location_dest_id.id,
+							'location_dest_id':li.location_id.id,
+							'state':'draft'
+							})
+     
+							do.action_assign()
+							self.sal=True
+
+				else:
+					raise UserError('No se a ingresado equipo al almacen ')
+				
+					return invoice
+
+
+	def create_salida(self):
+		self._create_salida()
+
 	@api.multi
 	def compras(self, cr,  context=None):
 		inv_obj_compras = self.env['purchase.order.request']
@@ -439,35 +520,22 @@ class helpdesk_ticket(models.Model):
 		orden =self.env['purchase.order.request']
 		ordens = orden.search([('tickets', '=', ticket)],limit=1)
 		ids=ordens.id
-		if not ids:
-			invoice_c ={
-				
-				'tickets': ticket,
-				'state':'draft'
-			}
-			inv_ids = inv_obj_compras.create(invoice_c)
+		invoice_c ={
 			
-			return {
-				'type': 'ir.actions.act_window',
-				'res_model': 'purchase.order.request',
-				'view_mode': 'form',
-				'res_id': inv_ids.id,
-				'target': 'current',
-				'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
-				}
-		elif ids:
-
-			return {
-				'type': 'ir.actions.act_window',
-				'res_model': 'purchase.order.request',
-				'view_mode': 'form',
-				'res_id': ids,
-				'target': 'current',
-				'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
-				}
+			'tickets': ticket,
+			'state':'draft'
+		}
+		inv_ids = inv_obj_compras.create(invoice_c)
 		
-
-
+		return {
+			'type': 'ir.actions.act_window',
+			'res_model': 'purchase.order.request',
+			'view_mode': 'form',
+			'res_id': inv_ids.id,
+			'target': 'current',
+			'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
+			}
+	
 
 class PurchaseOrder(models.Model):
 	_inherit = 'purchase.order.request'
@@ -682,6 +750,7 @@ class stockpicking(models.Model):
 
 	ticket=fields.Char(string='Ticket', readonly=True)
 	tickets=fields.Many2one('helpdesk.support',string='Ticket', readonly=True)
+	origin_tickets=fields.Boolean(string='origin ticket')
 
 
 class stockpicking(models.Model):

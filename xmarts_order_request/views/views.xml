@@ -31,6 +31,7 @@
                 <field name="create_uid" string="Creado por" readonly="1" />
                 <field name="company_id" string="Compañia" readonly="1" invisible="1"/>
                 <field name="currency_id" string="Moneda" readonly="1" invisible="1" />
+                <field name="notes" class="oe_inline" />
                 
               </group>
               <group>
@@ -38,6 +39,7 @@
                 <field name="done_date" readonly="1" />
                 <field name="estado_solicitud" invisible="1"/>
                 <field name="ocultar" invisible="1"/>
+                <field name="date_planned" invisible="1"/>
               </group>
             </group>
             <notebook>
@@ -47,6 +49,7 @@
                     <field name="product_id"  attrs="{'readonly':[('estatus','=','cot')]}"/>
                     <field name="product_template_id" options="{'no_create': True, 'no_create_edit':True}" invisible="1" />
                     <field name="name" attrs="{'readonly':[('estatus','=','cot')]}"/>
+                    <field name="fecha_prevista"/>
                     <field name="product_qty" attrs="{'readonly':[('estatus','=','cot')]}"/>
                     <field name="provider_id" context="{'default_supplier':True}" attrs="{'readonly':[('estatus','=','cot')]}" />
                     <field name="product_price" attrs="{'readonly':[('estatus','=','cot')]}"/>
@@ -68,6 +71,7 @@
                                 </div>
                                 <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                             </group>
+
           </sheet>
 
           <div class="oe_chatter">
@@ -87,6 +91,7 @@
           <field name="name"/>
           <field name="state"/>
           <field name="estado_solicitud"/>
+          <field name="date_planned"/>
         </tree>
       </field>
     </record>
@@ -117,8 +122,7 @@
                 <form string="Confirmar orden" >
                     <p class="oe_grey">
                         
-                        Una vez confirmadas las Solicitudes de cotización, no podrá
-                        modificarlos. 
+                        Esta apunto de validar las Solicitudas de Presupuesto seleccionadas como Ordenes de Compra.
                     </p>
                     <footer>
                         <button string="Confirmar" name="invoice_confirm" type="object" default_focus="1" class="btn-primary"/>

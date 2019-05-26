@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="report_formato_ruta">
+           <t t-call = "web.html_container" >
+            <t t-call="web.basic_layout">
+             <t t-foreach="docs" t-as="doc">
+                 
+               <t t-if="doc.estado_tick == 'Programación de Ruta'">
+                        <div class = 'text-center' style="padding-top:10px">  
+                            <strong>RUTA LOCAL SOLICITADA</strong>
+                        </div>
+                        <div class = 'col-xs-6 text-left' style="padding-top:10px">    
+                              <img t-attf-src="data:image/*;base64,{{doc.company_id.logo}}" style="width:80px;" />
+                        </div>
+                        <br/>
+                        
+                        <div class = 'text-left'>  
+                            <strong>FORMATO DE RUTA</strong><br/>
+                            <strong>CHOFER ASIGNADO:</strong><strong>CEDIS</strong>
+                        </div>
+                     
+                     <br/>
+                  
+                     <table style=" border:0px solid white; width:100%; font-size:12px;">
+                        <thead>
+                            <tr>
+                                <th style="background:#A0C2F6;" class="text-center"><strong>FECHA Y HORA</strong></th>
+                                <th style="background:#A0C2F6;" class="text-center"><strong>SOLICITADA POR</strong></th>
+                                <th style="background:#A0C2F6;" class="text-center"><strong>OS</strong></th>
+                                <th style="background:#A0C2F6;" class="text-center"><strong>CANTIDAD</strong></th>
+                                <th style="background:#A0C2F6;" class="text-center"><strong>QUE TRASLADA</strong></th>
+                                <th style="background:#A0C2F6;" class="text-center"><strong>DIRECCION</strong></th>
+                                <th style="background:#A0C2F6;" class="text-center"><strong>ACCION</strong></th>
+                                <th style="background:#A0C2F6;" class="text-center"><strong>OBSERVACIONES</strong></th>
+                                <th style="background:#A0C2F6;" class="text-center"><strong>NOMBRE FIRMA Y FECHA</strong></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td class="text-center">
+                                <span t-field="doc.request_date"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="doc.solicitante"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="doc.os"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="doc.cantidad"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="doc.des_solicitud"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="doc.entrega"/>
+                            </td>                            
+                            <td class="text-center">
+                               <span t-esc="dict(doc._fields['tipo'].selection).get(doc.tipo)"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="doc.observaciones"/>
+                            </td>
+                            <td>
+                                <!-- <span t-field="doc.request_date"/> -->
+                            </td>
+                        
+                        </tbody>
+                    </table>
+                    </t>
+              <t t-else="">
+                <div class="page">
+                  <h1>No puedes imprimir este Formto hasta la etapa de Programacion de Ruta</h1>
+                </div>
+              </t>
+                
+          </t>
+        </t>
+        </t>
+        </template>
+       <record id="paperformat_reporte_ruta" model="report.paperformat"> 
+            <field name="name">PF Sale Order Landscape</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">3</field>
+<field name="dpi">90</field>
+    </record>
+</data>
+</odoo>

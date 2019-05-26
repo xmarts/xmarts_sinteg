@@ -21,5 +21,16 @@
             paperformat="sinteg.paperformat_reportesinteg"
            
         />
+
+        <report
+            string="Formato de Ruta"
+            id="action_report_formato_ruta"
+            model="helpdesk.support"
+            report_type="qweb-pdf"
+            name="sinteg.report_formato_ruta"
+            file="sinteg.report_formato_ruta"
+            paperformat="sinteg.paperformat_reporte_ruta"
+           
+        />
     </data>
 </odoo>

@@ -34,7 +34,7 @@ class PurchaseOrderRequestLines(models.Model):
     purr_id = fields.Many2one("purchase.order.request")
     product_taxes = fields.Many2many("account.tax", default=lambda self: self.env['account.tax'].search([('name', '=', ['IVA(16%) COMPRAS'])]).ids , string="Impuestos")
     estatus= fields.Selection(selection=[('ace', 'Aceptado'),('pen', 'Pendiente'),('cot','Cotizado'),('can','Cancelado')],string='Estado', default="ace")
-    
+    fecha_prevista = fields.Datetime(string="Fecha Prevista",default=fields.Datetime.now,)
     #price_subtotal = fields.Monetary(compute='_compute_amount', string='Subtotal', store=True)
     #price_total = fields.Monetary(compute='_compute_amount', string='Total', store=True)
     price_tax = fields.Float(compute='_compute_amount', string='Tax', store=True)
@@ -166,6 +166,22 @@ class PurchaseOrderRequest(models.Model):
 
     company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.user.company_id.id)
     ocultar=fields.Boolean(string='ocultar campo',compute="_compute_campo")
+    notes = fields.Text(string="Observaciones")
+    date_planned = fields.Datetime(string='Fecha Prevista', compute='_compute_date_planned', store=True)
+
+    @api.depends('request_lines.fecha_prevista', 'create_date')
+    def _compute_date_planned(self):
+        for order in self:
+            min_date = False
+            for line in order.request_lines:
+                if not min_date or line.fecha_prevista < min_date:
+                    min_date = line.fecha_prevista
+            if min_date:
+                order.date_planned = min_date
+            else:
+                order.date_planned = order.create_date
+
+
 
     @api.depends()
     def _compute_campo(self):
@@ -257,7 +273,7 @@ class PurchaseOrderRequest(models.Model):
                                     'product_uom': pl.product_id.uom_id.id,
                                     'order_id': ord_id,
                                     'taxes_id': [(6, 0, taxes)],
-                                    'date_planned': now.strftime('%Y-%m-%d 06:00:00'),
+                                    'date_planned': pl.fecha_prevista,
                                     'tickets':self.tickets.id,
 
                                 }
@@ -285,7 +301,7 @@ class PurchaseOrderRequest(models.Model):
     def notificar_logistica(self):
         activity_obj = self.env['mail.activity']
         sale_model = self.env['ir.model'].search([('model','=','purchase.order.request')],limit=1)
-        users_l = self.env['res.users'].search([('name','=','Administrator')])
+        users_l = self.env['res.users'].search([('name','=','Yolanda Lorenzo Rendon')])
         for u in users_l:
             today = date.today()
             activity_values = {

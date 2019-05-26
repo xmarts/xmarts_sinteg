@@ -26,6 +26,7 @@
     'data': [
         #'data/mail_template.xml',
         'reports/purchase_quotation_templates.xml',
+        'reports/formato_ruta.xml',
         'reports/report_recibo_ticket.xml',
         'reports/report_recibo_ticket_dos.xml',
         'reports/reports_menu.xml',

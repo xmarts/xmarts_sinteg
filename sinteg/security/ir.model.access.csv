@@ -9,3 +9,9 @@ access_claim_modelo,claim.modelo,model_claim_modelo,base.group_erp_manager,1,1,1
 
 access_helpdesk_sub_modelo,helpdesk.sub_modelo,model_helpdesk_sub_modelo,base.group_user,1,0,0,0
 access_helpdesk_sub_modelo,helpdesk.sub_modelo,model_helpdesk_sub_modelo,base.group_erp_manager,1,1,1,1
+
+access_helpdesk_contrato,helpdesk.contrato,model_helpdesk_contrato,base.group_user,1,0,0,0
+access_helpdesk_contrato,helpdesk.contrato,model_helpdesk_contrato,base.group_erp_manager,1,1,1,1
+
+access_helpdesk_zona,helpdesk.zona,model_helpdesk_zona,base.group_user,1,0,0,0
+access_helpdesk_zona,helpdesk.zona,model_helpdesk_zona,base.group_erp_manager,1,1,1,1

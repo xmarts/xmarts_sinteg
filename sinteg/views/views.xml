@@ -64,7 +64,7 @@
             <field name="marca"/>
             <field name="modelo"/>
             <field name="sub_modelo"/>            
-            <field name="series"/>
+            <field name="series" invisible="1"/>
             <field name="observaciones"/>
             <field name="tickets" invisible="1"/>
           </xpath>  
@@ -73,7 +73,7 @@
 
           <field name="ticket" invisible="1"/>
             <field name="tickets" />
-           
+           <field name="origin_tickets" invisible="1"/>
           </xpath>
 
 
@@ -108,15 +108,21 @@
                                                             ('tipo_ticket','=','CARGO'),'|',
                                                             ('tipo_ticket','=','GARANTIA')
                                                             ]}"/> -->
-           <field name="doc_c" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
-                                                            ('tipo_ticket','=','SG'),'|',
-                                                            ('tipo_ticket','=','INTERNO'),'|',
-                                                            ('tipo_ticket','=','VENTA'),'|',
+           <field name="doc_c" attrs="{'invisible':['|',('tipo_ticket','=','SG'),'|',
                                                             ('tipo_ticket','=','CALIDAD'),'|',
                                                             ('tipo_ticket','=','MAIP'),'|',
                                                             ('tipo_ticket','=','MAGOB'),'|',
-                                                            ('tipo_ticket','=','CARGO')
-                                                            ]}"/>
+                                                            ('tipo_ticket','=','GARANTIA'),'|',
+                                                            ('tipo_ticket','=','CONTRATO')
+                                                            ],'required': ['|',('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','INTERNO')
+                                                             ]}"/>
+          <field name="doc_c_sg" attrs="{'invisible':[('estado_tick','!=','Comprobación')
+
+                                                            ],'required': [('estado_tick','=','Comprobación')
+                                                             ]}"/>
            <field name="tecnico" />
            </xpath>
            
@@ -143,14 +149,65 @@
           
            <field name="solicitante" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CARGO'),'|',
-                                                            ('tipo_ticket','=','GARANTIA'),'|',
-                                                            ('tipo_ticket','=','MAIP'),'|',
-                                                            ('tipo_ticket','=','MAGOB')
+                                                            ('tipo_ticket','=','GARANTIA')
 
                                                             ],'required': ['|',('tipo_ticket','=','SG'),'|',
-                                                            ('tipo_ticket','=','CALIDAD'),'|',('tipo_ticket','=','CONTRATO'),'|',('tipo_ticket','=','INTERNO'),'|',('tipo_ticket','=','VENTA')
+                                                            ('tipo_ticket','=','CALIDAD'),'|',('tipo_ticket','=','CONTRATO'),'|',('tipo_ticket','=','INTERNO'),'|',('tipo_ticket','=','VENTA'),'|',('tipo_ticket','=','MAIP'),'|',('tipo_ticket','=','MAGOB')
                                                              ]}"/>
+        <field name="telefono" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
                                                             
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ],'required': [
+                                                            ('tipo_ticket', '=', 'SG')
+                                                             ]}"/>
+         <field name="celular" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ],'required': [
+                                                            ('tipo_ticket', '=', 'SG')
+                                                             ]}"/>
+          <field name="os" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            
+                                                            
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            
+                                                             ]}"/>
+          <field name="zona" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ],'required': [
+                                                            ('tipo_ticket', '=', 'SG')
+                                                             ]}"/>
+                                                           
      
           
           <field name="uom_name" invisible="1"/>
@@ -185,29 +242,19 @@
                                                        ('tipo_ticket', '=', 'MAGOB')
                                                        ]}"
                                                      />
-            <field name="observaciones" attrs="{'invisible':['|',('tipo_ticket','=','CONTRATO'),'|',
-                                                            ('tipo_ticket','=','INTERNO'),'|',
-                                                            ('tipo_ticket','=','VENTA'),'|',
-                                                            ('tipo_ticket','=','CALIDAD'),'|',
-                                                            ('tipo_ticket','=','MAIP'),'|',
-                                                            ('tipo_ticket','=','MAGOB'),'|',
-                                                            ('tipo_ticket','=','SG')
-
-                                                            ],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
-                                                       ('tipo_ticket', '=', 'GARANTIA'),'|', ('tipo_ticket', '=', 'SERVICIO')
-                                                       ]}"/>
-            <field name="des_solicitud" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+            <field name="mod_contrato" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
                                                             ('tipo_ticket','=','INTERNO'),'|',
-                                                            ('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
                                                             ('tipo_ticket','=','MAGOB'),'|',
                                                             ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','SG'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
                                                             ('tipo_ticket','=','GARANTIA')
 
-                                                            ],'required': ['|',('tipo_ticket','=','SG'),'|',
-                                                            ('tipo_ticket','=','CALIDAD'),'|',
-                                                            ('tipo_ticket','=','VENTA')
-                                                             ]}"/>
+                                                            ],'required': [('tipo_ticket','=','MAIP')
+                                                             ]}"/> 
+            
             <field name="contacto" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','CONTRATO'),'|',
                                                             ('tipo_ticket','=','INTERNO'),'|',
@@ -237,15 +284,54 @@
                                                             ('tipo_ticket','=','INTERNO'),'|',
                                                             ('tipo_ticket','=','VENTA'),'|',
                                                             ('tipo_ticket','=','CALIDAD'),'|',
-                                                            ('tipo_ticket','=','MAIP'),'|',
-                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            
+                                                            
                                                             ('tipo_ticket','=','CARGO'),'|',
                                                             ('tipo_ticket','=','GARANTIA')
 
-                                                            ],'required': [('tipo_ticket', '=', 'SG')
-                                                             ]}"/>
+                                                            ],'required': ['|',
+                                                            ('tipo_ticket', '=', 'MAIP'),'|',
+                                                            ('tipo_ticket', '=', 'SG'),'|',
+                                                            ('tipo_ticket','=','MAGOB')
+                                                             ]}"/>            
+            <field name="entrega" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            
+                                                            ('tipo_ticket','=','SG'),'|',
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
 
-             <button name="create_apple_dos" string="Generar Salida" type="object" class="btn-primary" attrs="{'invisible':[('estado_tick','!=','Resuelto')]}" />
+                                                            ],'required': ['|',('tipo_ticket', '=', 'MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB')
+                                                             ]}"/>
+            <field name="observaciones" attrs="{'invisible':['|',('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            ('tipo_ticket','=','VENTA'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+
+                                                            ],'required': ['|',('tipo_ticket', '=', 'CARGO'),'|',
+                                                       ('tipo_ticket', '=', 'GARANTIA'),'|',
+                                                       ('tipo_ticket', '=', 'SG'),'|', ('tipo_ticket', '=', 'MAGOB'),'|', ('tipo_ticket', '=', 'MAIP'),'|',  ('tipo_ticket', '=', 'SERVICIO')
+                                                       ]}"/>
+            <field name="des_solicitud" attrs="{'invisible':['|',('tipo_ticket','=','SERVICIO'),'|',
+                                                            ('tipo_ticket','=','CONTRATO'),'|',
+                                                            ('tipo_ticket','=','INTERNO'),'|',
+                                                            
+                                                            
+                                                            ('tipo_ticket','=','CARGO'),'|',
+                                                            ('tipo_ticket','=','GARANTIA')
+
+                                                            ],'required': ['|',('tipo_ticket','=','MAIP'),'|',
+                                                            ('tipo_ticket','=','MAGOB'),'|',
+                                                            ('tipo_ticket','=','CALIDAD'),'|',
+                                                            ('tipo_ticket','=','SG'),'|',
+                                                            ('tipo_ticket','=','VENTA')
+                                                             ]}"/>
+             <button name="create_apple_dos" string="Generar Salida Partes" type="object" class="btn-primary" attrs="{'invisible':[('estado_tick','!=','Reparación')]}" />
+             <button name="create_salida" string="Generar Salida Equipo" type="object" class="btn-primary" attrs="{'invisible':[('estado_tick','!=','Resuelto')]}" />
              <button type="object" name="compras" string="Solicitud de partes/compra" class="btn-primary" attrs="{'invisible':[('estado_tick','!=','Revisión')]}"/>
              <!-- name="%(xmarts_order_request.purchase_order_request_action)d" -->
              </group>

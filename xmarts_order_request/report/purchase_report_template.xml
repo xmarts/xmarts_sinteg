@@ -16,10 +16,13 @@
                     <strong>Numero de orden:</strong>
                     <p t-field="o.name" class="m-0"/>
                 </div>
-           
+                <div t-if="o.notes" class="col-3 bm-2">
+                    <strong>Observaciones:</strong>
+                    <p t-field="o.notes" class="m-0"/>
+                </div>
             </div>
 
-            <table class="table table-sm o_main_table">
+               <table class="table table-sm o_main_table">
                 <thead>
                     <tr>
                         <th><strong>Description</strong></th>
@@ -78,8 +81,41 @@
                     </table>
                 </div>
             </div>
+            <br/><br/>
+            <table border="0" style=" font-size:12px; width:100%; line-height:1.5; " >
+                <tr>
+                    <td colspan="6"  style="line-height:1.5; padding: 10px 10px 10px 10px;" class="text-justify">
+                    <span>
+                        Está pendiente de que autorice la adquisición de piezas, requerimos de su amable respuesta para realizar la compra de las partes y proceder con la reparación, esta cotización tiene una validez de 5 días hábiles a partir de su expedición, en caso de exceder este periodo tendrá que recotizar y esto podría significar un incremento en el costo.
+                    </span><br/><span>
+                        Una vez autorizado el monto descrito, deberá depositar por adelantado el 100% del importe; el proceso de pago será mediante depósito a Sinteg en México SA de CV, cuenta de SANTANDeR 92000619154 o trasnferencia electrónica 014180920006191543 o bien en nuestras instalaciones pagando en efectivo o con tarjeta de crédito o débito.
+                    </span><br/><span>
+                        Favor de enviar su comprobante vía correo electrónico atención_clientes@sinteg.com.mx y con atención a su servidora anexando una hoja ccon sus DATOS PARA FACTURACION (ya que solo se faacturarán pagos correspondientes al mes en curso).
+                    </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="line-height:1.5; padding: 10px 10px 10px 10px;" class="text-justify">
+                    <span>
+                        1. Su pago tendrá que pasar por validación, este proceso dura de 24 a 48 horas hábiles.
+                    </span><br/><span>
+                        2. El tiempo de entrega lo determina el fabricante y es el mismo que se menciona abajo.
+                    </span><br/><span>
+                        3. Su cotización y reparación se autoriza realizando su pago al 100%.
+                    </span>
+                    </td>
+                    <td colspan="3" style="line-height:1.5; padding: 10px 10px 10px 10px;" class="text-justify">
+                    <span>
+                        4. Su pago de revisión será descontado siempre y cuando se cambien piezas a su equipo y usted SI autorice la cotización.
+                    </span><br/><span>
+                        5. Cuando su pago es validado, se procede a solicitar la parte, (a partir de esa fecha empezar a correr el tiempo de entrega).
+                    </span>
+                    </td>
+                </tr>
+            </table>
+            </div>
             <div class="oe_structure"/>
-        </div>
+        
     </t>
 </t>
 </t>

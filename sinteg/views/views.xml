@@ -119,9 +119,10 @@
                                                             ('tipo_ticket','=','SERVICIO'),'|',
                                                             ('tipo_ticket','=','INTERNO')
                                                              ]}"/>
-          <field name="doc_c_sg" attrs="{'invisible':[('estado_tick','!=','Comprobación')
+          <field name="doc_c_sg" attrs="{'invisible':['|',('estado_tick','!=','Comprobación'),'|',('tipo_ticket','=','CARGO'),'|',('tipo_ticket','=','GARANTIA'),'|',('tipo_ticket','=','SERVICIO'),'|',('tipo_ticket','=','CONTRATO'),'|',('tipo_ticket','=','INTERNO'),'|',('tipo_ticket','=','VENTA'),'|',('tipo_ticket','=','CALIDAD'),'|',('tipo_ticket','=','MAIP'),'|',('tipo_ticket','=','MAGOB')
 
-                                                            ],'required': [('estado_tick','=','Comprobación')
+                                                            ],'required': ['|',('tipo_ticket', '=', 'SG'),'|',
+                                                            ('estado_tick','=','Comprobación')
                                                              ]}"/>
            <field name="tecnico" />
            </xpath>

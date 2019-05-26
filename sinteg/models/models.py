@@ -330,15 +330,20 @@ class helpdesk_ticket(models.Model):
 				location_dest = vals.get("location_dest_id")
 				name = vals.get("name")
 				product_ids = vals.get("product_id")
-				marca = vals.get("marca")
-				modelo = vals.get("modelo")
-				sub_modelo = vals.get("sub_modelo")			
+					
 				series = vals.get("series")
 				observaciones = vals.get("observaciones")
 				product_uom = vals.get("product_id")			
 				location_id = vals.get("location_id")
 				location_dest_id = vals.get("location_dest_id")
 				company = vals.get("company_id")
+
+				entrada =self.env['product.template']
+				lines = entrada.search([('id', '=', product_ids)])
+				marca=lines.marca.id
+				modelo=lines.modelo.id
+				sub_modelo=lines.sub_modelo.id
+
 
 
 				do=self.env['stock.picking'].create({'partner_id':partner,'location_id':location,'location_dest_id':location_dest,'picking_type_id':picking_type,'origin_tickets':True,'tickets':res.id,'p':str(vals.get('uom_name'))})
@@ -351,9 +356,9 @@ class helpdesk_ticket(models.Model):
 					'name':name,
 					'product_id':product_ids,
 					'state':'draft',
-					'marca': self.marca.id,
-					'modelo': self.modelo.id,
-					'sub_modelo': self.sub_modelo.id,
+					'marca': marca,
+					'modelo': modelo,
+					'sub_modelo': sub_modelo,
 					'series': series,
 					'observaciones':observaciones,						
 					'picking_id':do.id,

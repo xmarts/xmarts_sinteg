@@ -168,7 +168,8 @@ class PurchaseOrderRequest(models.Model):
     ocultar=fields.Boolean(string='ocultar campo',compute="_compute_campo")
     notes = fields.Text(string="Observaciones")
     date_planned = fields.Datetime(string='Fecha Prevista', compute='_compute_date_planned', store=True)
-
+    user_id = fields.Many2one('res.users', string='Purchase Representative', index=True, track_visibility='onchange', default=lambda self: self.env.user)
+    
     @api.depends('request_lines.fecha_prevista', 'create_date')
     def _compute_date_planned(self):
         for order in self:

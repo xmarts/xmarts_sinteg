@@ -217,7 +217,7 @@ class helpdesk_ticket(models.Model):
 	series = fields.Char(string='Series')
 	observaciones=fields.Text(string='Observaciones')
 	doc_c = fields.Binary(string='Documento')
-	doc_c_sg = fields.Binary(string='Documento')
+	doc_c_sg = fields.Binary(string='Documento SG')
 	product_id=fields.Many2one('product.template',string=' Serie/Producto')
 	picking_type_id=fields.Many2one('stock.picking.type',string='Tipo de Operación')
 	location_dest_id=fields.Many2one('stock.location',string='Ubicación destino')
@@ -245,6 +245,23 @@ class helpdesk_ticket(models.Model):
 	garantia=fields.Boolean(string='cuenta con garantía')
 	uom_name=fields.Char(string='uom')
 	sal =fields.Boolean(string='salida')
+	sal_par =fields.Boolean(string='salida partes')
+	doc_sg =fields.Boolean(string='documento',compute="_compute_estado")
+
+	@api.depends('estado_tick')
+	def _compute_estado(self):
+		if self.estado_tick=="Comprobación" and self.tipo_ticket=='MAGOB':
+			self.doc_sg =True
+		if self.estado_tick=="Programación de Ruta" and self.tipo_ticket=='MAGOB':
+			self.doc_sg =True
+		if self.estado_tick=="Cerrado" and self.tipo_ticket=='MAGOB':
+			self.doc_sg =True
+		if self.estado_tick=="Comprobación" and self.tipo_ticket=='MAIP':
+			self.doc_sg =True
+		if self.estado_tick=="Programación de Ruta" and self.tipo_ticket=='MAIP':
+			self.doc_sg =True
+		if self.estado_tick=="Cerrado" and self.tipo_ticket=='MAIP':
+			self.doc_sg =True
 	# or 'SERVICIO' or 'CONTRATO' or 'MAIP' or 'MAGOB'
 	#stock=fields.Many2one('stock.move.tickets')
 	current_user_id = fields.Many2one(
@@ -386,8 +403,9 @@ class helpdesk_ticket(models.Model):
 		ticket=id_ticket[0]
 		entrada =self.env['stock.picking']
 		lines = entrada.search([('tickets', '=', ticket),('origin_tickets','=',False)])
-
-		picking=self.team_id.picking_type_ids.id
+		entrada_type =self.env['stock.picking.type']
+		lines_type = entrada_type.search([('barcode', '=', "WH-DELIVERY")])
+		picking=lines_type.id
 		if lines:
 			for l in lines:
 
@@ -431,7 +449,7 @@ class helpdesk_ticket(models.Model):
 							})
      
 							do.action_assign()
-							self.sal=True
+							self.sal_par=True
 
 				else:
 					raise UserError('No se a ingresado equipo al almacen ')

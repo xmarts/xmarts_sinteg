@@ -25,7 +25,7 @@
                            
                         
                     </div>
-                    <br/>
+                    
                       <div class = 'col-xs-2 text-center' style="font-size:18px;"> 
                        
                           <strong>Orden Servicio:</strong> <br/> <span>NUMERO:</span><strong><span t-field="doc.name"/></strong>

@@ -39,7 +39,7 @@ class PurchaseOrderRequestLines(models.Model):
     #price_total = fields.Monetary(compute='_compute_amount', string='Total', store=True)
     price_tax = fields.Float(compute='_compute_amount', string='Tax', store=True)
 
-    order_id = fields.Many2one('purchase.order.request', string='Order Reference', index=True, required=True, ondelete='cascade')
+    order_id = fields.Many2one('purchase.order.request', string='Order Reference', index=True, ondelete='cascade')
    
     
     @api.depends('product_qty', 'product_price', 'product_taxes')
